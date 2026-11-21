@@ -1,19 +1,25 @@
-long long mod_pow(long long a, long long n, long long mod) {
-    long long r = 1;
-    while (n) {
-        if (n & 1) r = (unsigned long long)r * a % mod;
-        a = (unsigned long long)a * a % mod;
-        n >>= 1;
-    }
-    return r;
-}
-
 long long mod_sqrt(long long a, long long p) {
     a %= p;
     if (a < 0) a += p;
     if (a == 0 || p == 2) return a;
-    if (mod_pow(a, (p - 1) >> 1, p) != 1) return -1;
-    if (p % 4 == 3) return mod_pow(a, (p + 1) >> 2, p);
+
+    auto multiply = [p](long long x, long long y) -> long long {
+        return (unsigned __int128)x * y % p;
+    };
+    auto power = [&](long long base, long long exponent) {
+        long long result = 1;
+        while (exponent) {
+            if (exponent & 1) result = multiply(result, base);
+            base = multiply(base, base);
+            exponent >>= 1;
+        }
+        return result;
+    };
+    if (p % 4 == 3) {
+        long long root = power(a, p / 4 + 1);
+        return multiply(root, root) == a ? root : -1;
+    }
+    if (power(a, (p - 1) / 2) != 1) return -1;
 
     struct Parameters {
         long long p = 0, q = 0, c = 0;
@@ -28,24 +34,28 @@ long long mod_sqrt(long long a, long long p) {
             q >>= 1;
         }
         long long z = 2;
-        while (mod_pow(z, (p - 1) >> 1, p) == 1) ++z;
-        cache = {p, q, mod_pow(z, q, p), s};
+        while (power(z, (p - 1) / 2) == 1) {
+            static thread_local std::mt19937_64 rng(std::random_device{}());
+            z = std::uniform_int_distribution<long long>(2, p - 1)(rng);
+        }
+        cache = {p, q, power(z, q), s};
     }
     long long q = cache.q, c = cache.c;
-    long long t = mod_pow(a, q, p);
-    long long r = mod_pow(a, (q + 1) >> 1, p);
+    long long t = power(a, q);
+    long long r = power(a, (q + 1) / 2);
     int m = cache.s;
     while (t != 1) {
         int i = 1;
-        long long tt = (unsigned long long)t * t % p;
+        long long tt = multiply(t, t);
         while (i < m && tt != 1) {
-            tt = (unsigned long long)tt * tt % p;
+            tt = multiply(tt, tt);
             ++i;
         }
-        long long b = mod_pow(c, 1LL << (m - i - 1), p);
-        r = (unsigned long long)r * b % p;
-        c = (unsigned long long)b * b % p;
-        t = (unsigned long long)t * c % p;
+        long long b = c;
+        for (int j = i + 1; j < m; ++j) b = multiply(b, b);
+        r = multiply(r, b);
+        c = multiply(b, b);
+        t = multiply(t, c);
         m = i;
     }
     return r;
