@@ -42,6 +42,11 @@ vector<int> Z_algorithm(const string& s) {
     return z_algorithm_detail::z_array(s);
 }
 
+template<class T>
+vector<int> Z_algorithm(const vector<T>& s) {
+    return z_algorithm_detail::z_array(s);
+}
+
 vector<int> z_match(const string& pattern, const string& text) {
     return z_algorithm_detail::match(pattern, text);
 }
