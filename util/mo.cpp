@@ -46,6 +46,12 @@ void mo_solve(int n, const vector<Query>& queries, AddLeft add_left, AddRight ad
     }
 }
 
+template<class Add, class Erase, class Output>
+void mo_solve(int n, const vector<Query>& queries, Add add, Erase erase, Output output, int bucket_size = 0) {
+    mo_solve<Add&, Add&, Erase&, Erase&, Output&>(
+        n, queries, add, add, erase, erase, output, bucket_size);
+}
+
 #endif
 
 /**

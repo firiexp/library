@@ -8,11 +8,14 @@ documentation_of: //util/mo.cpp
 
 ## できること
 配列長を $N$、クエリ数を $Q$、バケット幅を $B$ とする。
+どちらの `mo_solve` も、要素の追加・削除は合計 $O(QB+N^2/B)$ 回、ソートは $O(Q\log Q)$ 時間、作業領域は $O(Q)$。
 
 - `Query(l, r, no)`
   半開区間 `[l, r)` のクエリを作る。`no` はクエリ番号。$O(1)$
+- `mo_solve(n, queries, add, erase, output, bucket_size = 0)`
+  左右どちらの端でも、添字 `i` の要素を加えるときは `add(i)`、除くときは `erase(i)` を呼ぶ。
 - `mo_solve(n, queries, add_left, add_right, erase_left, erase_right, output, bucket_size = 0)`
-  クエリを並べ替えて左右端を移動し、各回答時に `output(no)` を呼ぶ。要素の追加・削除は合計 $O(QB+N^2/B)$ 回、ソートは $O(Q\log Q)$ 時間、作業領域は $O(Q)$
+  左端と右端で別々の追加・削除操作を指定する。
 - `Query::B`
   手動で `sort` するときのバケット幅。`Query::bucket_size` の別名
 - `sort(qs.begin(), qs.end())`
@@ -22,11 +25,19 @@ documentation_of: //util/mo.cpp
 `mo_solve` に渡すクエリは `0 <= l <= r <= n` を満たすものとし、callback 側の集計は空区間から始める。
 `add_left(i)`、`add_right(i)` は添字 `i` の要素を左端・右端に加え、`erase_left(i)`、`erase_right(i)` はその要素を除く。
 左右を別々に指定できるため、転倒数など順序に依存する集計にも使える。
-回答は `output(no)` で元のクエリ番号に対応させて保存する。
+どちらの形式でも、クエリごとに1回 `output(no)` を呼ぶ。元のクエリ番号 `no` に対応させて回答を保存する。
+
+区間和なら、左右に共通の追加・削除操作を渡せる。
 
 ```cpp
-mo_solve(n, qs, add_left, add_right, erase_left, erase_right,
-         [&](int no) { ans[no] = current_answer; });
+vector<int> a = {4, 1, 5};
+vector<Query> qs = { {1, 3, 0}, {0, 2, 1} };
+vector<long long> ans(qs.size());
+long long sum = 0;
+mo_solve(a.size(), qs,
+         [&](int i) { sum += a[i]; },
+         [&](int i) { sum -= a[i]; },
+         [&](int no) { ans[no] = sum; }); // ans = {6, 5}
 ```
 
 クエリ列が空なら callback を呼ばずに終了する。
