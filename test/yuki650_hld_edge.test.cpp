@@ -1,5 +1,6 @@
 #define PROBLEM "https://yukicoder.me/problems/no/650"
 
+#include <cassert>
 #include <array>
 #include <limits>
 #include <vector>

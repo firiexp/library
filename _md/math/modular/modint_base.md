@@ -8,5 +8,6 @@ documentation_of: //math/modular/modint_base.cpp
 通常は `MOD` を定義した上で `math/modular/modint.cpp` を使う。
 
 ## 実装上の補足
+`inv()` は拡張ユークリッド互除法で乗法逆元を求める。除算でもこの逆元を使う。
 `MOD` マクロに依存しないテンプレート構造体 `modint<Mod>` だけを分離している。
 `math/modular/modint.cpp` 側で `using mint = modint<MOD>;` や入出力演算子を定義する。

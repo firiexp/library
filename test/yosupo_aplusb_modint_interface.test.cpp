@@ -12,6 +12,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
+#include "../math/extgcd.cpp"
 
 namespace fixed_modint_test {
 static constexpr uint MOD = 998244353;
@@ -58,8 +59,43 @@ void common_check() {
     assert(Mint(42) != Mint(24));
 }
 
+template<class Mint>
+void check_division(uint a, uint b, uint inverse) {
+    Mint divisor = b;
+    assert(divisor.inv().value() == inverse);
+    uint expected = (ull)a * inverse % Mint::M();
+    assert((Mint(a) / divisor).value() == expected);
+    Mint quotient = a;
+    quotient /= divisor;
+    assert(quotient.value() == expected);
+    divisor /= divisor;
+    assert(divisor == Mint(1));
+}
+
+template<uint Mod>
+void check_both(uint a, uint b, uint inverse) {
+    dynamic_modint_test::mint::set_mod(Mod);
+    check_division<fixed_modint_test::modint<Mod>>(a, b, inverse);
+    check_division<dynamic_modint_test::mint>(a, b, inverse);
+}
+
+template<uint Mod>
+void check_small_moduli() {
+    for (uint b = 0; b < Mod; ++b) {
+        uint inverse = 0;
+        while (inverse < Mod && b * inverse % Mod != 1 % Mod) ++inverse;
+        if (inverse == Mod) continue;
+        for (uint a = 0; a < Mod; ++a) check_both<Mod>(a, b, inverse);
+    }
+    if constexpr (Mod > 1) check_small_moduli<Mod - 1>();
+}
+
 int main() {
     dynamic_modint_test::mint::set_mod(998244353);
     common_check<fixed_modint_test::mint>();
     common_check<dynamic_modint_test::mint>();
+    check_small_moduli<32>();
+    check_both<1000000000>(999999998, 3, 666666667);
+    check_both<1U << 31>(2147483646, 2147483647, 2147483647);
+    check_both<4294967295U>(4294967294U, 2, 2147483648U);
 }
