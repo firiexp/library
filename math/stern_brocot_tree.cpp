@@ -81,7 +81,8 @@ vector<Move> lca_path(const vector<Move>& a, const vector<Move>& b) {
     return ret;
 }
 
-vector<Move> ancestor_path(const vector<Move>& path, ll k) {
+optional<vector<Move>> ancestor_path(const vector<Move>& path, ll k) {
+    if (k < 0) return nullopt;
     vector<Move> ret;
     for (auto move : path) {
         if (k == 0) break;
@@ -89,8 +90,40 @@ vector<Move> ancestor_path(const vector<Move>& path, ll k) {
         ret.push_back({move.dir, steps});
         k -= steps;
     }
-    if (k != 0) return {};
+    if (k != 0) return nullopt;
     return ret;
+}
+
+optional<Node> ancestor(ll a, ll b, ll k) {
+    auto path = ancestor_path(encode_path(a, b), k);
+    if (!path) return nullopt;
+    return decode_path(*path);
+}
+
+template<class Pred>
+pair<pair<ll, ll>, pair<ll, ll>> binary_search(ll max_num, ll max_den, Pred pred) {
+    assert(max_num >= 0 && max_den >= 0);
+    pair<ll, ll> left{0, 1}, right{1, 0};
+    while (left.first <= max_num - right.first && left.second <= max_den - right.second) {
+        bool update_left = pred(left.first + right.first, left.second + right.second);
+        auto& from = update_left ? left : right;
+        const auto& toward = update_left ? right : left;
+        ll limit = max(max_num, max_den);
+        if (toward.first) limit = (max_num - from.first) / toward.first;
+        if (toward.second) limit = min(limit, (max_den - from.second) / toward.second);
+        auto same_side = [&](ll steps) {
+            return bool(pred(from.first + steps * toward.first,
+                             from.second + steps * toward.second)) == update_left;
+        };
+        ll steps = 1;
+        while (steps <= limit / 2 && same_side(2 * steps)) steps *= 2;
+        for (ll bit = steps / 2; bit > 0; bit /= 2) {
+            if (bit <= limit - steps && same_side(steps + bit)) steps += bit;
+        }
+        from.first += steps * toward.first;
+        from.second += steps * toward.second;
+    }
+    return {left, right};
 }
 
 Node range(ll a, ll b) {

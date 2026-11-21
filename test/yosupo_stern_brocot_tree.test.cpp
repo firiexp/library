@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/stern_brocot_tree"
 
 #include <cassert>
+#include <optional>
 #include <utility>
 #include <vector>
 using ll = long long;
@@ -56,13 +57,9 @@ int main() {
         } else if (op == "ANCESTOR") {
             ll k, a, b;
             sc.read(k, a, b);
-            auto path = encode_path(a, b);
-            if (k > depth(path)) {
-                pr.println(-1);
-                continue;
-            }
-            auto node = decode_path(ancestor_path(path, k));
-            pr.println(node.num(), node.den());
+            auto node = ancestor(a, b, k);
+            if (node) pr.println(node->num(), node->den());
+            else pr.println(-1);
         } else {
             ll a, b;
             sc.read(a, b);
