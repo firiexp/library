@@ -19,7 +19,7 @@
 ## PR の作成手順
 
 1. `AGENTS.md` の変更種別ルールに従い、`python3 scripts/codex_self_check.py`、影響範囲の verify（`verify_changed.py` / `run_verify.py`）、必要なら性能計測（`measure_verify.py`）をローカルで通す。
-2. push 前に `git diff origin/master...HEAD` を見直し、API の簡潔さ、不要なコメントの有無、意図しない dashboard 差分がないかを確認する。
+2. push 前に `git diff origin/master...HEAD` を見直し、API の簡潔さ、不要なコメントの有無、意図しない dashboard 差分がないかを確認する。`_md/` を追加・更新した場合は [doc_example.md](doc_example.md) と照合し、自明な予防線、境界値だけの計算量分岐、証明調の長い補足、特殊ケースの使用例、既存ファイルとの書式・用語のずれを削る。
 3. ブランチを `origin` へ push し、`gh pr create --base master` で PR を作成する。
 4. PR タイトルは対象と変更内容が分かる短い日本語または英語にする。本文は次の構成を基準とし、不要な項目は省く。
 
