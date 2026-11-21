@@ -8,10 +8,8 @@ documentation_of: //math/modular/modint_arbitrary.cpp
 固定 MOD 版と同じ演算を持ち、`set_mod` だけが追加で必要になる。
 
 ## できること
-合成数を法とする場合も逆元や商を求められる。逆元を求める値（除算では除数）は `MOD` と互いに素である必要がある。`assert` が有効なときはこの条件を検査する。`MOD = 1` では逆元も商も0になる。
-
 - `mint::set_mod(mod)`
-  正の `uint` を法として設定する。使う前に呼ぶ。$O(1)$
+  MOD を設定する（`mod >= 1`）。使う前に呼ぶ。$O(1)$
 - `modint x`, `mint x`
   現在の MOD 上の値を作る。負数もそのまま渡せる。$O(1)$
 - `modint::raw(v)`
@@ -23,17 +21,17 @@ documentation_of: //math/modular/modint_arbitrary.cpp
 - `++x`, `--x`, `x += y`, `x -= y`, `x *= y`
   加減算・乗算を行う。$O(1)$
 - `x / y`, `x /= y`
-  `x` に `y` の逆元を掛けた値を返す。`/=` はその値で `x` を更新する。$O(\log MOD)$
+  `x` を `y` で割る。`y` は `MOD` と互いに素が必要（合成数 MOD にも対応）。$O(\log MOD)$
 - `x.pow(n)`
   $x^n$ を返す。`n >= 0` が必要。$O(\log n)$
 - `x.inv()`
-  `x` の乗法逆元を返す。$O(\log MOD)$
+  逆元を返す。`x` は `MOD` と互いに素が必要（合成数 MOD にも対応）。$O(\log MOD)$
 - `x == y`, `x != y`
   値を比較する。$O(1)$
 
 ## 使い方
 先に `mint::set_mod(mod);` を呼んでから値を作る。
-加減算も使う場合は $1 \le MOD \le 2^{31}$ の範囲で法を選ぶ。mod を変更した後は値を作り直す。
+加減算を含む各演算は $1 \le MOD \le 2^{31}$ で使う。mod を変更した後は値を作り直す。
 
 ## 実装上の補足
-乗算は `set_mod` で計算した64 bitの逆数と `unsigned __int128` による Barrett reduction を使う。法1も扱い、`val` は通常の剰余表現のまま保持する。
+乗算は `set_mod` で計算した64 bitの逆数と `unsigned __int128` による Barrett reduction を使う。MOD 1 も扱い、`val` は通常の剰余表現のまま保持する。
