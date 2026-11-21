@@ -1,9 +1,22 @@
-template<typename T>  
-T mod_inv(T x, T M){  
-   T u = 1, t = 1, v = 0, s = 0, m = M;  
-   while (x) { T q = m/x; swap(s -= q*u, u); swap(t -= q*v, v); swap(m -= q*x, x); }  
-   if(s < 0) s += M;  
-   return s;  
+template <class T>
+T mod_inv(T x, T M) {
+    assert(M >= 1);
+    if (M == 1) return 0;
+    x %= M;
+    if (x < 0) x += M;
+
+    T m = M, coeff = 0, next_coeff = 1;
+    bool negative = true;
+    while (x != 0) {
+        T q = m / x;
+        m -= q * x;
+        swap(m, x);
+        coeff += q * next_coeff;
+        swap(coeff, next_coeff);
+        negative = !negative;
+    }
+    assert(m == 1);
+    return negative ? M - coeff : coeff;
 }
 
 /**
