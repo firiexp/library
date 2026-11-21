@@ -7,7 +7,8 @@ template<class T, class = void>
 struct is_fastio_range : false_type {};
 
 template<class T>
-struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> : true_type {};
+struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>>
+    : bool_constant<!is_same_v<decay_t<T>, string> && !is_same_v<decay_t<T>, string_view>> {};
 
 template<class T, class = void>
 struct has_fastio_value : false_type {};
@@ -238,7 +239,7 @@ struct Scanner {
         read(p.first, p.second);
     }
 
-    template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value, int>::type = 0>
+    template<class T, typename enable_if<is_fastio_range<T>::value, int>::type = 0>
     void read(T &a) {
         for (auto &x : a) read(x);
     }
@@ -329,6 +330,10 @@ struct Printer {
     }
 
     void print(const string &s) {
+        print_range(s.data(), s.size());
+    }
+
+    void print(string_view s) {
         print_range(s.data(), s.size());
     }
 
@@ -479,7 +484,7 @@ struct Printer {
         print(x.to_string());
     }
 
-    template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value, int>::type = 0>
+    template<class T, typename enable_if<is_fastio_range<T>::value, int>::type = 0>
     void print(const T &a) {
         bool first = true;
         for (auto &&x : a) {

@@ -28,7 +28,7 @@ template<class T> struct has_fio_a<T,void_t<decltype(declval<T&>().assign(declva
 template<class T,class=void> struct has_fio_s:false_type{};
 template<class T> struct has_fio_s<T,void_t<decltype(declval<const T&>().to_string())>>:true_type{};
 template<bool B,class U=int> using en_if_t=enable_if_t<B,U>;
-template<class T> constexpr bool is_rng_v=has_fio_r<T>::value&&!is_same_v<decay_t<T>,string>;
+template<class T> constexpr bool is_rng_v=has_fio_r<T>::value&&!is_same_v<decay_t<T>,string>&&!is_same_v<decay_t<T>,string_view>;
 template<class T> constexpr bool has_val_v=!is_integral_v<T>&&!is_rng_v<T>&&!is_same_v<decay_t<T>,string>&&has_fio_v<T>::value;
 template<class T> constexpr bool has_asn_v=!is_integral_v<T>&&!is_rng_v<T>&&!is_same_v<decay_t<T>,string>&&!has_fio_v<T>::value&&has_fio_a<T>::value;
 template<class T> constexpr bool has_str_v=!is_integral_v<T>&&!is_rng_v<T>&&!is_same_v<decay_t<T>,string>&&!has_fio_v<T>::value&&has_fio_s<T>::value;
@@ -63,6 +63,7 @@ struct Printer{
     inline void pc(char c){if(I>B-O) flush(); b[I++]=c; if(o&&c=='\n') flush(); }
     inline void pr(const char*s,size_t n){if(o){for(size_t i=0;i<n;++i)pc(s[i]);return;}while(n){if(I==B)flush();size_t k=min(n,(size_t)(B-I));memcpy(b+I,s,k);I+=(int)k;s+=k;n-=k;}}
     void print(bool x){pc(char('0'+x));}void print(char c){pc(c);}void print(const char* s){pr(s,strlen(s));}void print(const string&s){pr(s.data(),s.size());}
+    void print(string_view s){pr(s.data(),s.size());}
     inline char* wt(char*q,uint x){if(x>=1000)return memcpy(q,Tb.n+(x<<2),4),(q+4);if(x>=100)return memcpy(q,Tb.n+(x<<2)+1,3),(q+3);
         if(x>=10){uint y=(x*205)>>11;*q++=char('0'+y);*q++=char('0'+x-y*10);return q;}*q=char('0'+x);return q+1;}
     inline void w4(char*q,uint x){memcpy(q,Tb.n+(x<<2),4);}inline void w8(char*q,uint x){uint y=x/10000;w4(q,y);w4(q+4,x-y*10000);}

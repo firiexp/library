@@ -20,7 +20,7 @@ interactive 問題のプログラムを端末で直接起動し、手入力で�
 - `in.read(pair<T, U>& p)`
   `p.first`, `p.second` を順に読む
 - `in.read(Range& a)`
-  `string` 以外の range を先頭から順に読む
+  range の各要素に先頭から順に読み込む
 - `in.read(char& c)`
   空白を飛ばして 1 文字読む
 - `in.read(string& s)`
@@ -36,6 +36,8 @@ interactive 問題のプログラムを端末で直接起動し、手入力で�
 
 - `out.print(x)`
   整数、`bool`、`char`、`string`、文字列リテラルを出力する。`double` は小数点以下15桁で出力する
+- `out.print(string_view s)`
+  ビューが参照する `s.size()` バイトをそのまま出力する。途中のヌル文字も出力する
 - `out.print_fixed(double x, int precision = 15)`
   `double` を小数点以下 `precision` 桁で出力する。
 - `out.print(x)` (`x.value()` を持つ型)
@@ -43,7 +45,7 @@ interactive 問題のプログラムを端末で直接起動し、手入力で�
 - `out.print(x)` (`x.to_string()` を持つ型)
   `to_string()` の結果を出力する
 - `out.print(Range const& a)`
-  `string` 以外の range を空白区切りで出力する
+  range の各要素を空白区切りで出力する。`string_view` の配列では各ビューの間に空白を1つ入れる
 - `out.println(x)`
   `print(x)` の後に改行する
 - `out.println(a, b, c, ...)`
@@ -84,4 +86,4 @@ out.println_fixed(x, 8);
 
 - interactive 用の自動切り替えは、標準入力・標準出力がそれぞれ端末（TTY）に接続されている場合に行う。入力側では `Scanner` が行単位で読み、空行も読み飛ばす。出力側では `Printer` が文字列中の改行も含めて改行ごとに flush する
 - ファイルからのリダイレクトや、judge と pipe で接続する実行では自動切り替えされない
-- range の入出力は `string` を除く `begin()` / `end()` を持つ型が対象
+- range の入出力は `string` と `string_view` を除く `begin()` / `end()` を持つ型が対象
