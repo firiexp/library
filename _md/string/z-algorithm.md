@@ -4,17 +4,20 @@ documentation_of: //string/z-algorithm.cpp
 ---
 
 ## 説明
-文字列の各位置から始まる接尾辞と、文字列全体の最長共通接頭辞長を求める。
+文字列や配列について、列全体と各位置から始まる接尾辞の最長共通接頭辞長を求める。
 別の列 `pattern` と `text` の各接尾辞の最長共通接頭辞長も求められる。
 
 ## できること
-- `vector<int> Z_algorithm(const string& s)`
+- `vector<int> Z_algorithm(const string& s)`, `vector<int> Z_algorithm(const vector<T>& s)`
   各位置 `i` の最長共通接頭辞長を `res[i]` に格納して返す。`res[0] = |s|`。時間・領域は $O(|s|)$
 - `vector<int> z_match(pattern, text)`
   `LCP(pattern, text[i..))` を各位置について返す。引数は `string` 同士、または同じ要素型の `vector<T>` 同士。時間・領域は $O(|pattern|+|text|)$
 
 ## 使い方
-`auto z = Z_algorithm(s);` として使う。
+```cpp
+auto z = Z_algorithm(vector<int>{1, 2, 1, 2, 1});  // {5, 0, 3, 0, 1}
+```
+
 部分文字列検索には `z_match(pattern, text)` を使う。
 
 ```cpp

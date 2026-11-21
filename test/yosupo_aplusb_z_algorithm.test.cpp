@@ -6,15 +6,25 @@ using namespace std;
 #include "../string/z-algorithm.cpp"
 
 template<class Sequence>
-void check(const Sequence& pattern, const Sequence& text) {
-    auto p = pattern, t = text;
+vector<int> naive_match(const Sequence& pattern, const Sequence& text) {
     vector<int> expected(text.size());
     for (int i = 0; i < (int)text.size(); ++i) {
         int& h = expected[i];
         while (h < (int)pattern.size() && i + h < (int)text.size() && pattern[h] == text[i + h]) ++h;
     }
-    assert(z_match(pattern, text) == expected);
+    return expected;
+}
+
+template<class Sequence>
+void check(const Sequence& pattern, const Sequence& text) {
+    auto p = pattern, t = text;
+    assert(z_match(pattern, text) == naive_match(pattern, text));
     assert(pattern == p && text == t);
+}
+
+template<class T>
+void check_z(const vector<T>& s) {
+    assert(Z_algorithm(s) == naive_match(s, s));
 }
 
 struct Value {
@@ -33,6 +43,7 @@ int main() {
         for (int i = 0; i < n; ++i) s[i] = mask >> i & 1 ? char(255) : char(0);
         words.push_back(s);
         assert(Z_algorithm(s) == z_match(s, s));
+        check_z(vector<int>(s.begin(), s.end()));
     }
     for (const auto& p : words) for (const auto& t : words) check(p, t);
     string bytes;
@@ -41,12 +52,15 @@ int main() {
     check(string("abababac"), string("ababababababac"));
     check(string(1000, 'a'), string(2000, 'a'));
     check(vector<int>{INT_MIN, INT_MAX, INT_MIN}, vector<int>{INT_MAX, INT_MIN, INT_MAX, INT_MIN});
-    check(vector<Value>{ {1}, {2}, {1}}, vector<Value>{ {1}, {2}, {1}, {2}, {1}});
+    const vector<Value> values{{1}, {2}, {1}, {2}, {1}};
+    check(vector<Value>{{1}, {2}, {1}}, values);
+    check_z(values);
     mt19937 rng(280);
     for (int tc = 0; tc < 5000; ++tc) {
         vector<int> p(rng() % 100), t(rng() % 100);
         for (auto* s : {&p, &t}) for (int& x : *s) x = tc % 2 ? (int)rng() : (int)(rng() % 3);
         check(p, t);
+        check_z(p);
     }
     vector<Value> p(100000, {1}), t(200000, {1});
     p.back().x = 2;
