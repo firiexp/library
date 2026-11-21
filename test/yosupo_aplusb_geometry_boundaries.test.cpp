@@ -145,6 +145,14 @@ void rectangle_check() {
     check({{-2000000000, 0, 2000000000, 1}});
     check({{0, -2000000000, 1, 2000000000}});
     check({{-2000000000, -3, 1, 4}, {-1, -2, 2000000000, 5}, {-5, 0, 5, 0}});
+    check({{0, 0, 4, 8}, {1, 2, 6, 6}, {1, 2, 6, 6}, {2, 3, 5, 5},
+           {4, -2, 7, 2}, {4, 6, 7, 8}, {6, 2, 7, 6}});
+    AreaOfUnionOfRectangles<long long, __int128_t> wide;
+    const __int128_t span = (__int128_t)LLONG_MAX - LLONG_MIN;
+    wide.add_rectangle(LLONG_MIN, 0, LLONG_MAX, 1);
+    assert(wide.solve() == span);
+    wide.add_rectangle(-1, LLONG_MIN, 1, LLONG_MAX);
+    assert(wide.solve() == 3 * span - 2);
     mt19937 rng(17);
     const vector<int> coords{-2000000000, -7, -1, 0, 1, 7, 2000000000};
     for (int tc = 0; tc < 300; ++tc) {
