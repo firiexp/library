@@ -85,5 +85,10 @@ int main() {
     WeightedWaveletMatrix<Key, long long> weighted(keys, {10, -5, 7, 3});
     assert(wm.kth_smallest(0, 4, 2).value == 2);
     assert(wm.count_less(0, 4, Key{2}) == 2);
+    Key value{-1};
+    bool found = wm.majority(0, 4, value);
+    assert(!found && value.value == -1);
+    found = wm.majority(0, 3, value);
+    assert(found && value.value == 2);
     assert(weighted.count_sum_less(0, 4, Key{2}).sum == -2);
 }

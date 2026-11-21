@@ -481,14 +481,16 @@ private:
     }
 #endif
 
-    int kth_smallest_index_fallback(int l, int r, int k) const {
+    template <bool WithCount, auto RankPair>
+    __attribute__((always_inline))
+    auto kth_smallest_index_impl(int l, int r, int k) const {
         const int *mid_data = mid.data();
         const auto *bit_data = bit.data();
         const int *pref_data = pref.data();
         int idx = 0;
         for (int d = 0; d < lg; ++d) {
             int l1, r1;
-            rank1_pair(bit_data, pref_data, l, r, l1, r1);
+            RankPair(bit_data, pref_data, l, r, l1, r1);
             int l0 = l - l1, r0 = r - r1;
             int z = r0 - l0;
             idx <<= 1;
@@ -505,38 +507,27 @@ private:
             bit_data += blocks;
             pref_data += blocks + 1;
         }
-        return idx;
+        if constexpr (WithCount) return pair<int, int>{idx, r - l};
+        else return idx;
     }
 
 #if defined(__GNUC__) && defined(__x86_64__)
+    template <bool WithCount>
     __attribute__((target("popcnt,bmi2")))
-    int kth_smallest_index_bmi2(int l, int r, int k) const {
-        const int *mid_data = mid.data();
-        const auto *bit_data = bit.data();
-        const int *pref_data = pref.data();
-        int idx = 0;
-        for (int d = 0; d < lg; ++d) {
-            int l1, r1;
-            rank1_pair_bmi2(bit_data, pref_data, l, r, l1, r1);
-            int l0 = l - l1, r0 = r - r1;
-            int z = r0 - l0;
-            idx <<= 1;
-            if (k < z) {
-                l = l0;
-                r = r0;
-            }
-            else {
-                k -= z;
-                idx |= 1;
-                l = mid_data[d] + l1;
-                r = mid_data[d] + r1;
-            }
-            bit_data += blocks;
-            pref_data += blocks + 1;
-        }
-        return idx;
+    auto kth_smallest_index_bmi2(int l, int r, int k) const {
+        return kth_smallest_index_impl<WithCount, rank1_pair_bmi2>(l, r, k);
     }
 #endif
+
+    template <bool WithCount>
+    auto kth_smallest_index(int l, int r, int k) const {
+#if defined(__GNUC__) && defined(__x86_64__)
+        if (__builtin_cpu_supports("popcnt") && __builtin_cpu_supports("bmi2")) {
+            return kth_smallest_index_bmi2<WithCount>(l, r, k);
+        }
+#endif
+        return kth_smallest_index_impl<WithCount, rank1_pair>(l, r, k);
+    }
 
     template <bool Prev, bool UseBmi2>
     __attribute__((always_inline))
@@ -815,12 +806,7 @@ public:
     }
 
     T kth_smallest(int l, int r, int k) const {
-#if defined(__GNUC__) && defined(__x86_64__)
-        if (__builtin_cpu_supports("popcnt") && __builtin_cpu_supports("bmi2")) {
-            return vals[kth_smallest_index_bmi2(l, r, k)];
-        }
-#endif
-        return vals[kth_smallest_index_fallback(l, r, k)];
+        return vals[kth_smallest_index<false>(l, r, k)];
     }
 
     T kth_largest(int l, int r, int k) const {
@@ -830,9 +816,10 @@ public:
     bool majority(int l, int r, T &res) const {
         assert(0 <= l && l <= r && r <= n);
         if (l == r) return false;
-        T value = kth_smallest(l, r, (r - l) / 2);
-        if (freq(l, r, value) <= (r - l) / 2) return false;
-        res = value;
+        int half = (r - l) / 2;
+        auto [idx, count] = kth_smallest_index<true>(l, r, half);
+        if (count <= half) return false;
+        res = vals[idx];
         return true;
     }
 

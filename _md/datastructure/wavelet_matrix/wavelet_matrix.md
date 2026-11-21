@@ -69,5 +69,4 @@ auto answer = a.empty() ? b.value() : a.value();
 - 整数値の座標圧縮は、全同値なら $O(N)$、1024要素以下なら比較ソートで $O(N\log N)$。それ以外は値域に必要な桁だけ radix sort する。圧縮後の構築は $O(N\log\sigma)$。空配列にも対応する。
 - GCC の x86-64 環境では実行時に CPU 機能を判定し、構築に AVX2 / AVX-512、rank に POPCNT / BMI2 を使う。コンパイルオプションの追加は不要で、非対応 CPU では通常実装へ戻る。
 - クエリはすべて静的配列前提。
-- `majority` は中央順位の値を `kth_smallest` で選び、`freq` で過半数か確認する。
 - cursor は生成元の `WaveletMatrix` と組み合わせて使う。生成元の再構築・代入・move・破棄で無効になる。公開された内部配列も cursor の生存中は変更しない。
