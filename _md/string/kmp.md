@@ -13,12 +13,8 @@ Knuth-Morris-Pratt 法で、テキスト中のパターンの出現開始位置�
 
 ### 単発検索
 
-- `vector<int> kmp_table(s)`
-  長さ $|s|+1$ の失敗関数テーブル `table` を $O(|s|)$ で返す。`table[0]` は `-1`。
-  $1 \le i \le |s|$ のとき、`table[i]` は接頭辞 `s[0..i)` の最長 border の長さを表す。
-  これは先頭 $k$ 要素と末尾 $k$ 要素が一致する $0 \le k < i$ の最大値である。この接頭辞の最小周期は `i - table[i]` となる。
-- `vector<int> kmp_search(text, pattern)`
-  一致開始位置を昇順で返す。位置は0-indexed。$O(|text| + |pattern|)$
+- `vector<int> kmp_table(s)` : 長さ `|s| + 1` の配列 `table` を返す。`table[0] = -1`、`table[i]`（`i >= 1`）は接頭辞 `s[0..i)` の最長 border 長（最小周期は `i - table[i]`）。$O(|s|)$
+- `vector<int> kmp_search(text, pattern)` : 一致開始位置を昇順で返す。位置は0-indexed。$O(|text| + |pattern|)$
 
 ### KMPMatcher
 
@@ -36,7 +32,7 @@ Knuth-Morris-Pratt 法で、テキスト中のパターンの出現開始位置�
 
 ## 使い方
 
-要素を `==` で比較できる `vector<T>` も `kmp_table` と `kmp_search` に渡せる。
+`string` に加え、`vector<T>` も `kmp_table`・`kmp_search` に渡せる。
 
 ```cpp
 vector<int> pattern = {1, -2, 1};
