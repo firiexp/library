@@ -47,7 +47,45 @@ void check_sequence(const vector<T>& s) {
     assert(s == original);
 }
 
+void check_short_substring_ranks(const string& s) {
+    string_view text(s);
+    set<string_view> expected;
+    for (size_t l = 0; l < s.size(); ++l)
+        for (size_t r = l + 1; r <= s.size(); ++r)
+            expected.insert(text.substr(l, r - l));
+
+    const SuffixArray sa(s);
+    assert(sa.kth_substring(-1) == make_pair(-1, -1));
+    long long k = 0;
+    for (string_view word : expected) {
+        auto [l, r] = sa.kth_substring(k++);
+        assert(0 <= l && l < r && r <= sa.size());
+        assert(text.substr(l, r - l) == word);
+    }
+    assert(sa.kth_substring(k) == make_pair(-1, -1));
+    if (s.size() < 8) {
+        for (char c : {char(0), char(128), char(255)}) check_short_substring_ranks(s + c);
+    }
+}
+
+void check_large_substring_ranks() {
+    const int n = 65'536;
+    const SuffixArray sa(string(n, 'a') + string(n, 'b'));
+    const long long ab_rank = 1LL * n * n;
+    const long long total = ab_rank + 2 * n;
+    assert(sa.kth_substring(total) == make_pair(-1, -1));
+    assert(sa.kth_substring(ab_rank) == make_pair(n - 1, n + 1));
+    assert(sa.kth_substring(n - 1) == make_pair(0, n));
+    assert(sa.kth_substring(total - 1) == make_pair(n, 2 * n));
+    assert(sa.kth_substring(LLONG_MAX) == make_pair(-1, -1));
+}
+
 void self_check() {
+    check_short_substring_ranks("");
+    check_large_substring_ranks();
+    const SuffixArray integers(vector<int>{-3, 4, -3});
+    assert(integers.kth_substring(2) == make_pair(0, 3));
+
     auto check = [](const string &s) {
         vector<int> bytes;
         for (unsigned char c : s) bytes.push_back(c);

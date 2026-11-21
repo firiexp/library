@@ -139,6 +139,7 @@ template<class Sequence = string>
 class SuffixArray {
     Sequence text;
     vector<int> sa;
+    mutable vector<long long> distinct_prefix_sum;
     using Pattern = conditional_t<is_same_v<Sequence, string>, string_view, const Sequence&>;
 
 public:
@@ -148,6 +149,25 @@ public:
     int operator[](int i) const { return sa[i]; }
     const vector<int>& array() const { return sa; }
     vector<int> lcp() const { return ::lcp(text, sa); }
+
+    pair<int, int> kth_substring(long long k) const {
+        if (k < 0 || sa.empty()) return {-1, -1};
+        if (distinct_prefix_sum.empty()) {
+            auto common = lcp();
+            distinct_prefix_sum.reserve(size());
+            long long total = 0;
+            for (int i = 0; i < size(); ++i) {
+                int shared = i == 0 ? 0 : common[i - 1];
+                total += size() - sa[i] - shared;
+                distinct_prefix_sum.push_back(total);
+            }
+        }
+        auto it = upper_bound(distinct_prefix_sum.begin(), distinct_prefix_sum.end(), k);
+        if (it == distinct_prefix_sum.end()) return {-1, -1};
+        int start = sa[it - distinct_prefix_sum.begin()];
+        int shorter_by = int(*it - 1 - k);
+        return {start, size() - shorter_by};
+    }
 
     pair<int, int> equal_range(Pattern pattern) const {
         int n = size();
