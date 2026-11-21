@@ -8,7 +8,7 @@ documentation_of: //datastructure/monotoniccht.cpp
 最小値版と最大値版をテンプレート引数で切り替える。
 
 ## できること
-追加した直線数を $N$ とする。クエリは `empty()` が `false` のときに呼ぶ。
+追加した直線数を $N$ とする。クエリは直線を1本以上追加してから呼ぶ。
 
 - `CHT<T, false> cht`
   最小値を取る CHT を作る。$O(1)$
@@ -23,7 +23,8 @@ documentation_of: //datastructure/monotoniccht.cpp
 - `size_t size() const`
   現在保持している直線の本数を返す。直線の追加や単調クエリで取り除いた直線は数えない。$O(1)$
 - `void clear()`
-  すべての直線を取り除く。同じ CHT に再び直線を追加できる。呼び出し時の直線数を $k$ として $O(k)$
+  すべての直線を取り除く。同じ CHT に再び直線を追加できる。呼び出し時の直線数を $k$ として、1回の計算量は $O(k)$（空なら $O(1)$）、償却 $O(1)$。
+  直線の追加、単調クエリ、`clear()` を通じて、追加した各直線を取り除くのは高々1回である。
 - `T query(T x)`
   任意順クエリで最良値を返す。$O(\log N)$
 - `T query_increase(T x)`
