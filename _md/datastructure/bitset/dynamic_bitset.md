@@ -42,8 +42,6 @@ $N$ は bitset の長さとする。
   `k` より左で最初に立っている bit の位置を返す。なければ `-1`。$O(\lceil N/64 \rceil)$
 - `bs &= other`, `bs |= other`, `bs ^= other`
   bitset 同士の演算をその場で行う。$O(\lceil N/64 \rceil)$
-- `DynamicBitset &xor_from_word(const DynamicBitset &other, int k)`
-  64 bit を 1 word とし、word 数を $W=\lceil N/64\rceil$ とする。$0\le k\le W$ に対し、区間 $[k,W)$ の各 word を `other` の同じ位置の word と XOR し、自身への参照を返す。時間 $O(1+W-k)$、追加領域 $O(1)$
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
   shift する。$O(\lceil N/64 \rceil)$
 - `DynamicBitset &or_shift_left(int s)`
@@ -63,3 +61,11 @@ $N$ は bitset の長さとする。
 `StaticBitset` と集計処理を共有し、両方を同時に include できる。
 `intersects` は共通 bit を見つけた時点で返る。
 `or_shift_left` と `or_shift_right` は、`s <= 0`、`s >= size()`、空 bitset の場合は変更しない。
+
+### 内部用の補助関数
+
+`solve_linear_system_mod2` はピボット列を含む word から行を消去するために `xor_from_word` を使う。
+`operator^=` も開始位置に 0 を指定してこの関数を使う。
+
+- `DynamicBitset &xor_from_word(const DynamicBitset &other, int k)`
+  64 bit を 1 word とし、word 数を $W=\lceil N/64\rceil$ とする。$0\le k\le W$ に対し、区間 $[k,W)$ の各 word を `other` の同じ位置の word と XOR し、自身への参照を返す。時間 $O(1+W-k)$、追加領域 $O(1)$
