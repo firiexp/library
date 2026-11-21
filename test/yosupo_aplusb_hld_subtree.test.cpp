@@ -8,14 +8,15 @@ using namespace std;
 int main() {
     mt19937 rng(20261003);
     for (int n = 1; n <= 70; ++n) {
-        HeavyLightDecompositionEdge edge(n);
+        HeavyLightDecompositionEdge tree(n);
         vector<int> parent(n, -1);
         for (int v = 1; v < n; ++v) {
             parent[v] = rng() % v;
-            edge.add_edge(parent[v], v);
+            tree.add_edge(parent[v], v);
         }
-        edge.build();
-        auto &hld = edge.hld;
+        tree.build();
+        const auto &edge = tree;
+        const auto &hld = edge.hld;
         vector<int> at(n);
         for (int v = 0; v < n; ++v) at[hld.id[v]] = v;
         auto collect = [&](int l, int r) { return vector<int>(at.begin() + l, at.begin() + r); };
@@ -38,6 +39,8 @@ int main() {
             assert(actual == expected);
             assert(edge.subtree_query(root, count) == int(expected.size()));
             assert(hld.subtree_query(root, collect, true) == edge.subtree_query(root, collect));
+            hld.apply_subtree(root, [&](int l, int r) { assert(r - l == (int)expected.size() + 1); });
+            edge.apply_subtree(root, [&](int l, int r) { assert(r - l == (int)expected.size()); });
         }
         auto ref = [&](int, int) -> const vector<int> & { return at; };
         static_assert(is_same_v<decltype(hld.subtree_query(0, ref)), const vector<int> &>);

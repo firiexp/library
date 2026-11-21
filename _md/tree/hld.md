@@ -12,37 +12,41 @@ documentation_of: //tree/hld.cpp
 
 - `HeavyLightDecomposition hld(n)`
   頂点数 `n` の木を作る。$O(N)$
+- `HeavyLightDecomposition hld(g)`
+  隣接リスト `const vector<vector<int>>& g` から木を作る。$O(N)$
 - `void add_edge(int u, int v)`
   木辺を張る。償却 $O(1)$
 - `void build(vector<int> roots = {0})`
   前処理をする。森では各成分の根を `roots` に1つずつ指定する。時間・領域 $O(N)$
-- `int lca(int u, int v)`
+- `int lca(int u, int v) const`
   最近共通祖先を返す。$O(\log N)$
-- `int parent(int v)`
+- `int parent(int v) const`
   親を返す。根なら `-1`。$O(1)$
-- `int ancestor(int v, int k)`
+- `int ancestor(int v, int k) const`
   `k` 個上の祖先を返す。存在しなければ `-1`。$O(\log N)$
-- `int distance(int u, int v)`
+- `int distance(int u, int v) const`
   木上距離を返す。$O(\log N)$
+- `int jump(int u, int v, int k) const`
+  `u` から `v` へ向かうパスの `k` 番目の頂点を返す。`u` を0番目とし、辺を1本進むごとに1つ数える。2頂点が別の木に属する場合や、`k` が負またはパスの辺数を超える場合は `-1`。$O(\log N)$
 - `pair<int, int> path_intersection(int a, int b, int c, int d) const`
   頂点パス `a -> b` と `c -> d` の共通部分を、`a -> b` の順に端点の組で返す。空、または4頂点が同じ木に属さなければ `{-1, -1}`。1頂点だけなら両端点が同じになる。時間 $O(\log N)$、追加領域 $O(1)$
-- `pair<int, int> subtree(int v, bool edge = false)`
+- `pair<int, int> subtree(int v, bool edge = false) const`
   部分木に対応する半開区間 `[l, r)` を返す。$O(1)$
 - `void rerooted_subtree(int v, int root, F f) const`
   `root` を根とした場合の `v` の部分木に対応する区間へ `f(l, r)` を呼ぶ。空でない半開区間を `id` の昇順で高々2つ渡す。区間の取得は $O(\log N)$ 時間、$O(1)$ 作業領域
 - `int rerooted_lca(int u, int v, int root) const`
   `root` を根とした場合の `u, v` の最近共通祖先を $O(\log N)$ 時間、$O(1)$ 作業領域で返す
-- `void path(int u, int v, F f, bool edge = false)`
+- `void path(int u, int v, F f, bool edge = false) const`
   パスを被覆する各区間へ `f(l, r)` を呼ぶ。$O(\log N)$
 - `void path_ordered(int u, int v, F f, bool edge = false) const`
   `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す。$O(\log N)$
-- `T path_query(int u, int v, T e, Q q, F f, bool edge = false)`
+- `T path_query(int u, int v, T e, Q q, F f, bool edge = false) const`
   パス上の値を `q` で集約し、`f` で結合して返す。結合は可換とする。$O(\log^2 N)$
-- `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f, bool edge = false)`
+- `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f, bool edge = false) const`
   `u -> v` の順に `ql`・`qr` の区間集約を `f` で結合して返す。$O(\log^2 N)$
-- `void apply_subtree(int v, F f, bool edge = false)`
+- `void apply_subtree(int v, F f, bool edge = false) const`
   部分木区間へ `f(l, r)` を呼ぶ。$O(1)$
-- `subtree_query(int v, Q q, bool edge = false)`
+- `subtree_query(int v, Q q, bool edge = false) const`
   `v` の部分木クエリ。返り値の型は `q` から推論する。$O(\log N)$
 
 ## 使い方
