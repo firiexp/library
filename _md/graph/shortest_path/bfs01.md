@@ -9,7 +9,7 @@ documentation_of: //graph/shortest_path/bfs01.cpp
 ## できること
 頂点数を $V$、辺数を $E$ とする。
 
-- `vector<T> bfs01(int s, vector<vector<edge<T>>>& G)`
+- `vector<T> bfs01(int s, const vector<vector<edge<T>>>& G)`
   始点 `s` から各頂点への最短距離を返す。到達不能な頂点は `INF<T>`。時間 $O(V+E)$、追加領域 $O(V)$
 
 ## 使い方

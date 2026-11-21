@@ -5,6 +5,7 @@ using namespace std;
 template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 
 #include "../util/fastio.cpp"
+#include "../graph/range_edge_graph.cpp"
 #include "../graph/shortest_path/bfs01.cpp"
 #include "../graph/shortest_path/dijkstra.cpp"
 
@@ -57,6 +58,10 @@ void check_edge_scans() {
 }
 
 void self_check() {
+    RangeEdgeGraph<int> rg(4);
+    rg.add_to_range(0, 1, 3, 1);
+    rg.add_edge(0, 2, 0);
+    assert(bfs01(0, rg.graph()) == dijkstra(0, rg.graph()));
     check<int>(1, {});
     check<int>(1, {{0, 0, 0}, {0, 0, 1}});
     check<int>(6, {{0, 1, 1}, {0, 2, 0}, {2, 1, 0}, {1, 3, 1},
