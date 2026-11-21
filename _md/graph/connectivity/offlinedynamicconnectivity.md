@@ -19,9 +19,9 @@ documentation_of: //graph/connectivity/offlinedynamicconnectivity.cpp
 - `void build()`
   登録済みの追加・削除から各辺の生存区間を構築する。時間 $O(Q+K\log Q)$、領域 $O(N+Q+K\log Q)$
 - `void run(F f)`
-  内部の `UndoableUnionFind` を使って DFS し、各時刻で `f(t)` または `f(t, uf)` を呼ぶ。コールバックを除き $O(Q+K\log Q\log N)$
+  内部の `UndoableUnionFind` を使って DFS し、各時刻で `f(t)` または `f(t, uf)` を呼ぶ。callback を除き $O(Q+K\log Q\log N)$
 - `void dfs(Enter enter, Leave leave, Leaf leaf)`
-  時間セグメント木を直接 DFS する。`enter(k, edges)` でノード進入、`leave(k, edges)` で離脱、`leaf(t)` で時刻 `t` を昇順に処理する。コールバックを除き $O(Q)$、列挙する辺は合計 $O(K\log Q)$ 個
+  時間セグメント木を直接 DFS する。`enter(k, edges)` でノード進入、`leave(k, edges)` で離脱、`leaf(t)` で時刻 `t` を昇順に処理する。callback を除き $O(Q)$、列挙する辺は合計 $O(K\log Q)$ 個
 
 ## 使い方
 単に連結判定だけをしたいなら `insert` / `erase` を全て登録して `build()` し、`run` で葉を処理する。
@@ -48,6 +48,6 @@ dc.run([&](int t, UndoableUnionFind &uf) {
 ## 実装上の補足
 時間木のイベントは辺の組を1本の配列へ詰め、ノードごとの offset で参照する。
 `dfs` の `edges` は range-for と `size()` を使える読み取り専用の `EdgeRange` であり、vector ではない。
-コールバックの `edges` は `const auto&` または `const OfflineDynamicConnectivity::EdgeRange&` で受け取る。
+callback の `edges` は `const auto&` または `const OfflineDynamicConnectivity::EdgeRange&` で受け取る。
 view は次の `build` まで有効。DFS 中には登録内容を変更しない。
 `q=0` では葉の callback を呼ばない。

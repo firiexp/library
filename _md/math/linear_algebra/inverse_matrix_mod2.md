@@ -10,7 +10,7 @@ mod 2 の正方行列の逆行列を求める。
 ## できること
 - `vector<DynamicBitset> inverse_matrix_mod2(vector<DynamicBitset> a)`
   逆行列を返す。存在しなければ空行列を返す。
-  $N$ 行 $N$ 列に対し、時間 $O(N^2\lceil N/64\rceil)$、入力コピーと返却値を含む領域 $O(N\lceil N/64\rceil)$。
+  $N$ 行 $N$ 列に対し、時間 $O(N^2\lceil N/64\rceil)$、入力コピーと返り値を含む領域 $O(N\lceil N/64\rceil)$。
 
 ## 使い方
 `a` の各行の長さを行数と一致させる。第 $i$ 行・第 $j$ 列の値は `a[i].test(j)` に対応する。

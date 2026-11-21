@@ -9,7 +9,7 @@ documentation_of: //tree/diameter.cpp
 頂点数を $N$ とする。
 
 - `pair<int, pair<int, int>> tree_diameter(const vector<vector<int>> &g)`
-  直径を返す。戻り値の `first` は辺数としての直径長、`second.first` と `second.second` は両端点。$O(N)$
+  直径を返す。返り値の `first` は辺数としての直径長、`second.first` と `second.second` は両端点。$O(N)$
 - `int diameter(const vector<vector<int>> &g)`
   直径長だけを返す。$O(N)$
 

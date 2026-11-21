@@ -15,7 +15,7 @@ documentation_of: //datastructure/unionfind/range_parallel_unionfind.cpp
 - `int unite_range(int a, int b, int k)`
   $0\leq i<k$ のすべての頂点対 $(a+i,b+i)$ を併合し、新たに成立した成分の併合数を返す。$Q$ 回全体で償却 $O((N\log N+Q)\alpha(N))$
 - `int unite_range(int a, int b, int k, F on_merge)`
-  異なる頂点成分を併合する直前に `on_merge(keep, absorbed)` を呼ぶ。引数は併合前の代表元で、`keep` が併合後の代表元になる。コールバックを除き、$Q$ 回全体で償却 $O((N\log N+Q)\alpha(N))$
+  異なる頂点成分を併合する直前に `on_merge(keep, absorbed)` を呼ぶ。引数は併合前の代表元で、`keep` が併合後の代表元になる。callback を除き、$Q$ 回全体で償却 $O((N\log N+Q)\alpha(N))$
 - `int root(int v)` / `bool same(int a, int b)`
   代表元の取得と、同じ集合に属するかの判定を行う。償却 $O(\alpha(N))$
 - `int size(int v)` / `int count() const`
@@ -35,4 +35,4 @@ uf.unite_range(a, b, k, [&](int keep, int absorbed) {
 
 ## 実装上の補足
 保持領域は $O(N\log N)$。
-頂点が1つ以上なら、コールバックの呼出総数は高々 $N-1$ 回。1回の区間併合が常に対数時間で終わるという保証ではない。
+頂点が1つ以上なら、callback の呼び出し総数は高々 $N-1$ 回。1回の区間併合が常に対数時間で終わるという保証ではない。

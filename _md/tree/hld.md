@@ -7,7 +7,7 @@ documentation_of: //tree/hld.cpp
 根つき木を Euler Tour 順の連続区間へ写し、パスや部分木を少数個の区間に分解する。
 
 ## できること
-頂点数を $N$ とする。区間を渡す API の計算量にはコールバックの処理を含めない。
+頂点数を $N$ とする。区間を渡す API の計算量には callback の処理を含めない。
 集約 API は区間集約 `q`・`ql`・`qr` が $O(\log N)$、結合演算 `f` が $O(1)$ の場合を示す。
 
 - `HeavyLightDecomposition hld(n)`
@@ -35,7 +35,7 @@ documentation_of: //tree/hld.cpp
 - `void path(int u, int v, F f, bool edge = false)`
   パスを被覆する各区間へ `f(l, r)` を呼ぶ。$O(\log N)$
 - `void path_ordered(int u, int v, F f, bool edge = false) const`
-  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きをコールバック `f` に渡す。$O(\log N)$
+  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す。$O(\log N)$
 - `T path_query(int u, int v, T e, Q q, F f, bool edge = false)`
   パス上の値を `q` で集約し、`f` で結合して返す。結合は可換とする。$O(\log^2 N)$
 - `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f, bool edge = false)`
@@ -43,10 +43,10 @@ documentation_of: //tree/hld.cpp
 - `void apply_subtree(int v, F f, bool edge = false)`
   部分木区間へ `f(l, r)` を呼ぶ。$O(1)$
 - `subtree_query(int v, Q q, bool edge = false)`
-  `v` の部分木クエリ。戻り値の型は `q` から推論する。$O(\log N)$
+  `v` の部分木クエリ。返り値の型は `q` から推論する。$O(\log N)$
 
 ## 使い方
-`id[v]` を頂点 `v` の 1 次元位置としてセグ木や BIT に載せる。
+`id[v]` を頂点 `v` の 1 次元位置としてセグメント木や BIT に載せる。
 部分木は `subtree(v)` の区間 1 本で取れる。
 パスは `path` / `path_ordered` / `path_query` / `path_query_ordered` を使う。
 両端点は同じ連結成分に属することを前提とする。

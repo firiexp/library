@@ -21,8 +21,8 @@ documentation_of: //datastructure/range_query_2d/static_rectangle_sum.cpp
 
 ## 使い方
 先に点とクエリを全部追加してから `solve()` を呼ぶ。
-`y` 座標は内部で座圧し、各クエリを `x < r` と `x < l` の差に分解して処理する。
-座圧と BIT には点の `y` 座標だけを使い、クエリ境界は `lower_bound` で位置を求める。
+`y` 座標は内部で座標圧縮し、各クエリを `x < r` と `x < l` の差に分解して処理する。
+座標圧縮と BIT には点の `y` 座標だけを使い、クエリ境界は `lower_bound` で位置を求める。
 
 ## 実装上の補足
 呼び出しごとに全登録内容を再計算する。

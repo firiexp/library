@@ -4,7 +4,7 @@ documentation_of: //datastructure/range_query_2d/fenwick_tree_2d.cpp
 ---
 
 ## 説明
-更新される点集合を先に登録してから構築する座圧 2 次元 BIT。
+更新される点集合を先に登録してから構築する座標圧縮した 2 次元 BIT。
 点加算と半開長方形和を扱う。
 
 ## できること
@@ -15,7 +15,7 @@ documentation_of: //datastructure/range_query_2d/fenwick_tree_2d.cpp
 - `int add_point(int x, int y)`
   今後更新する可能性がある点 `(x, y)` を登録し、登録順の `0`-indexed ID を返す。重複登録にも別の ID を返す。償却 $O(1)$
 - `void build()`
-  登録済みの点から内部座圧を構築する。空集合・重複登録も扱える。呼び出しは1回に限る。$O(N\log N)$
+  登録済みの点から内部の座標圧縮を構築する。空集合・重複登録も扱える。呼び出しは1回に限る。$O(N\log N)$
 - `void build(const vector<T>& initial_weights)`
   登録順に初期重みを与えて構築する。列の長さは登録点数以下とし、省略した末尾の重みは `0`。重複座標の重みは加算する。$O(N\log N)$
 - `void add(int x, int y, T w)`

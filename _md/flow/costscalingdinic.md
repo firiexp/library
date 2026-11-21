@@ -38,7 +38,7 @@ auto source_side = mf.min_cut(s);
 ```
 
 ## 実装上の補足
-`G` を直接書き換えた場合、`get_edge` と `edges` の返却値は保証しない。
+`G` を直接書き換えた場合、`get_edge` と `edges` の返り値は保証しない。
 `change_edge` の流量は、有向版では `0 <= flow <= capacity`、無向版では `-capacity <= flow <= capacity` とする。
 個別の辺変更は頂点の流量保存を修復しない。次の `flow` の前に、同じ始点・終点の実行可能なフローを用意するか、`reset_flow()` を呼ぶ。
 `reset_flow()` 後は始点・終点を変更して解き直せる。開始する scaling 幅は変更後の残余容量から求める。

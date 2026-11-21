@@ -30,7 +30,7 @@ documentation_of: //graph/spanning_tree/chu_liu_edmonds.cpp
 
 ## 使い方
 `add_edge` で全辺を追加してから `solve()` を呼ぶ。
-戻り値の `parent[v]` が `v` の親、`edge_id[v]` が対応する採用辺番号になる。
+返り値の `parent[v]` が `v` の親、`edge_id[v]` が対応する採用辺番号になる。
 
 ## 実装上の補足
 Skew heap + Union-Find による Chu-Liu/Edmonds 法。

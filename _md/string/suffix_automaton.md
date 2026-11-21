@@ -22,10 +22,10 @@ documentation_of: //string/suffix_automaton.cpp
 - `substring_occurrences()` : 各状態の出現回数を状態番号順の `vector<int>` で返す。$O(V+N)$
 - `for_each_occurrence(pattern, emit)` : `string_view` の `pattern` が現れる全開始位置を `emit(int pos)` に1回ずつ渡す。0-indexed、通知順は未規定。空パターンは境界 `0..N` を昇順に通知する
 - `order_by_length()` : 各状態が表す最大長の昇順に状態番号を返す。$O(V+N)$
-- `longest_common_substring(t)` : `s` と `t` の最長共通部分文字列の位置を `SubstringMatch` で返す。時間 $O(|t|)$、返却値以外の追加領域 $O(1)$
+- `longest_common_substring(t)` : `s` と `t` の最長共通部分文字列の位置を `SubstringMatch` で返す。時間 $O(|t|)$、返り値以外の追加領域 $O(1)$
 
 `for_each_occurrence` は、非空パターンが一致する最初のクエリで $O(V+N)$ 時間・追加領域の索引を作る。
-以後はパターン長 $M$、出現数 $Z$ に対して $O(M+Z)$。コールバック自体の費用は除く。
+以後はパターン長 $M$、出現数 $Z$ に対して $O(M+Z)$。callback 自体の費用は除く。
 `add` / `build` で文字を追加すると索引を無効にし、次の一致するクエリで再構築する。
 
 ## 使い方
@@ -52,7 +52,7 @@ if (auto range = sam.kth_substring(2)) {
 `[match.s_l, match.s_r)` が `s` 側、`[match.t_l, match.t_r)` が `t` 側の0-indexed半開区間を表す。
 最長の答えが複数ある場合は任意の1組を返す。共通部分が空なら4つとも `0`。
 
-パターンの全出現位置はコールバックで受け取る。
+パターンの全出現位置は callback で受け取る。
 
 ```cpp
 SuffixAutomaton<26> sam(string("ababa"));
@@ -62,7 +62,7 @@ sort(positions.begin(), positions.end());
 ```
 
 `positions` は `{0, 2}` になる。位置順が不要なら sort は省ける。
-コールバックから同じ SAM を変更しない。
+callback から同じ SAM を変更しない。
 
 ## 実装上の補足
 

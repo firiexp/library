@@ -5,7 +5,7 @@ documentation_of: //datastructure/unionfind/persistent_unionfind.cpp
 ## 説明
 併合ごとに新しいバージョンを作る fully persistent な Union-Find である。
 任意の過去のバージョンに対して `same` や `size` を呼べて、過去のバージョンからさらに `unite` して別の分岐を作れる。
-経路圧縮は使わず、親配列を永続セグ木で持つ。
+経路圧縮は使わず、親配列を永続セグメント木で持つ。
 
 ## できること
 頂点数を $N$ とする。

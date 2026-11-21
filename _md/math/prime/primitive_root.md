@@ -17,4 +17,4 @@ documentation_of: //math/prime/primitive_root.cpp
 
 ## 実装上の補足
 `p-1` の素因数分解が終わってから `mod64` の法を `p` に設定し、候補の累乗と比較を Montgomery 表現で行う。
-`mod64` の法は共有されるため、呼出し前の法の値は保持しない。
+`mod64` の法は共有されるため、呼び出し前の法の値は保持しない。

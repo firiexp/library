@@ -5,7 +5,7 @@ documentation_of: //datastructure/range_query_2d/point_add_rectangle_sum.cpp
 
 ## 説明
 点追加と長方形和クエリをまとめて処理する。
-全追加点を先に集めて、座圧済み 2 次元 BIT を offline 構築する。
+全追加点を先に集めて、座標圧縮済みの 2 次元 BIT をオフライン構築する。
 
 ## できること
 - `PointAddRectangleSum<T> solver`

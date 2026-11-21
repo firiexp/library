@@ -18,7 +18,7 @@ documentation_of: //string/ahocorasick_matcher.cpp
 - `reset()`
   `patterns` を再利用し、次の `scan` から別のテキストを先頭位置0で検索する。$O(1)$
 
-`scan` の呼出し数を $C$、総入力長を $N$、一致数を $Z$、関数 `f` の1回の計算量を $F$ として、合計 $O(C+N+ZF)$。
+`scan` の呼び出し数を $C$、総入力長を $N$、一致数を $Z$、関数 `f` の1回の計算量を $F$ として、合計 $O(C+N+ZF)$。
 `scan` の追加領域は $O(1)$。
 
 ## 使い方

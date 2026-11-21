@@ -32,7 +32,7 @@ documentation_of: //tree/centroid/centroid_decomposition_query_helper.cpp
   頂点 `v` から `path[v][i]` までの距離
 
 `path[v]` と `dist[v]` は同じ長さで、`path[v].back()` は重心木の根になる。
-元の木の走査は反復で行い、再帰の深さは重心木の $O(\log(N))$ に収まる。
+元の木の走査は反復で行い、再帰の深さは重心木の $O(\log N)$ に収まる。
 
 ## 例
 最近点距離クエリは重心ごとに最良値を持てば書ける。

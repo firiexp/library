@@ -8,7 +8,7 @@ documentation_of: //tree/tree_mo.cpp
 頂点1個の追加・削除で答えを更新できる、順序に依存しない集計を扱う。色の種類数などに使える。
 
 ## できること
-頂点数を $N$、クエリ数を $Q$ とし、コールバックの処理は $O(1)$ とする。
+頂点数を $N$、クエリ数を $Q$ とし、callback の処理は $O(1)$ とする。
 
 - `tree_mo_solve(g, paths, add, erase, output, root=0)`
   `paths` の各 `(u,v)` について、パス上の全頂点を1回ずつ有効にして `output(id)` を呼ぶ。`id` は入力クエリ番号。時間 $O(N\sqrt Q+Q\log Q+N)$、領域 $O(N+Q)$

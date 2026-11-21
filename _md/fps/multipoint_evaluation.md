@@ -20,7 +20,7 @@ documentation_of: //fps/multipoint_evaluation.cpp
 ## 使い方
 `poly f` を作り、`f.multipoint_eval(xs)` を呼ぶ。
 同じ点を何度も使う場合は `MultipointEvaluator evaluator(xs)` を1回作り、`evaluator.eval(f)` を繰り返す。
-元の `xs` や多項式を後から変更しても、評価点と以前の返却値は変わらない。
+元の `xs` や多項式を後から変更しても、評価点と以前の返り値は変わらない。
 
 ## 実装上の補足
 内部で subproduct tree と多項式剰余を使う。
@@ -30,6 +30,6 @@ documentation_of: //fps/multipoint_evaluation.cpp
 係数数を $K$、点数を $M$ として、この経路は $O(KM)$ 時間、出力を含めて $O(M)$ の追加領域を使う。
 剰余木の途中でも、剰余の係数数または部分木の点数が16以下なら、その部分木を Horner 法でまとめて評価する。補間の導関数評価にも同じ処理を使う。
 剰余は深さ優先で子へ渡し、処理済みの部分木の中間多項式は解放する。
-評価点数を $m$ とすると、積の木は $O(m\log(m))$、各段の剰余係数の同時保持量は $O(m)$、再帰の深さは $O(\log(m))$。
+評価点数を $m$ とすると、積の木は $O(m\log m)$、各段の剰余係数の同時保持量は $O(m)$、再帰の深さは $O(\log m)$。
 最初に入力多項式を割る際の作業領域は入力の係数数にも依存する。
 `poly` 本体は `fps/ntt.cpp` にある。

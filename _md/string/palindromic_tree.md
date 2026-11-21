@@ -19,7 +19,7 @@ documentation_of: //string/palindromic_tree.cpp
 - `int add(char c)` : 末尾に文字 `c` を追加し、追加後の最長回文接尾辞のノード番号を返す。償却 $O(1)$
 - `void build(const string &t)` : 末尾に文字列 `t` を追加する。償却 $O(|t|)$
 - `vector<int> count()` : 各ノードの出現回数を返す。$O(N)$
-- `Partitions min_partitions()` : 文字列の各接頭辞を非空回文に分割する最少個数 `count` と、分割位置を復元するための `prev` を返す。時間 $O(N\log N)$、返却値を含む追加領域 $O(N)$
+- `Partitions min_partitions()` : 文字列の各接頭辞を非空回文に分割する最少個数 `count` と、分割位置を復元するための `prev` を返す。時間 $O(N\log N)$、返り値を含む追加領域 $O(N)$
 
 ### PalindromicPartition
 

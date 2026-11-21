@@ -8,7 +8,7 @@ documentation_of: //tree/hld_edge.cpp
 根の位置には辺がないので、`edge_index(root)` は `-1` を返す。
 
 ## できること
-頂点数を $N$ とする。区間を渡す API の計算量にはコールバックの処理を含めない。
+頂点数を $N$ とする。区間を渡す API の計算量には callback の処理を含めない。
 集約 API は区間集約 `q`・`ql`・`qr` が $O(\log N)$、結合演算 `f` が $O(1)$ の場合を示す。
 
 - `HeavyLightDecompositionEdge hld(n)`
@@ -34,7 +34,7 @@ documentation_of: //tree/hld_edge.cpp
 - `void path(int u, int v, F f)`
   `u - v` パス上の辺を被覆する各区間へ `f(l, r)` を呼ぶ。$O(\log N)$
 - `void path_ordered(int u, int v, F f) const`
-  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きをコールバック `f` に渡す。$O(\log N)$
+  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す。$O(\log N)$
 - `T path_query(int u, int v, T e, Q q, F f)`
   パス上の辺の値を `q` で集約し、`f` で結合して返す。結合は可換とする。$O(\log^2 N)$
 - `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f)`
@@ -42,7 +42,7 @@ documentation_of: //tree/hld_edge.cpp
 - `void apply_subtree(int v, F f)`
   部分木の辺区間へ `f(l, r)` を呼ぶ。$O(1)$
 - `subtree_query(int v, Q q)`
-  `v` の部分木の辺クエリ。戻り値の型は `q` から推論する。$O(\log N)$
+  `v` の部分木の辺クエリ。返り値の型は `q` から推論する。$O(\log N)$
 
 ## 使い方
 各辺の値は子頂点側に置く。

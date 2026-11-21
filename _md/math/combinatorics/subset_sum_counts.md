@@ -9,7 +9,7 @@ documentation_of: //math/combinatorics/subset_sum_counts.cpp
 
 ## できること
 - `vector<mint> subset_sum_counts(const vector<int>& weights, int max_sum)`
-  `max_sum` を $T$ として、和が $0,1,\ldots,T$ になる部分集合の個数を順に返す。要素数を $N$ として時間 $O(N+T\log(T))$、入力を除く領域 $O(T)$
+  `max_sum` を $T$ として、和が $0,1,\ldots,T$ になる部分集合の個数を順に返す。要素数を $N$ として時間 $O(N+T\log T)$、入力を除く領域 $O(T)$
 
 ## 使い方
 `math/combinatorics/subset_sum_counts.cpp` を読み込み、重み列と和の上限を渡す。

@@ -14,7 +14,7 @@ documentation_of: //graph/topological_sort.cpp
   `g` のトポロジカル順序を返す。DAG でなければ空配列を返す。$O(N+M)$
 - `vector<int> topological_sort_lexmin(const vector<vector<int>>& g)`
   頂点番号列が辞書順最小となるトポロジカル順序を返す。DAG でなければ空配列を返す。
-  時間 $O(M+N\log N)$、返却値を含む追加領域 $O(N)$。
+  時間 $O(M+N\log N)$、返り値を含む追加領域 $O(N)$。
 
 ## 使い方
 `g[v]` に `v -> to` を入れて使う。

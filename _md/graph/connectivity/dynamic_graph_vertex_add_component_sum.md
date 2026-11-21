@@ -4,7 +4,7 @@ documentation_of: //graph/connectivity/dynamic_graph_vertex_add_component_sum.cp
 ---
 
 ## 説明
-辺の追加・削除、頂点加算、連結成分和取得を offline で処理する。
+辺の追加・削除、頂点加算、連結成分和取得をオフラインで処理する。
 時間区間セグメント木と rollback Union-Find を使う。
 
 ## できること
@@ -26,7 +26,7 @@ documentation_of: //graph/connectivity/dynamic_graph_vertex_add_component_sum.cp
 ## 使い方
 クエリを時系列順に積み、最後に `solve()` を呼ぶ。
 登録数はコンストラクタに渡した `q` と一致させる。存在しない辺だけを追加し、存在する辺だけを削除する。
-rollback のため経路圧縮は使わず、union-by-size により根探索を $O(\log(N))$ に抑える。
+rollback のため経路圧縮は使わず、union-by-size により根探索を $O(\log N)$ に抑える。
 
 ## 実装上の補足
 時間木の各ノードには辺と頂点加算の開始位置を持ち、イベント本体はそれぞれ連続配列に格納する。

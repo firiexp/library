@@ -88,8 +88,8 @@ int first = lct.find_first_false(u, v, [&](long long sum) { return sum <= limit;
 ## 実装上の補足
 遅延するのは左右の反転だけで、頂点値への遅延作用はない。
 `connected`・`lca` は両端を順に `expose` し、最初の頂点に親が付くかで連結を判定する。
-`lca` は2回目の `expose` の戻り値を使う。`link` も `evert` 後の `expose` を接続判定と辺追加で共有する。
+`lca` は2回目の `expose` の返り値を使う。`link` も `evert` 後の `expose` を接続判定と辺追加で共有する。
 `set` は対象を補助木の根へ splay して集約を更新する。
 `jump` は補助木の部分木サイズで順位を探し、得た頂点を splay する。
-`find_first_false` は反転を伝搬しながら、左部分木の積・頂点値の順に累積値へ追加して1回降下する。
+`find_first_false` は反転を伝播しながら、左部分木の積・頂点値の順に累積値へ追加して1回降下する。
 不成立頂点を splay するため、降下を含めて償却 $O(\log N)$ になる。全体が成立する場合は `expose` 直後の積だけで判定する。

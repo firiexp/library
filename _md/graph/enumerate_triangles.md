@@ -7,7 +7,7 @@ documentation_of: //graph/enumerate_triangles.cpp
 単純無向グラフの三角形を重複なく列挙する。
 
 ## できること
-頂点数を $N$、辺数を $M$ とし、コールバックの処理は $O(1)$ とする。
+頂点数を $N$、辺数を $M$ とし、callback の処理は $O(1)$ とする。
 
 - `enumerate_triangles(n, edges, callback)`：各三角形について `callback(a,b,c)` をちょうど1回呼ぶ。元の頂点番号で `a < b < c` を満たし、列挙全体の順序は不問。時間 $O(N+M\sqrt M)$、入力と結果を除く作業領域 $O(N+M)$
 
@@ -23,7 +23,7 @@ enumerate_triangles(n, edges, [&](int a, int b, int c) {
 });
 ```
 
-callback内で頂点重みの積や頂点ごとの三角形数も集計できる。結果の全保存は不要である。
+callback 内で頂点重みの積や頂点ごとの三角形数も集計できる。結果の全保存は不要である。
 
 ## 実装上の補足
 辺を `(次数, 頂点番号)` の小さい端点から大きい端点へ向け、出次数を $O(\sqrt M)$ に抑える。

@@ -13,7 +13,7 @@ documentation_of: //graph/matching/bipartite_maximum_matching_edges.cpp
 
 - `pair<int, vector<int>> bipartite_maximum_matching_edges(int l, int r, const vector<pair<int, int>>& edges)`
   最大マッチングの本数と、入力順の辺分類を返す。
-  時間 $O((L+R+M)\sqrt{L+R})$、返却値を含む追加領域 $O(L+R+M)$。
+  時間 $O((L+R+M)\sqrt{L+R})$、返り値を含む追加領域 $O(L+R+M)$。
 
 各辺の分類は次の値を取る。
 

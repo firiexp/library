@@ -32,7 +32,7 @@ $B$ を整数型 `T` のビット数、`U` を `make_unsigned_t<T>` とする。
 - `void merge(const XorBasis<T>& other)`
   `other` の基底を併合する。$O(B^2)$
 - `XorBasis<T> intersection(const XorBasis<T>& other) const`
-  両方の生成空間に属する値全体の基底を返す。片方が空なら空の基底を返す。時間 $O(B^2)$、返却値を含む追加領域 $O(B)$
+  両方の生成空間に属する値全体の基底を返す。片方が空なら空の基底を返す。時間 $O(B^2)$、返り値を含む追加領域 $O(B)$
 
 ## 使い方
 `XorBasis<unsigned long long> xb;` を作り、`add` で値を順に入れて使う。

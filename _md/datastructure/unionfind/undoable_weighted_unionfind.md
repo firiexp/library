@@ -11,7 +11,7 @@ documentation_of: //datastructure/unionfind/undoable_weighted_unionfind.cpp
 頂点数を $N$ とし、群演算と要素コピーを $O(1)$ とする。
 
 - `UndoableWeightedUnionFind<G> uf(n)`：制約のない `n` 頂点を作る。$O(N)$
-- `unite(a, b, w)`：制約を1本登録する。2成分を併合したときだけ `true` を返す。戻り値は整合性を意味しない。償却 $O(\log N)$
+- `unite(a, b, w)`：制約を1本登録する。2成分を併合したときだけ `true` を返す。返り値は整合性を意味しない。償却 $O(\log N)$
 - `consistent()` / `consistent(v)`：全制約 / `v` の成分が整合するかを返す。全体は $O(1)$、成分指定は $O(\log N)$
 - `same(a, b)`：同じ成分かを返す。$O(\log N)$
 - `diff(a, b)`：同じ整合する成分なら差分を `optional<G::T>` で返す。それ以外は `nullopt`。$O(\log N)$

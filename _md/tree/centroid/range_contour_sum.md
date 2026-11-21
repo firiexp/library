@@ -11,7 +11,7 @@ documentation_of: //tree/centroid/range_contour_sum.cpp
 頂点数を $V$ とする。
 
 - `RangeContourSum(g, values)`
-  無向木の隣接リスト `g` と `vector<long long>` の初期値から構築する。時間・領域は $O(V\log(V))$
+  無向木の隣接リスト `g` と `vector<long long>` の初期値から構築する。時間・領域は $O(V\log V)$
 - `void add(int v, long long x)`
   頂点 `v` の値に `x` を加える。時間は $O(\log^2(V))$
 - `long long query(int v, int l, int r)`

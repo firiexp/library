@@ -21,7 +21,7 @@ assert(count.interior == 3);
 assert(count.boundary == 12);
 ```
 
-各座標と返却値は `long long` に、全中間値は符号付き `__int128` に収まることを前提とする。
+各座標と返り値は `long long` に、全中間値は符号付き `__int128` に収まることを前提とする。
 
 ## 実装上の補足
 差分と積は計算前に `__int128` へ広げる。境界点数 $B$ は各辺の $\gcd(|\Delta x|,|\Delta y|)$ の和で求める。

@@ -13,6 +13,7 @@ documentation_of: //util/rollback_mo.cpp
 - `rollback_mo_solve(n, queries, state, bucket_size = 0)`
   長さ `n` の配列について、`Query(l, r, no)` の半開区間 `[l,r)` を `state` で集計し、`state.output(no)` で回答を保存する。
   `bucket_size` には左端を分けるブロックの幅を指定する。0以下なら $B=\max(1,\lfloor N/\sqrt Q\rfloor)$ に設定する。
+  要素1個の追加・取り消しが $O(F)$、`snapshot`・`output` が $O(1)$、かつ `reset`・`rollback` が $O(1)$ または履歴を1件ずつ取り消す実装なら、時間は $O(Q\log Q+(N^2/B+QB)F)$、`state` を除く補助領域は $O(Q)$。
 
 ## 使い方
 配列・集計値・履歴を持つ構造体を定義し、そのオブジェクトを `state` として渡す。
@@ -50,6 +51,3 @@ rollback_mo_solve(a.size(), queries, state);
 短い区間は空状態から一時追加する。ブロックをまたぐ区間は右側を延ばし、snapshot 後に左側を一時追加する。
 回答後に rollback して、一時追加した要素を取り消す。
 
-要素1個の追加・取り消しが $O(F)$、snapshot・output が $O(1)$ とする。
-reset・rollback が $O(1)$、または履歴を1件ずつ取り消す実装なら、全体の時間は $O(Q\log Q+(N^2/B+QB)F)$。
-補助領域は `state` の領域を除いて $O(Q)$。

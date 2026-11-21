@@ -18,14 +18,14 @@ documentation_of: //graph/shortest_path/generated_shortest_path.cpp
   辺重みが0または1のグラフの最短路を求める。$O(V+E+S)$
 - `bfs_generated(n, src, adj)`
   全辺の重みが1のグラフの最短路を求める。距離の型は `int`。$O(V+E+S)$
-- 戻り値 `ShortestPaths<T>`
+- 返り値 `ShortestPaths<T>`
   `dist` は距離、`parent` は最短路木の親。未到達は `INF<T>`、始点と未到達の親は `-1`
 - `res.path_to(t)`
   いずれかの始点から `t` までの頂点列を返す。始点自身なら1頂点、未到達・範囲外なら空配列。最悪 $O(V)$
 
 ### 終点を指定した版
 
-戻り値は `ShortestPath<T>`
+返り値は `ShortestPath<T>`
 
 `dist` は終点までの距離、`path` はそこまでの頂点列。未到達は `INF<T>` と空配列。始点に終点が含まれれば距離0と終点1個の経路
 

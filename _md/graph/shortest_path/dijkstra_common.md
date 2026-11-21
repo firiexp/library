@@ -9,4 +9,4 @@ documentation_of: //graph/shortest_path/dijkstra_common.cpp
 
 ## 実装上の補足
 優先度付きキューの抽象化 `DijkstraPriorityQueue<T>` と、緩和ループ `dijkstra_relax`・単一始点入口 `dijkstra_internal` を提供する。
-経路復元やキュー実装の差し替えをコールバック `on_relax` とテンプレート引数 `Queue` で共通化している。
+経路復元やキュー実装の差し替えを callback `on_relax` とテンプレート引数 `Queue` で共通化している。

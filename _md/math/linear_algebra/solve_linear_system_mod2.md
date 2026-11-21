@@ -9,7 +9,7 @@ $Ax=b$ の特殊解も1つ求め、基底と合わせてすべての解を表せ
 
 ## できること
 - `optional<LinearSystemSolutionMod2> solve_linear_system_mod2(vector<DynamicBitset> a, DynamicBitset b, int variables = -1, bool build_basis = true)`
-  基底と特殊解を返す。解がなければ `nullopt`。$N$ 行 $M$ 列に対し、時間 $O(NM\lceil M/64\rceil+M^2+N)$、入力コピーと返却値を含む領域 $O((N+M)\lceil M/64\rceil+N+M)$
+  基底と特殊解を返す。解がなければ `nullopt`。$N$ 行 $M$ 列に対し、時間 $O(NM\lceil M/64\rceil+M^2+N)$、入力コピーと返り値を含む領域 $O((N+M)\lceil M/64\rceil+N+M)$
 - `LinearSystemSolutionMod2::rank`
   係数行列の階数
 - `LinearSystemSolutionMod2::particular`

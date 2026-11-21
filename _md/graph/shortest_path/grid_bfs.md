@@ -23,7 +23,7 @@ documentation_of: //graph/shortest_path/grid_bfs.cpp
   単一始点から終点 `(tr, tc)` まで探索し、その距離が確定した時点で止める。$O(hw)$
 - `grid_bfs_to(h, w, src, tr, tc, passable)`
   複数始点から終点まで探索する。壁上の始点は無視する。$O(hw+S)$
-- 終点指定の戻り値 `GridPath`
+- 終点指定の返り値 `GridPath`
   `dist` は終点までの歩数、`path` は座標列。終点が壁・未到達なら `INF<int>` と空配列。通行可能な始点に終点が含まれれば距離0と終点1個の経路
 
 ## 使い方

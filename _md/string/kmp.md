@@ -69,4 +69,4 @@ matcher.scan(b.begin(), b.end(), emit);
 - 空パターンの `kmp_search` は文字間と両端の境界 `0..|text|` をすべて返す。
 - 空パターンの `scan` は初回の位置 `0` と各文字後の境界を1回ずつ `emit` に渡す。空の `chunk` を繰り返しても同じ境界を重複して渡さない。`reset()` 後は位置 `0` から渡し直す。
 - 文字列はバイト列として比較する。`string` / `string_view` は埋め込まれた NUL も扱う。
-- コールバックから同じ matcher の `scan` / `reset` を呼ばない。
+- callback から同じ matcher の `scan` / `reset` を呼ばない。

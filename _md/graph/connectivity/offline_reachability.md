@@ -12,7 +12,7 @@ documentation_of: //graph/connectivity/offline_reachability.cpp
 
 - `vector<char> offline_reachability(n, edges, queries)`
   `queries` の各 `(s, t)` に対し、到達可能なら `1`、不可能なら `0` を入力順に返す。
-  最悪時間は $O((V+E)\lceil V/64\rceil+Q)$、返却値を含む追加領域は $O(V+E+Q)$
+  最悪時間は $O((V+E)\lceil V/64\rceil+Q)$、返り値を含む追加領域は $O(V+E+Q)$
 
 ## 使い方
 頂点番号は `0` 以上 `n` 未満。`edges` と `queries` は `vector<pair<int, int>>` で渡す。
