@@ -42,6 +42,8 @@ $N$ は bitset の長さとする。
   `k` より左で最初に立っている bit の位置を返す。なければ `-1`。$O(\lceil N/64 \rceil)$
 - `bs &= other`, `bs |= other`, `bs ^= other`
   bitset 同士の演算をその場で行う。$O(\lceil N/64 \rceil)$
+- `DynamicBitset &xor_from_word(const DynamicBitset &other, int k)`
+  64 bit を 1 word とし、word 数を $W=\lceil N/64\rceil$ とする。$0\le k\le W$ に対し、区間 $[k,W)$ の各 word を `other` の同じ位置の word と XOR し、自身への参照を返す。時間 $O(1+W-k)$、追加領域 $O(1)$
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
   shift する。$O(\lceil N/64 \rceil)$
 - `DynamicBitset &or_shift_left(int s)`

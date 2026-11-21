@@ -340,20 +340,22 @@ public:
         for (int i = 0; i < m; ++i) p[i] |= q[i];
         return *this;
     }
-    DynamicBitset &operator^=(const DynamicBitset &r) {
+    DynamicBitset &xor_from_word(const DynamicBitset &r, int first_word) {
         Word *p = a.data();
         const Word *q = r.a.data();
         int m = (int)a.size();
+        assert(n == r.n && 0 <= first_word && first_word <= m);
 #if defined(__x86_64__) || defined(_M_X64)
-        if (m >= dynamic_bitset_detail::avx2_threshold_words && dynamic_bitset_detail::has_avx2()) {
-            dynamic_bitset_detail::xor_assign_avx2(p, q, m);
-            normalize();
+        if (m - first_word >= dynamic_bitset_detail::avx2_threshold_words && dynamic_bitset_detail::has_avx2()) {
+            dynamic_bitset_detail::xor_assign_avx2(p + first_word, q + first_word, m - first_word);
             return *this;
         }
 #endif
-        for (int i = 0; i < m; ++i) p[i] ^= q[i];
-        normalize();
+        for (int i = first_word; i < m; ++i) p[i] ^= q[i];
         return *this;
+    }
+    DynamicBitset &operator^=(const DynamicBitset &r) {
+        return xor_from_word(r, 0);
     }
 
     friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset &r) { l &= r; return l; }

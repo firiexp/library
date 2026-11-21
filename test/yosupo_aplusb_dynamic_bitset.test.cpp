@@ -134,6 +134,26 @@ void deterministic_check() {
     }
 }
 
+void xor_from_word_check() {
+    for (int n : {0, 1, 64, 65, 511, 512, 513, 577}) {
+        DynamicBitset left(n), right(n);
+        for (int i = 0; i < n; ++i) {
+            left.assign(i, i % 3 == 0);
+            right.assign(i, i % 5 != 0);
+        }
+        for (int first = 0; first <= (n + 63) / 64; ++first) {
+            for (bool self : {false, true}) {
+                auto actual = left;
+                auto expected = to_vec(left);
+                for (int i = first * 64; i < n; ++i) expected[i] ^= (self ? left : right).test(i);
+                auto &result = actual.xor_from_word(self ? actual : right, first);
+                assert(&result == &actual);
+                verify_state(actual, expected);
+            }
+        }
+    }
+}
+
 void random_check() {
     mt19937 rng(0);
     for (int tc = 0; tc < 400; ++tc) {
@@ -275,6 +295,7 @@ void shift_or_check() {
 
 int main() {
     deterministic_check();
+    xor_from_word_check();
     random_check();
     shift_or_check();
 

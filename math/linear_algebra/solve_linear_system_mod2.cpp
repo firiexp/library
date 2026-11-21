@@ -27,7 +27,7 @@ optional<LinearSystemSolutionMod2> solve_linear_system_mod2(
         b.assign(rank, value);
         for (int i = 0; i < n; ++i) {
             if (i == rank || !a[i].test(col)) continue;
-            a[i] ^= a[rank];
+            a[i].xor_from_word(a[rank], col / 64);
             if (value) b.flip(i);
         }
         where[col] = rank++;

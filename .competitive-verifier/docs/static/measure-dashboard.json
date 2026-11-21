@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-19T00:26:42+09:00",
+  "generatedAt": "2026-11-21T11:05:22+09:00",
   "root": ".",
-  "testCount": 188,
+  "testCount": 189,
   "inventory": {
     "currentTestCount": 241,
-    "measuredTestCount": 185,
-    "unmeasuredCount": 56,
+    "measuredTestCount": 186,
+    "unmeasuredCount": 55,
     "unmeasuredPaths": [
       "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_5_a.test.cpp",
@@ -56,7 +56,6 @@
       "test/yosupo_stirling_number_of_the_second_kind.test.cpp",
       "test/yosupo_suffix_array_query.test.cpp",
       "test/yosupo_system_of_linear_equations_decomposition.test.cpp",
-      "test/yosupo_system_of_linear_equations_mod_2.test.cpp",
       "test/yosupo_unionfind_with_potential_undoable.test.cpp",
       "test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp",
       "test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp",
@@ -67,7 +66,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "8308f200e545b17e83cf02c1f7c4d6ed15c5d6a5",
+    "gitRevision": "83118abafe2085c05d5c1ebf7c0def2d79cb24ab",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -76,9 +75,9 @@
   "summary": {
     "pending": 0,
     "running": 0,
-    "done": 188,
+    "done": 189,
     "error": 0,
-    "ok": 188,
+    "ok": 189,
     "failed": 0
   },
   "tests": [
@@ -32586,6 +32585,236 @@
           "summary": "success"
         },
         "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-0e_3ojub/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_counting_spanning_tree_directed.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_counting_spanning_tree_directed.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok \"3\"\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002392 sec, memory: 4.088000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_01: start\nok \"1\"\nINFO:competitive_verifier.oj.oj_test:168:example_01: \u001b[32mAC\u001b[39m, time: 0.001802 sec, memory: 4.104000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_02: start\nok \"0\"\nINFO:competitive_verifier.oj.oj_test:168:example_02: \u001b[32mAC\u001b[39m, time: 0.001930 sec, memory: 3.900000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_03: start\nok \"8\"\nINFO:competitive_verifier.oj.oj_test:168:example_03: \u001b[32mAC\u001b[39m, time: 0.001737 sec, memory: 4.084000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_00: start\nok \"560588738\"\nINFO:competitive_verifier.oj.oj_test:168:max_00: \u001b[32mAC\u001b[39m, time: 0.045772 sec, memory: 10.392000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_01: start\nok \"203074988\"\nINFO:competitive_verifier.oj.oj_test:168:max_01: \u001b[32mAC\u001b[39m, time: 0.041618 sec, memory: 10.428000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_02: start\nok \"236891059\"\nINFO:competitive_verifier.oj.oj_test:168:max_02: \u001b[32mAC\u001b[39m, time: 0.041853 sec, memory: 10.384000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_00: start\nok \"456870198\"\nINFO:competitive_verifier.oj.oj_test:168:random_00: \u001b[32mAC\u001b[39m, time: 0.011879 sec, memory: 8.472000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_01: start\nok \"575330272\"\nINFO:competitive_verifier.oj.oj_test:168:random_01: \u001b[32mAC\u001b[39m, time: 0.011669 sec, memory: 8.508000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_02: start\nok \"825294431\"\nINFO:competitive_verifier.oj.oj_test:168:random_02: \u001b[32mAC\u001b[39m, time: 0.006818 sec, memory: 7.896000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_03: start\nok \"469948486\"\nINFO:competitive_verifier.oj.oj_test:168:random_03: \u001b[32mAC\u001b[39m, time: 0.004315 sec, memory: 4.300000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_04: start\nok \"251774123\"\nINFO:competitive_verifier.oj.oj_test:168:random_04: \u001b[32mAC\u001b[39m, time: 0.003599 sec, memory: 4.628000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_00: start\nok \"0\"\nINFO:competitive_verifier.oj.oj_test:168:small_00: \u001b[32mAC\u001b[39m, time: 0.001780 sec, memory: 4.084000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_01: start\nok \"1\"\nINFO:competitive_verifier.oj.oj_test:168:small_01: \u001b[32mAC\u001b[39m, time: 0.001800 sec, memory: 3.900000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_02: start\nok \"0\"\nINFO:competitive_verifier.oj.oj_test:168:small_02: \u001b[32mAC\u001b[39m, time: 0.001727 sec, memory: 4.092000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_03: start\nok \"1\"\nINFO:competitive_verifier.oj.oj_test:168:small_03: \u001b[32mAC\u001b[39m, time: 0.001759 sec, memory: 4.084000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_04: start\nok \"0\"\nINFO:competitive_verifier.oj.oj_test:168:small_04: \u001b[32mAC\u001b[39m, time: 0.001829 sec, memory: 3.872000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_05: start\nok \"1\"\nINFO:competitive_verifier.oj.oj_test:168:small_05: \u001b[32mAC\u001b[39m, time: 0.001945 sec, memory: 4.096000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_06: start\nok \"0\"\nINFO:competitive_verifier.oj.oj_test:168:small_06: \u001b[32mAC\u001b[39m, time: 0.001773 sec, memory: 3.888000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_07: start\nok \"0\"\nINFO:competitive_verifier.oj.oj_test:168:small_07: \u001b[32mAC\u001b[39m, time: 0.002056 sec, memory: 3.884000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_08: start\nok \"0\"\nINFO:competitive_verifier.oj.oj_test:168:small_08: \u001b[32mAC\u001b[39m, time: 0.001774 sec, memory: 4.084000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_09: start\nok \"1\"\nINFO:competitive_verifier.oj.oj_test:168:small_09: \u001b[32mAC\u001b[39m, time: 0.001744 sec, memory: 3.900000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.045772 sec  (for max_00)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 10.428000 MB  (for max_01)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 22 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_counting_spanning_tree_directed.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":0.3566564720003953,\"files\":{\"test/yosupo_counting_spanning_tree_directed.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":0.19357070500154805,\"slowest\":0.045771800000693474,\"heaviest\":10.428,\"testcases\":[{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.002391973999692709,\"memory\":4.088},{\"name\":\"example_01\",\"status\":\"AC\",\"elapsed\":0.0018023500006165705,\"memory\":4.104},{\"name\":\"example_02\",\"status\":\"AC\",\"elapsed\":0.0019296700002087164,\"memory\":3.9},{\"name\":\"example_03\",\"status\":\"AC\",\"elapsed\":0.0017370530003972817,\"memory\":4.084},{\"name\":\"max_00\",\"status\":\"AC\",\"elapsed\":0.045771800000693474,\"memory\":10.392},{\"name\":\"max_01\",\"status\":\"AC\",\"elapsed\":0.041617814999881375,\"memory\":10.428},{\"name\":\"max_02\",\"status\":\"AC\",\"elapsed\":0.041852543000459264,\"memory\":10.384},{\"name\":\"random_00\",\"status\":\"AC\",\"elapsed\":0.011879331999807619,\"memory\":8.472},{\"name\":\"random_01\",\"status\":\"AC\",\"elapsed\":0.011668727999676776,\"memory\":8.508},{\"name\":\"random_02\",\"status\":\"AC\",\"elapsed\":0.00681812400034687,\"memory\":7.896},{\"name\":\"random_03\",\"status\":\"AC\",\"elapsed\":0.004314558000260149,\"memory\":4.3},{\"name\":\"random_04\",\"status\":\"AC\",\"elapsed\":0.003599427999688487,\"memory\":4.628},{\"name\":\"small_00\",\"status\":\"AC\",\"elapsed\":0.0017802829997890512,\"memory\":4.084},{\"name\":\"small_01\",\"status\":\"AC\",\"elapsed\":0.0017999239998971461,\"memory\":3.9},{\"name\":\"small_02\",\"status\":\"AC\",\"elapsed\":0.0017274310002903803,\"memory\":4.092},{\"name\":\"small_03\",\"status\":\"AC\",\"elapsed\":0.0017592670001249644,\"memory\":4.084},{\"name\":\"small_04\",\"status\":\"AC\",\"elapsed\":0.001829100000577455,\"memory\":3.872},{\"name\":\"small_05\",\"status\":\"AC\",\"elapsed\":0.0019451940006547375,\"memory\":4.096},{\"name\":\"small_06\",\"status\":\"AC\",\"elapsed\":0.0017726010000842507,\"memory\":3.888},{\"name\":\"small_07\",\"status\":\"AC\",\"elapsed\":0.002056162999906519,\"memory\":3.884},{\"name\":\"small_08\",\"status\":\"AC\",\"elapsed\":0.0017736189993229345,\"memory\":4.084},{\"name\":\"small_09\",\"status\":\"AC\",\"elapsed\":0.001743747999171319,\"memory\":3.9}],\"last_execution_time\":\"2026-11-08T02:37:46.934731Z\"}],\"content_hash\":\"dcb5e0b2cb28a040690d34a372f3a2c9346873f6c99f5487c61c1d4b0c9e9015\",\"testdata_hash\":\"7ed222066b181eee1752fce16338fbaf4d37c9554b559b8e0fa16f663c36e439\",\"newest\":true}}}\n"
+      }
+    },
+    {
+      "path": "test/yosupo_system_of_linear_equations_mod_2.test.cpp",
+      "phase": "done",
+      "problem": "https://judge.yosupo.jp/problem/system_of_linear_equations_mod_2",
+      "compiler": {
+        "command": [
+          "g++",
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-g",
+          "-DLOCAL",
+          "-UNDEBUG",
+          "-ULOCAL",
+          "-DNDEBUG",
+          "-I",
+          ".",
+          "-o",
+          ".competitive-verifier/build/5448be16baa6c3cfb9d3/a.out",
+          "test/yosupo_system_of_linear_equations_mod_2.test.cpp"
+        ],
+        "wallSec": 1.6811186049999378
+      },
+      "testcases": {
+        "directory": null,
+        "cachedCaseCount": 36
+      },
+      "run": {
+        "command": [
+          ".competitive-verifier/build/5448be16baa6c3cfb9d3/a.out"
+        ],
+        "returnCode": 0,
+        "wallSec": 21.874354708999817,
+        "ok": true,
+        "parsed": {
+          "cases": [
+            {
+              "name": "example_00",
+              "status": "AC",
+              "timeSec": 0.005171034000341024
+            },
+            {
+              "name": "example_01",
+              "status": "AC",
+              "timeSec": 0.0050316699998802505
+            },
+            {
+              "name": "example_02",
+              "status": "AC",
+              "timeSec": 0.004867546000241418
+            },
+            {
+              "name": "max_lowrank_00",
+              "status": "AC",
+              "timeSec": 0.06750847000012072
+            },
+            {
+              "name": "max_lowrank_01",
+              "status": "AC",
+              "timeSec": 0.11230735300023298
+            },
+            {
+              "name": "max_lowrank_02",
+              "status": "AC",
+              "timeSec": 0.26170731999991403
+            },
+            {
+              "name": "max_lowrank_03",
+              "status": "AC",
+              "timeSec": 0.10382785499996317
+            },
+            {
+              "name": "max_lowrank_04",
+              "status": "AC",
+              "timeSec": 0.17452046200014593
+            },
+            {
+              "name": "max_lowrank_05",
+              "status": "AC",
+              "timeSec": 0.029881030000069586
+            },
+            {
+              "name": "max_lowrank_06",
+              "status": "AC",
+              "timeSec": 0.10038041600000724
+            },
+            {
+              "name": "max_lowrank_07",
+              "status": "AC",
+              "timeSec": 0.07248279100031141
+            },
+            {
+              "name": "max_lowrank_08",
+              "status": "AC",
+              "timeSec": 0.13228532900029677
+            },
+            {
+              "name": "max_lowrank_09",
+              "status": "AC",
+              "timeSec": 0.17177086799983954
+            },
+            {
+              "name": "max_random_00",
+              "status": "AC",
+              "timeSec": 0.250877137000316
+            },
+            {
+              "name": "max_random_01",
+              "status": "AC",
+              "timeSec": 0.2924674710002364
+            },
+            {
+              "name": "max_random_02",
+              "status": "AC",
+              "timeSec": 0.21438854999996693
+            },
+            {
+              "name": "max_random_03",
+              "status": "AC",
+              "timeSec": 0.17604196599995703
+            },
+            {
+              "name": "max_random_04",
+              "status": "AC",
+              "timeSec": 0.18379998999989766
+            },
+            {
+              "name": "max_small_00",
+              "status": "AC",
+              "timeSec": 0.0038385709999602113
+            },
+            {
+              "name": "max_small_01",
+              "status": "AC",
+              "timeSec": 0.004209613999591966
+            },
+            {
+              "name": "random_00",
+              "status": "AC",
+              "timeSec": 0.010551231000135886
+            },
+            {
+              "name": "random_01",
+              "status": "AC",
+              "timeSec": 0.027867215999776818
+            },
+            {
+              "name": "random_02",
+              "status": "AC",
+              "timeSec": 0.009634782999910385
+            },
+            {
+              "name": "random_03",
+              "status": "AC",
+              "timeSec": 0.043159548999938124
+            },
+            {
+              "name": "random_04",
+              "status": "AC",
+              "timeSec": 0.02249229800008834
+            },
+            {
+              "name": "small_max_00",
+              "status": "AC",
+              "timeSec": 0.044730103999881976
+            },
+            {
+              "name": "small_max_01",
+              "status": "AC",
+              "timeSec": 0.006375343999934557
+            },
+            {
+              "name": "small_random_00",
+              "status": "AC",
+              "timeSec": 0.004726649000076577
+            },
+            {
+              "name": "small_random_01",
+              "status": "AC",
+              "timeSec": 0.004867834999913612
+            },
+            {
+              "name": "small_random_02",
+              "status": "AC",
+              "timeSec": 0.004688216999966244
+            },
+            {
+              "name": "small_random_03",
+              "status": "AC",
+              "timeSec": 0.005644059000132984
+            },
+            {
+              "name": "small_random_04",
+              "status": "AC",
+              "timeSec": 0.004749311000068701
+            },
+            {
+              "name": "smallest_00",
+              "status": "AC",
+              "timeSec": 0.0045372079998742265
+            },
+            {
+              "name": "smallest_01",
+              "status": "AC",
+              "timeSec": 0.004635917999621597
+            },
+            {
+              "name": "smallest_02",
+              "status": "AC",
+              "timeSec": 0.00479872300002171
+            },
+            {
+              "name": "smallest_03",
+              "status": "AC",
+              "timeSec": 0.0051559409998844785
+            }
+          ],
+          "caseCount": 36,
+          "timedCaseCount": 36,
+          "passedCaseCount": 36,
+          "slowestSec": 0.2924674710002364,
+          "slowestCase": "max_random_01",
+          "averageSec": 0.07155499525001435,
+          "maxMemoryMb": 8.104,
+          "maxMemoryCase": "max_lowrank_00",
+          "summary": "success"
+        },
+        "output": "In file included from test/yosupo_system_of_linear_equations_mod_2.test.cpp:6:\ntest/../math/linear_algebra/solve_linear_system_mod2.cpp: In function ‘std::optional<LinearSystemSolutionMod2> solve_linear_system_mod2(std::vector<DynamicBitset>, DynamicBitset, int, bool)’:\ntest/../math/linear_algebra/solve_linear_system_mod2.cpp:17:22: warning: unused variable ‘row’ [-Wunused-variable]\n   17 |     for (const auto& row : a) assert(row.size() == m);\n      |                      ^~~\nINFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-0pg9q57p/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_system_of_linear_equations_mod_2.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_system_of_linear_equations_mod_2.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.005171 sec, memory: 4.080000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_01: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:example_01: \u001b[32mAC\u001b[39m, time: 0.005032 sec, memory: 4.092000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_02: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:example_02: \u001b[32mAC\u001b[39m, time: 0.004868 sec, memory: 3.880000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_00: \u001b[32mAC\u001b[39m, time: 0.067508 sec, memory: 8.104000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_01: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_01: \u001b[32mAC\u001b[39m, time: 0.112307 sec, memory: 6.396000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_02: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_02: \u001b[32mAC\u001b[39m, time: 0.261707 sec, memory: 8.100000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_03: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_03: \u001b[32mAC\u001b[39m, time: 0.103828 sec, memory: 6.204000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_04: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_04: \u001b[32mAC\u001b[39m, time: 0.174520 sec, memory: 6.184000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_05: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_05: \u001b[32mAC\u001b[39m, time: 0.029881 sec, memory: 6.408000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_06: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_06: \u001b[32mAC\u001b[39m, time: 0.100380 sec, memory: 7.984000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_07: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_07: \u001b[32mAC\u001b[39m, time: 0.072483 sec, memory: 6.384000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_08: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_08: \u001b[32mAC\u001b[39m, time: 0.132285 sec, memory: 7.600000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_lowrank_09: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_lowrank_09: \u001b[32mAC\u001b[39m, time: 0.171771 sec, memory: 6.204000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_00: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_random_00: \u001b[32mAC\u001b[39m, time: 0.250877 sec, memory: 6.184000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_01: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_random_01: \u001b[32mAC\u001b[39m, time: 0.292467 sec, memory: 6.212000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_02: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_random_02: \u001b[32mAC\u001b[39m, time: 0.214389 sec, memory: 6.212000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_03: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_random_03: \u001b[32mAC\u001b[39m, time: 0.176042 sec, memory: 6.248000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_04: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_random_04: \u001b[32mAC\u001b[39m, time: 0.183800 sec, memory: 6.232000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_small_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_small_00: \u001b[32mAC\u001b[39m, time: 0.003839 sec, memory: 4.100000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_small_01: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:max_small_01: \u001b[32mAC\u001b[39m, time: 0.004210 sec, memory: 4.284000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_00: \u001b[32mAC\u001b[39m, time: 0.010551 sec, memory: 4.348000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_01: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_01: \u001b[32mAC\u001b[39m, time: 0.027867 sec, memory: 5.220000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_02: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_02: \u001b[32mAC\u001b[39m, time: 0.009635 sec, memory: 4.516000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_03: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:random_03: \u001b[32mAC\u001b[39m, time: 0.043160 sec, memory: 4.872000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_04: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:random_04: \u001b[32mAC\u001b[39m, time: 0.022492 sec, memory: 4.460000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_max_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_max_00: \u001b[32mAC\u001b[39m, time: 0.044730 sec, memory: 5.992000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_max_01: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:small_max_01: \u001b[32mAC\u001b[39m, time: 0.006375 sec, memory: 3.908000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_00: \u001b[32mAC\u001b[39m, time: 0.004727 sec, memory: 4.080000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_01: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_01: \u001b[32mAC\u001b[39m, time: 0.004868 sec, memory: 4.092000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_02: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:small_random_02: \u001b[32mAC\u001b[39m, time: 0.004688 sec, memory: 3.896000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_03: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_03: \u001b[32mAC\u001b[39m, time: 0.005644 sec, memory: 4.112000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_04: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_04: \u001b[32mAC\u001b[39m, time: 0.004749 sec, memory: 4.100000 MB\nINFO:competitive_verifier.oj.oj_test:315:smallest_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:smallest_00: \u001b[32mAC\u001b[39m, time: 0.004537 sec, memory: 4.080000 MB\nINFO:competitive_verifier.oj.oj_test:315:smallest_01: start\nok OK No solution\nINFO:competitive_verifier.oj.oj_test:168:smallest_01: \u001b[32mAC\u001b[39m, time: 0.004636 sec, memory: 4.012000 MB\nINFO:competitive_verifier.oj.oj_test:315:smallest_02: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:smallest_02: \u001b[32mAC\u001b[39m, time: 0.004799 sec, memory: 4.112000 MB\nINFO:competitive_verifier.oj.oj_test:315:smallest_03: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:smallest_03: \u001b[32mAC\u001b[39m, time: 0.005156 sec, memory: 4.092000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.292467 sec  (for max_random_01)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 8.104000 MB  (for max_lowrank_00)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 36 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_system_of_linear_equations_mod_2.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":21.2842783279998,\"files\":{\"test/yosupo_system_of_linear_equations_mod_2.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":2.5759798290005165,\"slowest\":0.2924674710002364,\"heaviest\":8.104,\"testcases\":[{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.005171034000341024,\"memory\":4.08},{\"name\":\"example_01\",\"status\":\"AC\",\"elapsed\":0.0050316699998802505,\"memory\":4.092},{\"name\":\"example_02\",\"status\":\"AC\",\"elapsed\":0.004867546000241418,\"memory\":3.88},{\"name\":\"max_lowrank_00\",\"status\":\"AC\",\"elapsed\":0.06750847000012072,\"memory\":8.104},{\"name\":\"max_lowrank_01\",\"status\":\"AC\",\"elapsed\":0.11230735300023298,\"memory\":6.396},{\"name\":\"max_lowrank_02\",\"status\":\"AC\",\"elapsed\":0.26170731999991403,\"memory\":8.1},{\"name\":\"max_lowrank_03\",\"status\":\"AC\",\"elapsed\":0.10382785499996317,\"memory\":6.204},{\"name\":\"max_lowrank_04\",\"status\":\"AC\",\"elapsed\":0.17452046200014593,\"memory\":6.184},{\"name\":\"max_lowrank_05\",\"status\":\"AC\",\"elapsed\":0.029881030000069586,\"memory\":6.408},{\"name\":\"max_lowrank_06\",\"status\":\"AC\",\"elapsed\":0.10038041600000724,\"memory\":7.984},{\"name\":\"max_lowrank_07\",\"status\":\"AC\",\"elapsed\":0.07248279100031141,\"memory\":6.384},{\"name\":\"max_lowrank_08\",\"status\":\"AC\",\"elapsed\":0.13228532900029677,\"memory\":7.6},{\"name\":\"max_lowrank_09\",\"status\":\"AC\",\"elapsed\":0.17177086799983954,\"memory\":6.204},{\"name\":\"max_random_00\",\"status\":\"AC\",\"elapsed\":0.250877137000316,\"memory\":6.184},{\"name\":\"max_random_01\",\"status\":\"AC\",\"elapsed\":0.2924674710002364,\"memory\":6.212},{\"name\":\"max_random_02\",\"status\":\"AC\",\"elapsed\":0.21438854999996693,\"memory\":6.212},{\"name\":\"max_random_03\",\"status\":\"AC\",\"elapsed\":0.17604196599995703,\"memory\":6.248},{\"name\":\"max_random_04\",\"status\":\"AC\",\"elapsed\":0.18379998999989766,\"memory\":6.232},{\"name\":\"max_small_00\",\"status\":\"AC\",\"elapsed\":0.0038385709999602113,\"memory\":4.1},{\"name\":\"max_small_01\",\"status\":\"AC\",\"elapsed\":0.004209613999591966,\"memory\":4.284},{\"name\":\"random_00\",\"status\":\"AC\",\"elapsed\":0.010551231000135886,\"memory\":4.348},{\"name\":\"random_01\",\"status\":\"AC\",\"elapsed\":0.027867215999776818,\"memory\":5.22},{\"name\":\"random_02\",\"status\":\"AC\",\"elapsed\":0.009634782999910385,\"memory\":4.516},{\"name\":\"random_03\",\"status\":\"AC\",\"elapsed\":0.043159548999938124,\"memory\":4.872},{\"name\":\"random_04\",\"status\":\"AC\",\"elapsed\":0.02249229800008834,\"memory\":4.46},{\"name\":\"small_max_00\",\"status\":\"AC\",\"elapsed\":0.044730103999881976,\"memory\":5.992},{\"name\":\"small_max_01\",\"status\":\"AC\",\"elapsed\":0.006375343999934557,\"memory\":3.908},{\"name\":\"small_random_00\",\"status\":\"AC\",\"elapsed\":0.004726649000076577,\"memory\":4.08},{\"name\":\"small_random_01\",\"status\":\"AC\",\"elapsed\":0.004867834999913612,\"memory\":4.092},{\"name\":\"small_random_02\",\"status\":\"AC\",\"elapsed\":0.004688216999966244,\"memory\":3.896},{\"name\":\"small_random_03\",\"status\":\"AC\",\"elapsed\":0.005644059000132984,\"memory\":4.112},{\"name\":\"small_random_04\",\"status\":\"AC\",\"elapsed\":0.004749311000068701,\"memory\":4.1},{\"name\":\"smallest_00\",\"status\":\"AC\",\"elapsed\":0.0045372079998742265,\"memory\":4.08},{\"name\":\"smallest_01\",\"status\":\"AC\",\"elapsed\":0.004635917999621597,\"memory\":4.012},{\"name\":\"smallest_02\",\"status\":\"AC\",\"elapsed\":0.00479872300002171,\"memory\":4.112},{\"name\":\"smallest_03\",\"status\":\"AC\",\"elapsed\":0.0051559409998844785,\"memory\":4.092}],\"last_execution_time\":\"2026-11-21T02:05:22.579422Z\"}],\"content_hash\":\"982f555c456ba797dbc69cd006e30db37e2fa8161bd80e1a855d450f62cadcbc\",\"testdata_hash\":\"2d5a285f55e7a92eed645a06a1fb6f97b4716ffc5e56a3130cf1cf39a7cc993b\",\"newest\":true}}}\n"
       }
     }
   ]

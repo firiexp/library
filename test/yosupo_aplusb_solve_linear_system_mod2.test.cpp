@@ -142,4 +142,18 @@ int main() {
     check(a, b, 129);
     auto moved = solve_linear_system_mod2(std::move(a), std::move(b));
     assert(!moved);
+
+    const vector<int> pivots = {63, 64, 65, 127, 128, 129, 511, 512, 513};
+    int count = (int)pivots.size();
+    vector<DynamicBitset> rows(count + 1, DynamicBitset(577));
+    DynamicBitset rhs(count + 1);
+    for (int i = 0; i < count; ++i) {
+        for (int j = i; j < count; ++j) rows[i].set(pivots[j]);
+        rows[i].set(576);
+        rhs.assign(i, i % 2);
+    }
+    rows.back() = rows.front();
+    check(rows, rhs, 577);
+    rhs.flip(count);
+    check(rows, rhs, 577);
 }

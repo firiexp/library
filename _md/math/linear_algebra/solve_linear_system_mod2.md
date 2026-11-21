@@ -6,7 +6,6 @@ documentation_of: //math/linear_algebra/solve_linear_system_mod2.cpp
 ## 説明
 mod 2 の連立一次方程式について、同次方程式 $Av=0$ の解空間の基底を求める。
 $Ax=b$ の特殊解も1つ求め、基底と合わせてすべての解を表せる。
-係数行を `DynamicBitset` で持ち、64 bit ごとの XOR で消去する。
 
 ## できること
 - `optional<LinearSystemSolutionMod2> solve_linear_system_mod2(vector<DynamicBitset> a, DynamicBitset b, int variables = -1, bool build_basis = true)`
@@ -38,3 +37,7 @@ auto solution = solve_linear_system_mod2(a, b);
 この例は $x_0+x_1=1\pmod 2$ を解く。
 入力を保持する場合はそのまま渡し、不要な行列と右辺は `std::move` で渡せる。
 行数が $0$ の場合、変数数は `variables` で指定する。省略時は $0$ とする。行数が正で第3引数を指定する場合は、列数と一致させる。
+
+## 実装上の補足
+
+係数行は `DynamicBitset` で表す。ピボット行ではピボット列より左の係数がすべて 0 なので、行の消去ではピボット列を含む 64 bit の word から末尾までを XOR する。
