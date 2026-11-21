@@ -25,6 +25,10 @@ void check_product(const poly &f, const poly &g) {
     right *= f;
     assert(left.v == expected && right.v == expected);
     assert((f * g).v == expected && (g * f).v == expected);
+    if (0 < f.size() && f.size() <= g.size()) {
+        vector<mint> middle(expected.begin() + f.size() - 1, expected.begin() + g.size());
+        assert(middle_product(f, g).v == middle);
+    }
     assert(f.v == original_f && g.v == original_g);
 }
 
@@ -59,6 +63,9 @@ void self_check() {
         check_product(original, poly(vector<mint>{1}));
         check_product(original, poly(vector<mint>{ntt_mod - 1}));
         check_product(original, poly(17));
+    }
+    for (int n : {33, 65, 129}) {
+        for (int m : {255, 256, 257}) check_product(make_poly(n), make_poly(m));
     }
 }
 

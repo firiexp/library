@@ -38,7 +38,7 @@ vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
     };
     ensure_fact(k);
 
-    vector<mint> a(n), b(n + m - 1);
+    poly a(n), b(n + m - 1);
     for (int i = 0; i < n; ++i) {
         a[i] = ys[i] * ifact[i] * ifact[k - i];
         if ((k - i) & 1) a[i] = -a[i];
@@ -49,22 +49,19 @@ vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
         b[i] = b[i - 1] * (start + mint(i));
     }
     mint coef = b[k];
-    mint inv_all = b.back().inv();
+    mint inv_all = b[n + m - 2].inv();
     for (int i = n + m - 2; i >= 1; --i) {
         b[i] = b[i - 1] * inv_all;
         inv_all *= start + mint(i);
     }
     b[0] = inv_all;
-    poly pa(a), pb(b);
-    vector<mint> conv = (pa * pb).v;
-
-    vector<mint> res(m);
+    poly values = middle_product(std::move(a), b);
     for (int i = 0; i < m; ++i) {
-        res[i] = conv[k + i] * coef;
+        values[i] *= coef;
         coef *= c + mint(i + 1);
         coef *= b[i];
     }
-    return res;
+    return std::move(values.v);
 }
 
 /**

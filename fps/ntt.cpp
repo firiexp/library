@@ -261,8 +261,7 @@ struct poly {
             for (auto &x : v) x *= scalar;
             return *this;
         }
-        if (min(n, m) <= NTT_NAIVE_MUL_SHORT_DIM ||
-            (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM)) {
+        if (use_naive_mul(n, m)) {
             vector<mint> res(n + m - 1);
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < m; ++j) {
@@ -272,9 +271,39 @@ struct poly {
             v = std::move(res);
             return *this;
         }
-        int N = n + m - 1;
+        int length = n + m - 1;
+        multiply_ntt_unscaled(a, length);
+        mint iz = ntt_inv_size(size());
+        v.resize(length);
+        for (auto& x : v) x *= iz;
+        return *this;
+    }
+
+    friend poly middle_product(poly left, const poly& right) {
+        int first = left.size() - 1, end = right.size();
+        assert(0 <= first && first < end);
+        if (first == 0 || use_naive_mul(left.size(), end)) {
+            left *= right;
+            left.v.resize(end);
+            left.v.erase(left.v.begin(), left.v.begin() + first);
+            return left;
+        }
+        left.multiply_ntt_unscaled(right, end);
+        mint iz = ntt_inv_size(left.size());
+        poly result(end - first);
+        for (int i = first; i < end; ++i) result[i - first] = left[i] * iz;
+        return result;
+    }
+
+private:
+    static bool use_naive_mul(int n, int m) {
+        return min(n, m) <= NTT_NAIVE_MUL_SHORT_DIM ||
+               (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM);
+    }
+
+    void multiply_ntt_unscaled(const poly& a, int length) {
         int sz = 1;
-        while(sz < N) sz <<= 1;
+        while (sz < length) sz <<= 1;
         this->v.resize(sz);
         ntt.transform(this->v, 0);
         if (this == &a) {
@@ -287,11 +316,9 @@ struct poly {
             for(int i = 0; i < sz; ++i) this->v[i] *= b[i];
         }
         ntt.transform(this->v, 1);
-        this->v.resize(N);
-        mint iz = ntt_inv_size(sz);
-        for (int i = 0; i < N; i++) this->v[i] *= iz;
-        return *this;
     }
+
+public:
     poly& operator/=(const poly &a){ return (*this *= a.inv()); }
     poly operator+(const poly &a) const {
         poly ret(*this);

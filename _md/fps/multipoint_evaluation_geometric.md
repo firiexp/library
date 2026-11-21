@@ -26,4 +26,4 @@ auto values = multipoint_evaluation_geometric(f, mint(2), mint(3), 3);
 ## 実装上の補足
 $ij=\binom{i+j}{2}-\binom{i}{2}-\binom{j}{2}$ を用いて係数を重み付けする。
 三角数乗は乗算で順に生成し、小さい片側には Horner 法を使う。
-畳み込み経路では $2N+M-2$ 以上の最小の2冪が NTT の上限 $2^{23}$ 以下であることを前提とする。
+NTT を使う場合は $N+M-1\le 2^{23}$ が必要。中間積で $N-1$ 次から $N+M-2$ 次までの係数を求める。

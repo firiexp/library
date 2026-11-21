@@ -6,22 +6,16 @@
 vector<mint> multipoint_evaluation_geometric(const poly& f, mint a, mint r, int m) {
     assert(m >= 0);
     int n = f.size();
-    vector<mint> result(m);
-    if (m == 0 || n == 0) return result;
-    if (a == mint(0)) {
-        fill(result.begin(), result.end(), f[0]);
-        return result;
-    }
+    if (m == 0 || n == 0) return vector<mint>(m);
+    if (a == mint(0)) return vector<mint>(m, f[0]);
     if (r == mint(0)) {
-        fill(result.begin(), result.end(), f[0]);
+        vector<mint> result(m, f[0]);
         result[0] = f.eval(a);
         return result;
     }
-    if (r == mint(1)) {
-        fill(result.begin(), result.end(), f.eval(a));
-        return result;
-    }
+    if (r == mint(1)) return vector<mint>(m, f.eval(a));
     if (min(n, m) <= 32) {
+        vector<mint> result(m);
         for (int i = 0; i < m; ++i) {
             result[i] = f.eval(a);
             a *= r;
@@ -47,9 +41,9 @@ vector<mint> multipoint_evaluation_geometric(const poly& f, mint a, mint r, int 
         value *= power;
         power *= r;
     }
-    left *= right;
-    for (int i = 0; i < m; ++i) result[i] = left[n - 1 + i] * inverse_chirp[i];
-    return result;
+    poly values = middle_product(std::move(left), right);
+    for (int i = 0; i < m; ++i) values[i] *= inverse_chirp[i];
+    return std::move(values.v);
 }
 
 #endif
