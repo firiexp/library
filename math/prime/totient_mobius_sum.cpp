@@ -28,7 +28,7 @@ public:
             long long x = n / i;
             __int128 phi = (__int128)x * (x + 1) / 2, mobius = 1;
             for_each_quotient(x, [&](long long l, long long r, long long q) {
-                auto [phi_q, mobius_q] = get(q);
+                auto [phi_q, mobius_q] = get_big(q);
                 __int128 length = r - l + 1;
                 phi -= length * phi_q;
                 mobius -= length * mobius_q;
@@ -37,7 +37,13 @@ public:
         }
     }
 
-    pair<__int128, long long> get(long long x) const {
+    pair<long long, long long> get(long long x) const {
+        auto [phi, mobius] = get_big(x);
+        assert(phi <= LLONG_MAX);
+        return {static_cast<long long>(phi), mobius};
+    }
+
+    pair<__int128, long long> get_big(long long x) const {
         assert(0 <= x && x <= n);
         if (x < (long long)prefix_phi.size()) return {prefix_phi[x], prefix_mobius[x]};
         long long i = n / x;

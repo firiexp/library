@@ -11,5 +11,5 @@ int main() {
     long long n;
     sc.read(n);
     TotientMobiusSum sums(n, min(n, 1000000LL));
-    pr.println((int)(sums.get(n).first % 998244353));
+    pr.println((int)(sums.get_big(n).first % 998244353));
 }

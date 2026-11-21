@@ -22,6 +22,8 @@ int main() {
             auto check = [&](int x) {
                 auto [phi_x, mobius_x] = sums.get(x);
                 assert(phi_x == phi[x] && mobius_x == mobius[x]);
+                auto [big_phi_x, big_mobius_x] = sums.get_big(x);
+                assert(big_phi_x == phi[x] && big_mobius_x == mobius[x]);
             };
             for (int x = 0; x <= b; ++x) check(x);
             for (int i = 1; i <= n / (b + 1); ++i) check(n / i);
@@ -29,8 +31,13 @@ int main() {
     }
 
     const long long n = 10000000000LL;
-    TotientMobiusSum sums(n, 1000000);
-    auto [phi_n, mobius_n] = sums.get(n);
+    TotientMobiusSum sums(2 * n, 1000000);
+    static_assert(is_same_v<decltype(sums.get(n)), pair<long long, long long>>);
+    static_assert(is_same_v<decltype(sums.get_big(n)), pair<__int128, long long>>);
+    auto [phi_n, mobius_n] = sums.get_big(n);
     assert(phi_n == (__int128)3039635509 * n + 2886216366LL);
     assert(mobius_n == -33722);
+    auto [phi_half, mobius_half] = sums.get(n / 2);
+    auto [big_phi_half, big_mobius_half] = sums.get_big(n / 2);
+    assert(big_phi_half > INT_MAX && phi_half == big_phi_half && mobius_half == big_mobius_half);
 }
