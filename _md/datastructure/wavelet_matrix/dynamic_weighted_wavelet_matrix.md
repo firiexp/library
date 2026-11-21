@@ -70,7 +70,7 @@ $N$ は配列長、$M$ は初期値を含む候補の登録数、$\sigma$ は候
 - `sum_equal(l, r, x)`
   区間 $[l, r)$ にある値 `x` の重み和を返す。$O(\log \sigma + \log M)$
 
-次の3つのクエリでは位置区間の端点に $0\leq l,r\leq N$ を指定する。$l\geq r$ または $lower\geq upper$ なら要素数と重み和はともに0となる。
+次の3つのクエリは、`l >= r` または `lower >= upper` のとき要素数・重み和ともに `0` を返す。
 
 - `range_count_sum(l, r, lower, upper)`
   位置が区間 $[l, r)$ にあり、値が $lower \leq a_i < upper$ を満たす要素数と重み和を返す。$O(\log \sigma \log M)$
