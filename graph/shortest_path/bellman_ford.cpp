@@ -1,7 +1,7 @@
 #include "../edge.cpp"
 
 template <typename T>
-vector<T> bellman_ford(int s, int V,vector<edge<T> > &G){
+vector<T> bellman_ford(int s, int V, const vector<edge<T>> &G) {
     const T INF = numeric_limits<T>::max();
     vector<T> d(V, INF);
     d[s] = 0;

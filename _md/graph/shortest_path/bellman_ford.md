@@ -10,7 +10,7 @@ Bellman-Ford 法で単一始点最短路や、始点から到達可能な負閉�
 ## できること
 頂点数を $V$、辺数を $E$ とする。
 
-- `vector<T> bellman_ford(int s, int n, vector<edge<T>> &es)`
+- `vector<T> bellman_ford(int s, int n, const vector<edge<T>> &es)`
   始点 `s` から各頂点への最短距離を返す。始点から到達可能な負閉路があるときは空配列。$O(VE)$。
 - `vector<int> bellman_ford_negative_cycle(int s, int n, const vector<edge<T>> &es)`
   始点から到達可能な負閉路を1つ、辺の向きに沿った入力辺ID列で返す。辺IDは `es` の添字で、平行辺も区別する。負閉路がなければ空配列。時間 $O(VE+V)$、追加領域 $O(V)$。

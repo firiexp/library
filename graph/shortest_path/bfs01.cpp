@@ -1,7 +1,7 @@
 #include "../edge.cpp"
 
 template <typename T>
-vector<T> bfs01(int s, vector<vector<edge<T>>> &G) {
+vector<T> bfs01(int s, const vector<vector<edge<T>>> &G) {
     int n = G.size();
     vector<T> d(n, INF<T>);
     vector<char> settled(n);
