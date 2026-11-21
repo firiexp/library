@@ -16,7 +16,6 @@ documentation_of: //math/modular/tetration.cpp
   内部用。指数の縮約で法をまたいだかを `yojo` に反映しつつ、必要なら `M` を足した値を返す。$O(\sqrt{M})$
 
 ## 使い方
-`tetration.cpp` は `eulerphi.cpp` を読み込む。標準ライブラリを個別に読み込む場合は、先に `<vector>` と `using std::vector;` を追加する。
 `tetration(a, n, M)` を呼ぶだけでよい。
 `a ↑↑ 0 = 1` として扱う。
 
