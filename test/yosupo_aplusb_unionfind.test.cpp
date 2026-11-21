@@ -8,7 +8,9 @@ using namespace std;
 int main() {
     UnionFind empty(0);
     assert(empty.size() == 0);
+    assert(empty.groups().empty());
     UnionFind fixed(6);
+    assert((fixed.groups() == vector<vector<int>>{{0}, {1}, {2}, {3}, {4}, {5}}));
     auto check_merge = [&](int a, int b, int keep, int absorbed, int size, int components) {
         auto result = fixed.unite(a, b);
         assert(result.keep == keep && result.absorbed == absorbed);
@@ -20,10 +22,16 @@ int main() {
     check_merge(0, 1, 0, 1, 2, 5);
     check_merge(2, 3, 2, 3, 2, 4);
     check_merge(4, 2, 2, 4, 3, 3);
+    assert((fixed.groups() == vector<vector<int>>{{0, 1}, {2, 3, 4}, {5}}));
     check_merge(0, 4, 2, 0, 5, 2);
     check_merge(1, 3, 2, -1, 5, 2);
     check_merge(5, 0, 2, 5, 6, 1);
     check_merge(0, 5, 2, -1, 6, 1);
+    assert((fixed.groups() == vector<vector<int>>{{0, 1, 2, 3, 4, 5}}));
+
+    UnionFind reordered(3);
+    reordered.unite(2, 0);
+    assert((reordered.groups() == vector<vector<int>>{{1}, {0, 2}}));
 
     mt19937 rng(414);
     for (int tc = 0; tc < 250; ++tc) {
@@ -49,6 +57,15 @@ int main() {
             for (int& value : label) if (value == old_label) value = new_label;
             set<int> components(label.begin(), label.end());
             assert(uf.size() == (int)components.size());
+            vector<vector<int>> expected_groups;
+            for (int component : components) {
+                auto &members = expected_groups.emplace_back();
+                for (int v = 0; v < n; ++v) if (label[v] == component) members.push_back(v);
+            }
+            auto groups = uf.groups();
+            sort(groups.begin(), groups.end());
+            sort(expected_groups.begin(), expected_groups.end());
+            assert(groups == expected_groups);
             for (int v = 0; v < n; ++v) {
                 long long expected = 0;
                 int size = 0;
