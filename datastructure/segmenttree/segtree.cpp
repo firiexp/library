@@ -7,6 +7,10 @@ struct SegmentTree{
         sz = 1; while(sz < n) sz <<= 1, height++;
         seg.assign(2*sz, M::e());
     }
+    explicit SegmentTree(const vector<T> &values) : SegmentTree(values.size()) {
+        for (int i = 0; i < n; ++i) set(i, values[i]);
+        build();
+    }
 
     void set(int k, const T &x){ seg[k + sz] = x; }
 
@@ -20,7 +24,9 @@ struct SegmentTree{
         while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);
     }
 
-    T query(int a, int b){
+    T all_query() const { return seg[1]; }
+
+    T query(int a, int b) const {
         T l = M::e(), r = M::e();
         for(a += sz, b += sz; a < b; a >>=1, b>>=1){
             if(a & 1) l = M::f(l, seg[a++]);
@@ -30,7 +36,7 @@ struct SegmentTree{
     }
 
     template<class F>
-    int search_right(int l, F cond){
+    int search_right(int l, F cond) const {
         if(l == n) return n;
         T val = M::e();
         l += sz;
@@ -55,7 +61,7 @@ struct SegmentTree{
     }
 
     template<class F>
-    int search_left(int r, F cond){
+    int search_left(int r, F cond) const {
         if(r == 0) return 0;
         T val = M::e();
         r += sz;

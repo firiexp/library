@@ -38,11 +38,9 @@ int main() {
 
     int n, q;
     in.read(n, q);
-    vector<int> v(n);
-    for (auto &&i : v) in.read(i);
-    LazySegmentTree<Monoid> seg(n);
-    for (int i = 0; i < n; ++i) seg.set(i, {v[i], 1});
-    seg.build();
+    vector<Monoid::T> values(n, {0, 1});
+    for (auto &value : values) in.read(value[0]);
+    LazySegmentTree<Monoid> seg(values);
     for (int i = 0; i < q; ++i) {
         int t;
         in.read(t);

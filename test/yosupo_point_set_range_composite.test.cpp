@@ -39,13 +39,9 @@ int main() {
     Printer pr;
     int n, q;
     sc.read(n, q);
-    SegmentTree<Monoid> seg(n);
-    for (int i = 0; i < n; ++i) {
-        int a, b;
-        sc.read(a, b);
-        seg.set(i, Monoid::T{a, b});
-    }
-    seg.build();
+    vector<Monoid::T> values(n);
+    sc.read(values);
+    SegmentTree<Monoid> seg(values);
     for (int i = 0; i < q; ++i) {
         int a, b, c, d;
         sc.read(a, b, c, d);

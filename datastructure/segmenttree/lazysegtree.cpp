@@ -9,6 +9,10 @@ struct LazySegmentTree{
         seg.assign(2*sz, M::e());
         lazy.assign(2*sz, M::l());
     }
+    explicit LazySegmentTree(const vector<T> &values) : LazySegmentTree(values.size()) {
+        for (int i = 0; i < n; ++i) set(i, values[i]);
+        build();
+    }
 
     void set(int k, const T &x){ seg[k + sz] = x; }
 
@@ -16,7 +20,7 @@ struct LazySegmentTree{
         for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[i<<1], seg[(i<<1)|1]);
     }
 
-    T reflect(int k){ return lazy[k] == M::l() ? seg[k] : M::g(seg[k], lazy[k]); }
+    T reflect(int k) const { return lazy[k] == M::l() ? seg[k] : M::g(seg[k], lazy[k]); }
 
     void eval(int k){
         if(lazy[k] == M::l()) return;
@@ -50,6 +54,15 @@ struct LazySegmentTree{
         recalc(a >> ha);
         recalc((b-1) >> hb);
     }
+
+    T all_query() const { return reflect(1); }
+
+    T get(int k) {
+        k += sz;
+        thrust(k);
+        return reflect(k);
+    }
+    T operator[](int k) { return get(k); }
 
     T query(int a, int b){ // [l, r)
         if(a == b) return M::e();
