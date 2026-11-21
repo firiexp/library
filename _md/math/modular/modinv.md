@@ -4,15 +4,11 @@ documentation_of: //math/modular/modinv.cpp
 ---
 
 ## 説明
-
-$$
-x \cdot x^{-1} \equiv 1 \pmod{M}
-$$
-
-を満たす $x^{-1}$ を求める。
+mod $M$ における整数 $x$ の逆元を求める。$x$ は負・$M$ 以上でもよい。
 
 ## できること
-- `mod_inv(x, M)` : $x^{-1} \bmod M$ を返す。$O(\log M)$
+- `T mod_inv(T x, T M)`
+  $0 \le r < M$ かつ $xr \equiv 1 \pmod{M}$ を満たす $r$ を返す。$M = 1$ のときは `0`。$O(\log M)$
 
 ## 使い方
-$\gcd(x, M) = 1$ を前提とする。
+$M \ge 1$ かつ $\gcd(x, M) = 1$ を前提とする。
