@@ -106,13 +106,25 @@ void check_cursor(const DynamicWeightedWaveletMatrix<int, ll> &wm,
     }
 }
 
+void check_range(const DynamicWeightedWaveletMatrix<int, ll> &wm,
+                 const vector<int> &a, const vector<ll> &w, int l, int r, int lower, int upper) {
+    auto expected = brute_range(a, w, l, r, lower, upper);
+    auto actual = wm.range_count_sum(l, r, lower, upper);
+    assert(actual.count == expected.count && actual.sum == expected.sum);
+    assert(wm.range_freq(l, r, lower, upper) == expected.count);
+    assert(wm.range_sum(l, r, lower, upper) == expected.sum);
+}
+
 void check_queries(const DynamicWeightedWaveletMatrix<int, ll> &wm,
                    const vector<int> &a, const vector<ll> &w, mt19937 &rng) {
     int n = (int)a.size();
     int l = rng() % (n + 1);
     int r = rng() % (n + 1);
-    if (l > r) swap(l, r);
     int x = (int)(rng() % 25) - 12;
+    int lower = (int)(rng() % 25) - 12;
+    int upper = (int)(rng() % 25) - 12;
+    check_range(wm, a, w, l, r, lower, upper);
+    if (l > r) swap(l, r);
 
     BruteResult less = brute_less(a, w, l, r, x, false);
     auto got_less = wm.count_sum_less(l, r, x);
@@ -131,15 +143,6 @@ void check_queries(const DynamicWeightedWaveletMatrix<int, ll> &wm,
     assert(got_equal.count == equal.count && got_equal.sum == equal.sum);
     assert(wm.freq(l, r, x) == equal.count);
     assert(wm.sum_equal(l, r, x) == equal.sum);
-
-    int lower = (int)(rng() % 25) - 12;
-    int upper = (int)(rng() % 25) - 12;
-    if (lower > upper) swap(lower, upper);
-    BruteResult range = brute_range(a, w, l, r, lower, upper);
-    auto got_range = wm.range_count_sum(l, r, lower, upper);
-    assert(got_range.count == range.count && got_range.sum == range.sum);
-    assert(wm.range_freq(l, r, lower, upper) == range.count);
-    assert(wm.range_sum(l, r, lower, upper) == range.sum);
 
     int k = rng() % (r - l + 1);
     assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(a, w, l, r, k));
@@ -398,7 +401,19 @@ void self_check_range_boundaries() {
     }
 }
 
+void self_check_empty_ranges() {
+    const vector<int> values{1, 5, 10};
+    const vector<ll> weights{10, -20, 30};
+    DynamicWeightedWaveletMatrix<int, ll> wm(values, weights);
+    check_range(wm, values, weights, 0, 3, 10, 5);
+    check_range(wm, values, weights, 0, 3, 5, 5);
+    check_range(wm, values, weights, 1, 1, 5, 10);
+    check_range(wm, values, weights, 3, 0, 5, 10);
+    check_range(wm, values, weights, 0, 3, 5, 10);
+}
+
 int main() {
+    self_check_empty_ranges();
     self_check_range_boundaries();
     self_check_random();
     self_check_generic_value();
