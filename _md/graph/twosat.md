@@ -22,6 +22,8 @@ documentation_of: //graph/twosat.cpp
   元の変数 `x_i` を `value` に固定する。償却 $O(1)$ 時間・領域
 - `void at_most_one(const vector<int>& literals)`
   与えたリテラルのうち真になるものを高々1つに制限する。候補数を $K$ として追加は償却 $O(K)$ 時間・領域
+- `void at_most_one(const vector<pair<int, bool>>& literals)`
+  `(i, value)` を条件 `x_i == value` として扱い、成立する条件を高々1つに制限する。`i` は元の変数番号 `0..n-1`。償却 $O(K)$ 時間・領域
 - `vector<int> build()`
   全ての制約を満たす代入を元の `n` 変数について返す。充足不能なら空配列。通常の節数を $M$、`at_most_one` に渡した候補数の総和を $S$ として $O(n+M+S)$ 時間・領域
 
@@ -33,7 +35,9 @@ documentation_of: //graph/twosat.cpp
 `sat.fix(i, true);` は `x_i` を真に固定する。bool 引数は成立させたい値を表す。
 `add_clause` と `fix` は補助変数を増やさず、他の節や排他制約と組み合わせて使える。
 
-`sat.at_most_one({0, sat.negate(1), 2});` のように排他制約を追加できる。
+`sat.at_most_one({ {0, true}, {1, false}, {2, true} });` は $x_0, \lnot x_1, x_2$ のうち真になるものを高々1つに制限する。
+同じ制約をリテラル番号で書くと `sat.at_most_one({0, sat.negate(1), 2});` となる。
+どちらの形式でも、候補が空または1個なら制約は増えない。
 補助変数は内部で確保され、追加前のリテラル番号は変わらない。
 同じリテラルを複数回渡した場合は、それぞれの出現を数える。
 

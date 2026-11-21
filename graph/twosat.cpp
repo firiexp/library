@@ -110,6 +110,18 @@ struct TwoSAT {
         add_if(literals.back(), negate(prefix));
     }
 
+    void at_most_one(initializer_list<int> literals) {
+        at_most_one(vector<int>(literals));
+    }
+
+    template<template<class...> class Container = initializer_list, class... Args>
+    void at_most_one(const Container<pair<int, bool>, Args...>& literals) {
+        vector<int> ids;
+        ids.reserve(literals.size());
+        for (auto [i, value] : literals) ids.push_back(literal(i, value));
+        at_most_one(ids);
+    }
+
     void add_if(int u, int v){ // u -> v
         scc.add_edge(u, v);
         scc.add_edge(negate(v), negate(u));
@@ -120,12 +132,17 @@ struct TwoSAT {
     }
 
     void add_clause(int i, bool f, int j, bool g) {
-        assert(0 <= i && i < n && 0 <= j && j < n);
-        add_or(f ? i : negate(i), g ? j : negate(j));
+        add_or(literal(i, f), literal(j, g));
     }
 
     void fix(int i, bool value) {
         add_clause(i, value, i, value);
+    }
+
+private:
+    int literal(int i, bool value) const {
+        assert(0 <= i && i < n);
+        return value ? i : negate(i);
     }
 };
 
