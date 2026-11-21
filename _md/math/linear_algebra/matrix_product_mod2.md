@@ -4,20 +4,29 @@ documentation_of: //math/linear_algebra/matrix_product_mod2.cpp
 ---
 
 ## 説明
-
-各行を `DynamicBitset` で表した行列の積を mod 2 で求める。左の行列の各行について、値が1の列に対応する右の行列の行を XOR する。
+各行を `DynamicBitset` で表した行列の積を mod 2 で求める。
 
 ## できること
+$A$ を $N\times M$ 行列、$B$ を $M\times K$ 行列とする。
 
-- `vector<DynamicBitset> matrix_product_mod2(const vector<DynamicBitset>& a, const vector<DynamicBitset>& b, int columns = -1)` は $N\times M$ 行列 $A$ と $M\times K$ 行列 $B$ の積を $N\times K$ 行列として返す。各次元が正なら時間は $O(NM\lceil K/64\rceil)$。いずれかの次元が0なら $O(N+M+N\lceil K/64\rceil)$。返り値を除く作業領域は $O(1)$。
+- `vector<DynamicBitset> matrix_product_mod2(const vector<DynamicBitset> &a, const vector<DynamicBitset> &b, int columns = -1)`
+  積 $AB$ を $N\times K$ 行列として返す。$O(NM\lceil K/64\rceil)$
 
 ## 使い方
-
-各行のビット `j` が列 `j` に対応する。`a` の各行の長さは `b` の行数にそろえる。`b` の各行の長さは $K$ にそろえる。
-
-`columns` が既定値の `-1` なら `b` の最初の行から $K$ を求める。`b` が空なら既定の列数は0である。$N\times 0$ と $0\times K$ の積には第3引数で $K$ を渡す。`b` に行があるときに列数を指定する場合は、実際の行の長さに合わせる。
+第 $i$ 行・第 $j$ 列の値は `a[i].test(j)` に対応する。`a` の各行の長さは `b` の行数 $M$ に、`b` の各行の長さは $K$ にそろえる。
+`b` が 0 行のときだけ、出力の列数 $K$ を `columns` で指定できる（省略時は 0）。
 
 ```cpp
-vector<DynamicBitset> a(2, DynamicBitset(0));
-auto c = matrix_product_mod2(a, {}, 5);  // 2 行 5 列の零行列
+vector<DynamicBitset> a(2, DynamicBitset(3));
+a[0].set(0);
+a[0].set(2);
+a[1].set(1);
+
+vector<DynamicBitset> b(3, DynamicBitset(2));
+b[0].set(0);
+b[1].set(1);
+b[2].set(0);
+b[2].set(1);
+
+auto c = matrix_product_mod2(a, b);  // [[0, 1], [0, 1]]
 ```
