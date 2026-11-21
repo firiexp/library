@@ -81,6 +81,20 @@ void minimal_check() {
     assert(dual[0] == 7 && dual[1] == 0);
 }
 
+void access_check() {
+    const vector<string> values{"a", "b", "c", "a"};
+    const SegmentTree<CountedConcatMap> plain(values);
+    LazySegmentTree<CountedConcatMap> lazy(values);
+    lazy.update(1, 2, {2, 2, 2});
+    lazy.update(0, 4, {1, 2, 0});
+    CountedConcatMap::products = 0;
+    assert(plain.all_query() == "abca");
+    assert(as_const(lazy).all_query() == "baab");
+    assert(lazy.get(1) == "a");
+    assert(lazy[3] == "b");
+    assert(CountedConcatMap::products == 0);
+}
+
 void exhaustive_search_check() {
     // Includes singleton and power-of-two right boundaries.
     for (int n = 0, count = 1; n <= 7; ++n, count *= 3) {
@@ -162,15 +176,21 @@ void mixed_update_check() {
 void noncommutative_search_check() {
     mt19937 rng(67);
     for (int n = 0; n <= 32; ++n) {
-        SegmentTree<Concat> seg(n);
+        vector<string> values(n);
         string s(n, 'a');
-        for (int i = 0; i < n; ++i) seg.set(i, string(1, s[i] = 'a' + rng() % 3));
-        seg.build();
+        for (int i = 0; i < n; ++i) {
+            s[i] = 'a' + rng() % 3;
+            values[i] = s[i];
+        }
+        SegmentTree<Concat> seg(values);
+        const auto &view = seg;
+        assert(view.all_query() == s);
         for (int step = 0; step < 100; ++step) {
             if (n) {
                 int i = rng() % n;
                 seg.update(i, string(1, s[i] = 'a' + rng() % 3));
             }
+            assert(view.all_query() == s);
             int limit = rng() % (n + 1);
             auto cond = [&](const string &x) {
                 return int(x.size()) <= limit && x.find("ab") == string::npos;
@@ -179,9 +199,9 @@ void noncommutative_search_check() {
                 int left = end, right = end;
                 while (left > 0 && cond(s.substr(left - 1, end - left + 1))) --left;
                 while (right < n && cond(s.substr(end, right - end + 1))) ++right;
-                assert(seg.search_left(end, cond) == left);
-                assert(seg.search_right(end, cond) == right);
-                assert(seg.query(left, right) == s.substr(left, right - left));
+                assert(view.search_left(end, cond) == left);
+                assert(view.search_right(end, cond) == right);
+                assert(view.query(left, right) == s.substr(left, right - left));
             }
         }
     }
@@ -190,14 +210,15 @@ void noncommutative_search_check() {
 void deferred_action_check() {
     mt19937 rng(197);
     for(int n = 0; n <= 65; ++n) {
-        LazySegmentTree<ConcatMap> lazy(n);
         DualSegmentTree<CharacterMap> dual(n);
         string initial(n, 'a');
+        vector<string> values(n);
         for(int i = 0; i < n; ++i) {
             initial[i] += rng() % 3;
-            lazy.set(i, initial.substr(i, 1));
+            values[i] = initial[i];
         }
-        lazy.build();
+        LazySegmentTree<ConcatMap> lazy(values);
+        assert(lazy.all_query() == initial);
         string a = initial, b = initial;
         for(int step = 0; step < 240; ++step) {
             int l = 0, r = n;
@@ -224,6 +245,7 @@ void deferred_action_check() {
                 a[k] = 'a' + rng() % 3;
                 lazy.update(k, a.substr(k, 1));
             }
+            assert(lazy.all_query() == a);
             if(step % 8 != 0) continue;
             assert(lazy.query(0, n) == a);
             assert(lazy.query(l, r) == a.substr(l, r - l));
@@ -240,10 +262,12 @@ void deferred_action_check() {
             }
             if(n) {
                 int k = rng() % n;
+                assert(lazy.get(k) == a.substr(k, 1));
                 assert('a' + dual[k][initial[k] - 'a'] == b[k]);
             }
         }
         for(int k = 0; k < n; ++k) {
+            assert(lazy[k] == a.substr(k, 1));
             assert(lazy.query(k, k + 1) == a.substr(k, 1));
             assert('a' + dual[k][initial[k] - 'a'] == b[k]);
         }
@@ -274,6 +298,7 @@ void search_product_check() {
 
 int main() {
     minimal_check();
+    access_check();
     exhaustive_search_check();
     mixed_update_check();
     noncommutative_search_check();
