@@ -97,3 +97,19 @@ python3 scripts/prune_verify_cache.py --max-size-gb 5 --apply
 ```
 
 ローカルの testcase cache は自動削除しない。cache 整理は既定で dry-run、`--apply` で削除する。AOJ / yukicoder は問題単位、Library Checker は問題リポジトリ全体が1項目になる。削除後は通常実行で再取得する。
+
+## ローカルレビューキューとバッチ PR
+
+issue 単位の実装・レビュー・赤ペン往復をローカルで完結させ、承認済みブランチを 1 issue = 1 コミットで `batch/*` へ積み上げてからまとめて PR 化するためのツールである。運用手順の詳細は [meta/pr_workflow_guide.md](../meta/pr_workflow_guide.md) を参照する。
+
+```bash
+python3 scripts/local_review.py serve
+python3 scripts/local_review.py submit --summary "変更概要" --verify "codex_self_check: pass"
+python3 scripts/local_review.py list --status ready --json
+python3 scripts/local_review.py comments <branch> --json
+python3 scripts/local_review.py reply <branch> --thread <id> --with-head-commit --body "対応しました"
+python3 scripts/local_review.py integrate <branch> --batch batch/YYYYMMDD
+python3 scripts/local_review.py prepare-pr --batch batch/YYYYMMDD
+```
+
+状態ファイルは `<git-common-dir>/local-review/state.json` に保存されるため、並列 worktree 間で自動的に共有され、`git status` には現れない。`serve` は `127.0.0.1:8765` で GitHub PR 風の Web UI（キュー一覧、Unified / Split diff、行コメント、`suggestion` 挿入、前回レビュー以降の差分表示、バッチ統合、PR 下書き生成）を提供する。

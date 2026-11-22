@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local Review Queue</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span id="repo-name">library</span>
+        <span class="brand-sub">Local Review</span>
+      </div>
+      <nav class="main-tabs">
+        <button id="tab-review" class="tab-btn active" data-tab="review">Review Queue</button>
+        <button id="tab-batch" class="tab-btn" data-tab="batch">Batch Ship <span id="batch-badge" class="count-pill">0</span></button>
+      </nav>
+    </div>
+    <div class="topbar-right">
+      <span id="base-info" class="meta-chip">master</span>
+      <label class="toggle-chip">
+        <input id="auto-refresh" type="checkbox" checked>
+        <span>Auto refresh</span>
+      </label>
+      <button id="refresh-btn" class="btn btn-secondary">Reload</button>
+    </div>
+  </header>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <main id="view-review" class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-filters" id="status-filters">
+        <button class="filter-pill active" data-status="all">All <span class="pill-count">0</span></button>
+        <button class="filter-pill" data-status="ready">Ready <span class="pill-count">0</span></button>
+        <button class="filter-pill" data-status="changes_requested">Changes <span class="pill-count">0</span></button>
+        <button class="filter-pill" data-status="approved">Approved <span class="pill-count">0</span></button>
+        <button class="filter-pill" data-status="integrated">Integrated <span class="pill-count">0</span></button>
+      </div>
+      <div id="queue-list" class="queue-list"></div>
+
+      <details id="untracked-section" class="untracked-section">
+        <summary>Unregistered local branches (<span id="untracked-count">0</span>)</summary>
+        <div id="untracked-list" class="untracked-list"></div>
+      </details>
+    </aside>
+
+    <section class="content">
+      <div id="empty-state" class="empty-state">
+        <h2>レビュー対象を選択してください</h2>
+        <p>左のキューからブランチを選ぶか、未登録ローカルブランチを登録して差分を確認できます。</p>
+      </div>
+
+      <div id="review-workspace" class="workspace hidden">
+        <section class="pr-header card">
+          <div class="pr-title-row">
+            <div class="pr-title-group">
+              <span id="pr-status-badge" class="status-badge">ready</span>
+              <h1 id="pr-title"></h1>
+              <a id="pr-issue-link" class="issue-link hidden" target="_blank" rel="noopener noreferrer"></a>
+            </div>
+            <div class="pr-branch-meta">
+              <code id="pr-branch-name"></code>
+              <span class="arrow">→</span>
+              <code id="pr-base-name"></code>
+              <span id="pr-head-sha" class="sha-chip"></span>
+              <span id="pr-diffstat" class="diffstat-chip"></span>
+            </div>
+          </div>
+
+          <div id="pr-details-grid" class="pr-details-grid"></div>
+
+          <div id="pr-reviews-box" class="reviews-box hidden">
+            <h3>Review History</h3>
+            <div id="pr-reviews-list" class="reviews-list"></div>
+          </div>
+
+          <div id="integrate-bar" class="integrate-bar hidden">
+            <div class="integrate-bar-head">
+              <div class="integrate-bar-info">
+                <strong>承認済み</strong>
+                <span class="integrate-bar-hint">統合先バッチを選んで統合できます（Batch Ship タブでまとめて統合も可）</span>
+              </div>
+              <button id="btn-reopen-review" class="btn btn-ghost btn-sm" type="button">レビューを変更</button>
+            </div>
+            <div class="integrate-controls">
+              <label class="batch-target-group">
+                <span id="integrate-batch-label" class="batch-target-label">統合先</span>
+                <select id="integrate-batch-select" class="batch-select hidden"></select>
+                <input id="integrate-batch-input" type="text" placeholder="batch/YYYYMMDD">
+              </label>
+              <label class="checkbox-inline">
+                <input id="integrate-delete-branch" type="checkbox" checked>
+                <span>統合後に元ブランチ削除</span>
+              </label>
+              <button id="btn-integrate-now" class="btn btn-primary">バッチへ統合</button>
+            </div>
+          </div>
+
+          <div id="integrated-bar" class="integrated-bar hidden">
+            <div class="integrate-bar-info">
+              <strong>統合済み</strong>
+              <span id="integrated-bar-detail" class="integrate-bar-hint"></span>
+            </div>
+            <div class="integrate-controls">
+              <button id="btn-go-batch-ship" class="btn btn-primary" type="button">Batch Ship で確認・PR 作成</button>
+              <button id="btn-next-ready" class="btn btn-secondary hidden" type="button">次のレビューへ</button>
+            </div>
+          </div>
+
+          <div id="review-action-bar" class="review-action-bar">
+            <textarea id="review-body" rows="2" placeholder="全体レビューコメント（任意）"></textarea>
+            <div class="action-buttons">
+              <button id="btn-approve" class="btn btn-approve">Approve</button>
+              <button id="btn-request-changes" class="btn btn-warn">Request Changes</button>
+              <button id="btn-comment" class="btn btn-secondary">Comment</button>
+              <button id="btn-reject" class="btn btn-danger">Reject</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="diff-toolbar card">
+          <div class="diff-toolbar-left">
+            <label class="select-group">
+              <span>Range</span>
+              <select id="diff-range-select"></select>
+            </label>
+            <div class="segmented" id="diff-mode-toggle">
+              <button class="seg-btn active" data-mode="unified">Unified</button>
+              <button class="seg-btn" data-mode="split">Split</button>
+            </div>
+            <label class="checkbox-inline">
+              <input id="show-resolved" type="checkbox" checked>
+              <span>Show resolved</span>
+            </label>
+          </div>
+          <div class="diff-toolbar-right">
+            <span id="viewed-progress" class="meta-chip">0 / 0 viewed</span>
+            <button id="btn-expand-all" class="btn btn-ghost">Expand all</button>
+            <button id="btn-collapse-all" class="btn btn-ghost">Collapse all</button>
+          </div>
+        </section>
+
+        <div id="file-jump-bar" class="file-jump-bar"></div>
+        <div id="diff-container" class="diff-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <main id="view-batch" class="batch-layout hidden">
+    <section class="card batch-section">
+      <div class="section-head">
+        <h2>Approved &amp; Ready to Integrate</h2>
+        <div class="integrate-controls">
+          <label class="batch-target-group">
+            <span id="batch-target-label" class="batch-target-label">統合先</span>
+            <select id="batch-target-select" class="batch-select hidden"></select>
+            <input id="batch-target-input" type="text" placeholder="batch/YYYYMMDD">
+          </label>
+          <label class="checkbox-inline">
+            <input id="batch-delete-branches" type="checkbox" checked>
+            <span>統合後に元ブランチ削除</span>
+          </label>
+          <button id="btn-integrate-all" class="btn btn-primary">すべてバッチへ統合</button>
+        </div>
+      </div>
+      <div id="approved-list" class="approved-list"></div>
+    </section>
+
+    <div class="batch-columns">
+      <section class="card batch-section">
+        <h2>Local Batches</h2>
+        <div id="batch-list" class="batch-list"></div>
+      </section>
+
+      <section class="card batch-section">
+        <div class="section-head">
+          <h2>Batch PR Draft</h2>
+          <button id="btn-copy-pr-body" class="btn btn-secondary">Copy PR Body</button>
+        </div>
+        <div id="batch-draft-empty" class="muted">左からバッチを選択すると PR 下書きと出荷コマンドを表示します。</div>
+        <div id="batch-draft-view" class="hidden">
+          <div class="draft-title-row">
+            <span class="meta-label">Title</span>
+            <code id="draft-title"></code>
+          </div>
+          <pre id="draft-body" class="draft-body"></pre>
+          <div class="draft-commands">
+            <div class="meta-label">出荷コマンド例</div>
+            <pre id="draft-cmd" class="cmd-box"></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
