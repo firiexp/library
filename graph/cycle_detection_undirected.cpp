@@ -4,43 +4,56 @@ struct CycleDetectionUndirectedResult {
 };
 
 CycleDetectionUndirectedResult cycle_detection_undirected(const vector<pair<int, int>> &edges, int n) {
-    int m = edges.size();
-    vector<vector<pair<int, int>>> g(n);
-    for (int i = 0; i < m; ++i) {
-        auto [u, v] = edges[i];
-        g[u].push_back({v, i});
-        g[v].push_back({u, i});
+    if (edges.empty()) return {};
+    vector<size_t> offset((size_t)n + 1);
+    for (auto [u, v] : edges) {
+        ++offset[u];
+        ++offset[v];
+    }
+    for (size_t v = 1; v < offset.size(); ++v) offset[v] += offset[v - 1];
+    vector<pair<int, int>> adj(offset[n]);
+    for (int id = (int)(edges.size() - 1); id >= 0; --id) {
+        auto [u, v] = edges[id];
+        adj[--offset[u]] = {v, id};
+        adj[--offset[v]] = {u, id};
     }
 
-    vector<int> dep(n, -1), par_v(n, -1), par_e(n, -1);
-    vector<char> used_e(m, 0);
-    auto dfs = [&](auto &&self, int v, int d) -> void {
-        dep[v] = d;
-        for (auto &&[to, id] : g[v]) {
-            if (dep[to] != -1) continue;
-            used_e[id] = 1;
-            par_v[to] = v;
-            par_e[to] = id;
-            self(self, to, d + 1);
-        }
+    struct Frame {
+        int vertex, parent_edge;
+        size_t next;
     };
-    for (int i = 0; i < n; ++i) {
-        if (dep[i] == -1) dfs(dfs, i, 0);
-    }
-
-    for (int id = 0; id < m; ++id) {
-        if (used_e[id]) continue;
-        auto [a, b] = edges[id];
-        if (dep[a] > dep[b]) swap(a, b);
-        vector<int> vs = {b}, es;
-        while (vs.back() != a) {
-            es.emplace_back(par_e[vs.back()]);
-            vs.emplace_back(par_v[vs.back()]);
+    vector<Frame> path;
+    path.reserve(n);
+    vector<char> visited(n);
+    for (int root = 0; root < n; ++root) {
+        if (visited[root]) continue;
+        visited[root] = true;
+        path.push_back({root, -1, offset[root]});
+        while (!path.empty()) {
+            auto &frame = path.back();
+            if (frame.next == offset[frame.vertex + 1]) {
+                path.pop_back();
+                continue;
+            }
+            auto [to, id] = adj[frame.next++];
+            if (id == frame.parent_edge) continue;
+            if (!visited[to]) {
+                visited[to] = true;
+                path.push_back({to, id, offset[to]});
+                continue;
+            }
+            CycleDetectionUndirectedResult cycle;
+            while (path.back().vertex != to) {
+                cycle.vertices.push_back(path.back().vertex);
+                cycle.edge_ids.push_back(path.back().parent_edge);
+                path.pop_back();
+            }
+            cycle.vertices.push_back(to);
+            cycle.edge_ids.push_back(id);
+            return cycle;
         }
-        es.emplace_back(id);
-        return {vs, es};
     }
-    return {{}, {}};
+    return {};
 }
 
 /**
