@@ -400,6 +400,104 @@ class LocalReviewWorkflowTest(unittest.TestCase):
             server.server_close()
             thread.join(timeout=2)
 
+    def test_doc_review_stage_auto_detection_and_pass(self) -> None:
+        branch = "issue/601-doc"
+        git(self.root, "switch", "-c", branch, "master")
+        doc_dir = self.root / "_md" / "math"
+        doc_dir.mkdir(parents=True)
+        doc_file = doc_dir / "sample.md"
+        doc_file.write_text("## 説明\nテスト\n", encoding="utf-8")
+        (self.root / "sample.cpp").write_text("int f() { return 1; }\n", encoding="utf-8")
+        git(self.root, "add", ".")
+        git(self.root, "commit", "-m", "Add sample and doc")
+
+        submitted = lr.submit_branch(branch, repo_dir=self.root)
+        self.assertEqual(submitted["status"], "doc_review")
+
+        doc_file.write_text("## 説明\n整数を返す。\n", encoding="utf-8")
+        git(self.root, "commit", "-am", "Polish doc")
+        passed = lr.record_review(branch, "pass_doc_review", author="agy", body="文章を修正", repo_dir=self.root)
+        self.assertEqual(passed["status"], "ready")
+        self.assertEqual(passed["doc_reviewed_sha"], passed["live_head_sha"])
+        self.assertEqual(passed["last_reviewed_sha"], "")
+
+        lr.record_review(branch, "request_changes", author="human", body="戻り値を2にして", repo_dir=self.root)
+        (self.root / "sample.cpp").write_text("int f() { return 2; }\n", encoding="utf-8")
+        git(self.root, "commit", "-am", "Return 2")
+        resubmitted_code_only = lr.submit_branch(branch, repo_dir=self.root)
+        self.assertEqual(resubmitted_code_only["status"], "ready")
+
+        doc_file.write_text("## 説明\n2を返す。\n", encoding="utf-8")
+        git(self.root, "commit", "-am", "Update doc")
+        resubmitted_with_doc = lr.submit_branch(branch, repo_dir=self.root)
+        self.assertEqual(resubmitted_with_doc["status"], "doc_review")
+
+        skipped = lr.submit_branch(branch, skip_doc_review=True, repo_dir=self.root)
+        self.assertEqual(skipped["status"], "ready")
+
+    def test_merged_batch_detection_sync_and_manual_mark(self) -> None:
+        git(self.root, "switch", "-c", "issue/701-merge", "master")
+        (self.root / "m1.cpp").write_text("int m1() { return 1; }\n", encoding="utf-8")
+        git(self.root, "add", "m1.cpp")
+        git(self.root, "commit", "-m", "Add m1")
+        lr.submit_branch("issue/701-merge", repo_dir=self.root)
+        lr.record_review("issue/701-merge", "approve", repo_dir=self.root)
+        lr.integrate_branch("issue/701-merge", batch_branch="batch/merged-mc", delete_branch=True, repo_dir=self.root)
+
+        git(self.root, "switch", "master")
+        git(self.root, "merge", "--no-ff", "batch/merged-mc", "-m", "Merge batch/merged-mc")
+
+        overview = lr.overview_payload(base="master", repo_dir=self.root)
+        item_701 = next(i for i in overview["items"] if i["branch"] == "issue/701-merge")
+        batch_mc = next(b for b in overview["batches"] if b["branch"] == "batch/merged-mc")
+        self.assertEqual(item_701["status"], "merged")
+        self.assertTrue(batch_mc["is_merged"])
+        self.assertEqual(overview["existing_batch_branches"], [])
+
+        sync_res = lr.sync_merged_batches(delete_branches=True, repo_dir=self.root)
+        self.assertEqual(len(sync_res["synced_batches"]), 1)
+        self.assertTrue(sync_res["synced_batches"][0]["deleted_branch"])
+        self.assertFalse(lr.branch_exists("batch/merged-mc", self.root))
+
+        git(self.root, "switch", "-c", "issue/702-rebase", "master")
+        (self.root / "m2.cpp").write_text("int m2() { return 2; }\n", encoding="utf-8")
+        git(self.root, "add", "m2.cpp")
+        git(self.root, "commit", "-m", "Add m2")
+        lr.submit_branch("issue/702-rebase", repo_dir=self.root)
+        lr.record_review("issue/702-rebase", "approve", repo_dir=self.root)
+        lr.integrate_branch("issue/702-rebase", batch_branch="batch/merged-rb", delete_branch=True, repo_dir=self.root)
+
+        git(self.root, "switch", "master")
+        (self.root / "unrelated.txt").write_text("other\n", encoding="utf-8")
+        git(self.root, "add", "unrelated.txt")
+        git(self.root, "commit", "-m", "Unrelated commit on master")
+        git(self.root, "cherry-pick", "batch/merged-rb")
+
+        overview_rb = lr.overview_payload(base="master", repo_dir=self.root)
+        item_702 = next(i for i in overview_rb["items"] if i["branch"] == "issue/702-rebase")
+        self.assertEqual(item_702["status"], "merged")
+
+        git(self.root, "switch", "-c", "issue/703-manual", "master")
+        (self.root / "m3.cpp").write_text("int m3() { return 3; }\n", encoding="utf-8")
+        git(self.root, "add", "m3.cpp")
+        git(self.root, "commit", "-m", "Add m3")
+        lr.submit_branch("issue/703-manual", repo_dir=self.root)
+        lr.record_review("issue/703-manual", "approve", repo_dir=self.root)
+        lr.integrate_branch("issue/703-manual", batch_branch="batch/manual-mark", delete_branch=True, repo_dir=self.root)
+
+        mark_res = lr.mark_batch_merged("batch/manual-mark", pr_url="https://github.com/o/r/pull/99", delete_branch=True, repo_dir=self.root)
+        self.assertEqual(mark_res["updated_items"], ["issue/703-manual"])
+        self.assertTrue(mark_res["deleted_branch"])
+
+        git(self.root, "switch", "-c", "issue/704-blocked", "master")
+        (self.root / "m4.cpp").write_text("int m4() { return 4; }\n", encoding="utf-8")
+        git(self.root, "add", "m4.cpp")
+        git(self.root, "commit", "-m", "Add m4")
+        lr.submit_branch("issue/704-blocked", repo_dir=self.root)
+        lr.record_review("issue/704-blocked", "approve", repo_dir=self.root)
+        with self.assertRaisesRegex(lr.LocalReviewError, "already merged"):
+            lr.integrate_branch("issue/704-blocked", batch_branch="batch/manual-mark", repo_dir=self.root)
+
 
 if __name__ == "__main__":
     unittest.main()

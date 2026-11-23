@@ -1,9 +1,10 @@
 const NEW_BATCH_OPTION = "__new__";
+const ACTIVE_STATUSES = new Set(["doc_review", "ready", "changes_requested", "approved"]);
 
 const state = {
   overview: null,
   activeTab: "review",
-  statusFilter: "all",
+  statusFilter: "active",
   selectedBranch: null,
   selectedBatch: null,
   diffMode: localStorage.getItem("local_review_diff_mode") || "unified",
@@ -246,7 +247,9 @@ function updateTopbar() {
   document.getElementById("repo-name").textContent = state.overview.repo_name;
   document.getElementById("base-info").textContent = `${state.overview.base} @ ${state.overview.base_short_sha}`;
   const approvedCount = state.overview.items.filter((i) => i.status === "approved").length;
-  const integratedCount = state.overview.batches.reduce((acc, b) => acc + (b.entries ? b.entries.length : 0), 0);
+  const integratedCount = state.overview.batches
+    .filter((b) => !b.is_merged)
+    .reduce((acc, b) => acc + (b.entries ? b.entries.length : 0), 0);
   document.getElementById("batch-badge").textContent = `${approvedCount}/${integratedCount}`;
 
   syncBatchTargetState();
@@ -256,13 +259,16 @@ function updateTopbar() {
 function renderSidebar() {
   const items = state.overview.items;
   const counts = {
-    all: items.length,
+    active: 0,
+    doc_review: 0,
     ready: 0,
     changes_requested: 0,
     approved: 0,
     integrated: 0,
+    merged: 0,
   };
   for (const item of items) {
+    if (ACTIVE_STATUSES.has(item.status)) counts.active += 1;
     if (counts[item.status] !== undefined) counts[item.status] += 1;
   }
 
@@ -274,8 +280,8 @@ function renderSidebar() {
   });
 
   const filtered =
-    state.statusFilter === "all"
-      ? items
+    state.statusFilter === "active"
+      ? items.filter((item) => ACTIVE_STATUSES.has(item.status))
       : items.filter((item) => item.status === state.statusFilter);
 
   const queueList = document.getElementById("queue-list");
@@ -440,23 +446,34 @@ function renderPrHeader(item) {
     reviewsBox.classList.add("hidden");
   }
 
+  const docReviewBar = document.getElementById("doc-review-bar");
   const integrateBar = document.getElementById("integrate-bar");
   const integratedBar = document.getElementById("integrated-bar");
   const reviewActionBar = document.getElementById("review-action-bar");
   const reopenBtn = document.getElementById("btn-reopen-review");
+  const isDocReview = item.status === "doc_review" && item.branch_exists;
   const isApprovedActive = item.status === "approved" && item.branch_exists;
   const isIntegrated = item.status === "integrated";
+  const isMerged = item.status === "merged";
+  const isTerminal = isIntegrated || isMerged;
 
+  docReviewBar.classList.toggle("hidden", !isDocReview);
   integrateBar.classList.toggle("hidden", !isApprovedActive);
-  integratedBar.classList.toggle("hidden", !isIntegrated);
-  reviewActionBar.classList.toggle("hidden", isIntegrated || (isApprovedActive && !state.reopenReviewForm));
+  integratedBar.classList.toggle("hidden", !isTerminal);
+  integratedBar.classList.toggle("merged-bar", isMerged);
+  reviewActionBar.classList.toggle("hidden", isTerminal || (isApprovedActive && !state.reopenReviewForm));
   reopenBtn.textContent = state.reopenReviewForm ? "レビュー変更を閉じる" : "レビューを変更";
 
-  if (isIntegrated) {
+  if (isTerminal) {
     const sha = (item.integrated_sha || "").slice(0, 7);
-    const detail = item.batch
-      ? `${item.batch}${sha ? ` (${sha})` : ""} に統合しました`
-      : "バッチブランチに統合しました";
+    document.getElementById("integrated-bar-title").textContent = isMerged ? "マージ済み" : "統合済み";
+    const detail = isMerged
+      ? item.batch
+        ? `${item.batch}${sha ? ` (${sha})` : ""} 経由で ${item.base} にマージされました`
+        : `${item.base} にマージされました`
+      : item.batch
+        ? `${item.batch}${sha ? ` (${sha})` : ""} に統合しました`
+        : "バッチブランチに統合しました";
     document.getElementById("integrated-bar-detail").textContent = detail;
     const readyItems = (state.overview?.items || []).filter((entry) => entry.status === "ready");
     const nextBtn = document.getElementById("btn-next-ready");
@@ -464,7 +481,7 @@ function renderPrHeader(item) {
     if (readyItems.length > 0) {
       nextBtn.textContent = `次のレビューへ（残り ${readyItems.length} 件）`;
     }
-    document.getElementById("btn-go-batch-ship").classList.toggle("hidden", !item.batch);
+    document.getElementById("btn-go-batch-ship").classList.toggle("hidden", isMerged || !item.batch);
   }
 
   const rangeSelect = document.getElementById("diff-range-select");
@@ -918,7 +935,8 @@ function renderDiff(item) {
   jumpBar.innerHTML = "";
   container.innerHTML = "";
   document.querySelectorAll(".review-action-bar button").forEach((button) => {
-    button.disabled = !state.diffData || !item.branch_exists || item.status === "integrated";
+    button.disabled =
+      !state.diffData || !item.branch_exists || item.status === "integrated" || item.status === "merged";
   });
 
   if (state.diffData && state.diffData.new_sha !== item.live_head_sha) {
@@ -1084,6 +1102,72 @@ async function selectBranch(branch) {
   await loadDiffForSelected();
 }
 
+function buildBatchCard(batch) {
+  const isMerged = Boolean(batch.is_merged);
+  const metaParts = [`${(batch.entries || []).length} issue(s)`];
+  if (!isMerged) {
+    metaParts.push(`${(batch.commits || []).length} commit(s)`);
+  }
+  if (batch.pr_url) metaParts.push("PR created");
+  if (isMerged) metaParts.push("Merged");
+
+  const actionRow = !isMerged
+    ? el(
+        "div",
+        { className: "batch-card-actions" },
+        el("span", { className: "muted" }, metaParts.join(" · ")),
+        el(
+          "button",
+          {
+            className: "btn btn-secondary btn-sm",
+            onClick: async (ev) => {
+              ev.stopPropagation();
+              const deleteBranch = Boolean(document.getElementById("sync-delete-branches")?.checked);
+              try {
+                const res = await apiPost("/api/batches/mark-merged", {
+                  batch: batch.branch,
+                  delete_branch: deleteBranch,
+                });
+                const suffix = res.deleted_branch ? "（ローカルブランチ削除済み）" : "";
+                showToast(`${batch.branch} をマージ済みにしました${suffix}`);
+                await refreshAll();
+              } catch (err) {
+                showToast(err.message, true);
+              }
+            },
+          },
+          "マージ済みにする"
+        )
+      )
+    : el("div", { className: "muted" }, metaParts.join(" · "));
+
+  return el(
+    "div",
+    {
+      className: `batch-card${batch.branch === state.selectedBatch ? " selected" : ""}${isMerged ? " merged" : ""}`,
+      onClick: () => selectBatch(batch.branch),
+    },
+    el(
+      "div",
+      { className: "queue-card-top" },
+      el("strong", {}, batch.branch),
+      isMerged ? renderStatusBadge("merged") : renderDiffstat(batch.stats || {})
+    ),
+    actionRow,
+    el(
+      "ul",
+      { className: "batch-entries" },
+      ...(batch.entries || []).map((entry) =>
+        el(
+          "li",
+          {},
+          `${entry.short_sha || ""} ${entry.title}${entry.issue !== null && entry.issue !== undefined ? ` (#${entry.issue})` : ""}`
+        )
+      )
+    )
+  );
+}
+
 function renderBatchView() {
   if (!state.overview) return;
   const approved = state.overview.items.filter((i) => i.status === "approved" && i.branch_exists);
@@ -1133,43 +1217,26 @@ function renderBatchView() {
   }
 
   const batches = state.overview.batches || [];
+  const openBatches = batches.filter((b) => !b.is_merged);
+  const mergedBatches = batches.filter((b) => b.is_merged);
+
   const batchList = document.getElementById("batch-list");
   batchList.innerHTML = "";
-  if (batches.length === 0) {
-    batchList.appendChild(el("div", { className: "muted" }, "まだローカルバッチはありません。"));
+  if (openBatches.length === 0) {
+    batchList.appendChild(el("div", { className: "muted" }, "未マージのローカルバッチはありません。"));
   } else {
-    for (const batch of batches) {
-      const card = el(
-        "div",
-        {
-          className: `batch-card${batch.branch === state.selectedBatch ? " selected" : ""}`,
-          onClick: () => selectBatch(batch.branch),
-        },
-        el(
-          "div",
-          { className: "queue-card-top" },
-          el("strong", {}, batch.branch),
-          renderDiffstat(batch.stats || {})
-        ),
-        el(
-          "div",
-          { className: "muted" },
-          `${(batch.entries || []).length} issue(s) · ${(batch.commits || []).length} commit(s)${batch.pr_url ? " · PR created" : ""}`
-        ),
-        el(
-          "ul",
-          { className: "batch-entries" },
-          ...(batch.entries || []).map((entry) =>
-            el(
-              "li",
-              {},
-              `${entry.short_sha || ""} ${entry.title}${entry.issue !== null && entry.issue !== undefined ? ` (#${entry.issue})` : ""}`
-            )
-          )
-        )
-      );
-      batchList.appendChild(card);
+    for (const batch of openBatches) {
+      batchList.appendChild(buildBatchCard(batch));
     }
+  }
+
+  const mergedSection = document.getElementById("merged-batches-section");
+  const mergedList = document.getElementById("merged-batch-list");
+  document.getElementById("merged-batches-count").textContent = String(mergedBatches.length);
+  mergedList.innerHTML = "";
+  mergedSection.classList.toggle("hidden", mergedBatches.length === 0);
+  for (const batch of mergedBatches) {
+    mergedList.appendChild(buildBatchCard(batch));
   }
 }
 
@@ -1257,13 +1324,17 @@ async function refreshAll(preferBranch = null, background = false) {
   updateTopbar();
 
   const preferred = selection === state.selectedBranch && preferBranch ? preferBranch : state.selectedBranch;
-  const branch = overview.items.some((item) => item.branch === preferred) ? preferred : overview.items[0]?.branch;
+  const firstActive = overview.items.find((item) => ACTIVE_STATUSES.has(item.status));
+  const branch = overview.items.some((item) => item.branch === preferred)
+    ? preferred
+    : (firstActive || overview.items[0])?.branch;
   await selectBranch(branch || null);
   renderBatchView();
+  const openBatches = (state.overview.batches || []).filter((b) => !b.is_merged);
   if (state.selectedBatch && state.overview.batches.some((b) => b.branch === state.selectedBatch)) {
     await selectBatch(state.selectedBatch);
-  } else if (state.overview.batches.length > 0 && state.activeTab === "batch") {
-    await selectBatch(state.overview.batches[0].branch);
+  } else if (openBatches.length > 0 && state.activeTab === "batch") {
+    await selectBatch(openBatches[0].branch);
   }
 }
 
@@ -1365,6 +1436,23 @@ function bindEvents() {
   document.getElementById("btn-request-changes").addEventListener("click", () => submitReviewAction("request_changes"));
   document.getElementById("btn-comment").addEventListener("click", () => submitReviewAction("comment"));
   document.getElementById("btn-reject").addEventListener("click", () => submitReviewAction("reject"));
+  document.getElementById("btn-pass-doc-review").addEventListener("click", () => submitReviewAction("pass_doc_review"));
+
+  document.getElementById("btn-sync-batches").addEventListener("click", async () => {
+    const deleteBranches = Boolean(document.getElementById("sync-delete-branches")?.checked);
+    try {
+      const res = await apiPost("/api/batches/sync", { delete_branches: deleteBranches });
+      const count = (res.synced_batches || []).length;
+      if (count === 0) {
+        showToast("新しくマージ済みになったバッチはありません");
+      } else {
+        showToast(`${count} 件のバッチをマージ済みに同期しました`);
+      }
+      await refreshAll();
+    } catch (err) {
+      showToast(err.message, true);
+    }
+  });
 
   bindBatchTargetEvents("integrate-batch-select", "integrate-batch-input", "integrate-delete-branch");
   bindBatchTargetEvents("batch-target-select", "batch-target-input", "batch-delete-branches");
@@ -1386,7 +1474,7 @@ function bindEvents() {
   document.getElementById("btn-next-ready").addEventListener("click", () => {
     const next = (state.overview?.items || []).find((entry) => entry.status === "ready");
     if (!next) return;
-    if (state.statusFilter !== "all" && state.statusFilter !== "ready") {
+    if (state.statusFilter !== "active" && state.statusFilter !== "ready") {
       state.statusFilter = "ready";
     }
     selectBranch(next.branch);

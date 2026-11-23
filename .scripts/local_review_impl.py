@@ -25,8 +25,8 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS_DIR = ROOT / "scripts" / "local_review_assets"
 STATE_VERSION = 1
-VALID_STATUSES = ("ready", "changes_requested", "approved", "integrated", "rejected")
-VALID_REVIEW_ACTIONS = ("approve", "request_changes", "comment", "reject")
+VALID_STATUSES = ("doc_review", "ready", "changes_requested", "approved", "integrated", "merged", "rejected")
+VALID_REVIEW_ACTIONS = ("approve", "request_changes", "comment", "reject", "pass_doc_review")
 ISSUE_BRANCH_RE = re.compile(r"(?:^|/)issue/(\d+)(?:[-_/]|$)")
 SAME_PATH_HEADER_RE = re.compile(r'^diff --git ("?)a/(.*)\1 \1b/\2\1$')
 HUNK_HEADER_RE = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(.*)$")
@@ -459,12 +459,72 @@ def discover_untracked_branches(
     return candidates
 
 
-def enrich_item(item: dict[str, Any], repo_dir: Path | None = None) -> dict[str, Any]:
+def is_doc_path(path: str) -> bool:
+    return path.startswith("_md/") or path == "meta/doc_titles.yml"
+
+
+def branch_has_doc_changes(
+    base: str,
+    head_sha: str,
+    doc_reviewed_sha: str = "",
+    repo_dir: Path | None = None,
+) -> bool:
+    if doc_reviewed_sha and ref_exists(doc_reviewed_sha, repo_dir):
+        diff_spec = f"{doc_reviewed_sha}..{head_sha}"
+    else:
+        if not ref_exists(base, repo_dir):
+            return False
+        diff_spec = f"{base}...{head_sha}"
+    proc = run_git(["diff", "--name-only", diff_spec], cwd=repo_dir, check=False)
+    if proc.returncode != 0:
+        return False
+    return any(is_doc_path(line.strip()) for line in proc.stdout.splitlines() if line.strip())
+
+
+def is_batch_merged_into_base(batch: dict[str, Any], repo_dir: Path | None = None) -> bool:
+    if batch.get("status") == "merged" or batch.get("merged_at"):
+        return True
+    entries = batch.get("entries") or []
+    if not entries:
+        return False
+    b_name = batch.get("branch", "")
+    b_base = batch.get("base", "master")
+    if not b_name or not ref_exists(b_base, repo_dir):
+        return False
+    tip = ""
+    if branch_exists(b_name, repo_dir):
+        tip = resolve_commit(f"refs/heads/{b_name}", repo_dir)
+    else:
+        for entry in reversed(entries):
+            sha = entry.get("commit_sha", "")
+            if sha and ref_exists(sha, repo_dir):
+                tip = resolve_commit(sha, repo_dir)
+                break
+    if not tip:
+        return False
+    anc = run_git(["merge-base", "--is-ancestor", tip, b_base], cwd=repo_dir, check=False)
+    if anc.returncode == 0:
+        return True
+    cherry = run_git(["cherry", b_base, tip], cwd=repo_dir, check=False)
+    if cherry.returncode == 0:
+        lines = [line.strip() for line in cherry.stdout.splitlines() if line.strip()]
+        if lines and all(line.startswith("- ") for line in lines):
+            return True
+    return False
+
+
+def enrich_item(
+    item: dict[str, Any],
+    repo_dir: Path | None = None,
+    merged_batches: set[str] | None = None,
+) -> dict[str, Any]:
     copy = dict(item)
     branch = copy["branch"]
     base = copy.get("base", "master")
     exists = branch_exists(branch, repo_dir)
     copy["branch_exists"] = exists
+    if copy.get("status") == "integrated" and merged_batches and copy.get("batch") in merged_batches:
+        copy["status"] = "merged"
     if exists:
         live_sha = resolve_commit(branch, repo_dir)
         if copy.get("status") == "approved" and copy.get("last_reviewed_sha") != live_sha:
@@ -486,6 +546,7 @@ def enrich_item(item: dict[str, Any], repo_dir: Path | None = None) -> dict[str,
         and copy["live_head_sha"]
         and copy.get("last_reviewed_sha") != copy["live_head_sha"]
     )
+    copy["doc_reviewed_sha"] = copy.get("doc_reviewed_sha", "")
     return copy
 
 
@@ -499,10 +560,14 @@ def submit_branch(
     verification: list[str] | None = None,
     performance: str | None = None,
     review_notes: str | None = None,
+    status: str | None = None,
+    skip_doc_review: bool = False,
     repo_dir: Path | None = None,
 ) -> dict[str, Any]:
     if not branch_exists(branch, repo_dir):
         raise LocalReviewError(f"local branch not found: {branch}")
+    if status is not None and status not in {"doc_review", "ready"}:
+        raise LocalReviewError(f"invalid submit status: {status}")
 
     timestamp = now_iso()
 
@@ -512,6 +577,16 @@ def submit_branch(
         if not ref_exists(base, repo_dir):
             raise LocalReviewError(f"base ref not found: {base}")
         head_sha = resolve_commit(f"refs/heads/{branch}", repo_dir)
+        prev_doc_reviewed_sha = (existing or {}).get("doc_reviewed_sha", "")
+        if status is not None:
+            resolved_status = status
+        elif skip_doc_review:
+            resolved_status = "ready"
+        elif branch_has_doc_changes(base, head_sha, prev_doc_reviewed_sha, repo_dir):
+            resolved_status = "doc_review"
+        else:
+            resolved_status = "ready"
+
         if existing is None:
             resolved_issue = issue if issue is not None else extract_issue_number(branch)
             resolved_title = title.strip() if title else default_branch_title(base, branch, repo_dir)
@@ -525,9 +600,10 @@ def submit_branch(
                 "verification": list(verification or []),
                 "performance": (performance or "").strip(),
                 "review_notes": (review_notes or "").strip(),
-                "status": "ready",
+                "status": resolved_status,
                 "head_sha": head_sha,
                 "last_reviewed_sha": "",
+                "doc_reviewed_sha": "",
                 "batch": "",
                 "integrated_sha": "",
                 "created_at": timestamp,
@@ -553,7 +629,8 @@ def submit_branch(
             if review_notes is not None:
                 existing["review_notes"] = review_notes.strip()
             existing["head_sha"] = head_sha
-            existing["status"] = "ready"
+            existing["status"] = resolved_status
+            existing.setdefault("doc_reviewed_sha", "")
             existing["updated_at"] = timestamp
             item = existing
 
@@ -687,8 +764,8 @@ def record_review(
         item = state["items"].get(branch)
         if item is None:
             raise LocalReviewError(f"branch is not registered in local review: {branch}")
-        if item.get("status") == "integrated":
-            raise LocalReviewError(f"branch is already integrated: {branch}")
+        if item.get("status") in {"integrated", "merged"}:
+            raise LocalReviewError(f"branch is already {item.get('status')}: {branch}")
         effective_sha = resolve_commit(f"refs/heads/{branch}", repo_dir)
         if expected_head and effective_sha != expected_head:
             raise LocalReviewError("branch changed since the diff was loaded; reload before reviewing")
@@ -710,6 +787,9 @@ def record_review(
             item["status"] = "changes_requested"
         elif action == "reject":
             item["status"] = "rejected"
+        elif action == "pass_doc_review":
+            item["status"] = "ready"
+            item["doc_reviewed_sha"] = effective_sha
         item["updated_at"] = timestamp
         return enrich_item(item, repo_dir)
 
@@ -825,6 +905,11 @@ def integrate_branch(
             raise LocalReviewError(f"branch {branch} changed after approval; review the new head before integrating")
         target_batch = batch_branch or item.get("batch") or default_batch_name()
         target_base = base or item.get("base") or "master"
+        existing_batch = state["batches"].get(target_batch)
+        if existing_batch is not None and is_batch_merged_into_base(existing_batch, repo):
+            raise LocalReviewError(
+                f"batch {target_batch} is already merged into {existing_batch.get('base', target_base)}; create a new batch"
+            )
         commit_message = build_squash_commit_message(item, message)
 
         if not ref_exists(target_base, repo):
@@ -982,6 +1067,103 @@ def build_batch_pr_draft(
     }
 
 
+def delete_local_branch_if_unused(branch: str, repo_dir: Path | None = None) -> bool:
+    if not branch_exists(branch, repo_dir):
+        return False
+    if find_worktree_for_branch(branch, repo_dir) is not None:
+        return False
+    sha = resolve_commit(f"refs/heads/{branch}", repo_dir)
+    proc = run_git(["update-ref", "-d", f"refs/heads/{branch}", sha], cwd=repo_dir, check=False)
+    return proc.returncode == 0
+
+
+def apply_batch_merged(
+    state: dict[str, Any],
+    batch_branch: str,
+    timestamp: str,
+    pr_url: str | None = None,
+    delete_branch: bool = False,
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    batch = state["batches"].get(batch_branch)
+    if batch is None:
+        raise LocalReviewError(f"batch not found in local review state: {batch_branch}")
+    already_merged = batch.get("status") == "merged" or bool(batch.get("merged_at"))
+    batch["status"] = "merged"
+    batch.setdefault("merged_at", timestamp)
+    if not batch["merged_at"]:
+        batch["merged_at"] = timestamp
+    if pr_url is not None and pr_url.strip():
+        batch["pr_url"] = pr_url.strip()
+    batch["updated_at"] = timestamp
+
+    updated_items: list[str] = []
+    for branch_name, item in state.get("items", {}).items():
+        if item.get("batch") == batch_branch and item.get("status") == "integrated":
+            item["status"] = "merged"
+            item["updated_at"] = timestamp
+            updated_items.append(branch_name)
+
+    deleted_branch = False
+    if delete_branch:
+        deleted_branch = delete_local_branch_if_unused(batch_branch, repo_dir)
+
+    return {
+        "batch": batch_branch,
+        "already_merged": already_merged,
+        "updated_items": updated_items,
+        "deleted_branch": deleted_branch,
+    }
+
+
+def sync_merged_batches(
+    delete_branches: bool = False,
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    repo = repo_dir or ROOT
+    timestamp = now_iso()
+    synced_batches: list[dict[str, Any]] = []
+    with locked_state(repo, write=True) as state:
+        for b_name, batch in state.get("batches", {}).items():
+            if not is_batch_merged_into_base(batch, repo):
+                continue
+            was_merged = batch.get("status") == "merged" and bool(batch.get("merged_at"))
+            has_integrated = any(
+                item.get("batch") == b_name and item.get("status") == "integrated"
+                for item in state.get("items", {}).values()
+            )
+            needs_delete = delete_branches and branch_exists(b_name, repo)
+            if not was_merged or has_integrated or needs_delete:
+                res = apply_batch_merged(
+                    state,
+                    b_name,
+                    timestamp,
+                    delete_branch=delete_branches,
+                    repo_dir=repo,
+                )
+                synced_batches.append(res)
+    return {"synced_batches": synced_batches}
+
+
+def mark_batch_merged(
+    batch_branch: str,
+    pr_url: str | None = None,
+    delete_branch: bool = False,
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    repo = repo_dir or ROOT
+    timestamp = now_iso()
+    with locked_state(repo, write=True) as state:
+        return apply_batch_merged(
+            state,
+            batch_branch,
+            timestamp,
+            pr_url=pr_url,
+            delete_branch=delete_branch,
+            repo_dir=repo,
+        )
+
+
 def discover_local_batch_branches(
     batches: list[dict[str, Any]],
     repo_dir: Path | None = None,
@@ -990,9 +1172,9 @@ def discover_local_batch_branches(
     seen: set[str] = set()
     for batch in batches:
         name = batch["branch"]
-        if not batch.get("branch_exists"):
-            continue
         seen.add(name)
+        if not batch.get("branch_exists") or batch.get("is_merged"):
+            continue
         tracked.append(
             {
                 "branch": name,
@@ -1048,14 +1230,18 @@ def suggest_new_batch_name(existing_names: set[str], repo_dir: Path | None = Non
 def overview_payload(base: str = "master", repo_dir: Path | None = None) -> dict[str, Any]:
     repo = repo_dir or ROOT
     with locked_state(repo, write=False) as state:
-        items = [enrich_item(item, repo) for item in state.get("items", {}).values()]
-        items.sort(key=lambda entry: entry.get("updated_at", ""), reverse=True)
         batches: list[dict[str, Any]] = []
+        merged_batches: set[str] = set()
         for batch in state.get("batches", {}).values():
             batch_copy = dict(batch)
             b_name = batch_copy["branch"]
             b_base = batch_copy.get("base", base)
             batch_copy["branch_exists"] = branch_exists(b_name, repo)
+            is_merged = is_batch_merged_into_base(batch_copy, repo)
+            batch_copy["is_merged"] = is_merged
+            batch_copy["status"] = "merged" if is_merged else "open"
+            if is_merged:
+                merged_batches.add(b_name)
             if batch_copy["branch_exists"] and ref_exists(b_base, repo):
                 batch_copy["commits"] = branch_commits(b_base, b_name, repo)
                 batch_copy["stats"] = branch_diffstat(b_base, b_name, repo)
@@ -1064,10 +1250,16 @@ def overview_payload(base: str = "master", repo_dir: Path | None = None) -> dict
                 batch_copy["stats"] = {"files": 0, "additions": 0, "deletions": 0}
             batches.append(batch_copy)
         batches.sort(key=lambda entry: entry.get("updated_at", ""), reverse=True)
+        items = [
+            enrich_item(item, repo, merged_batches=merged_batches)
+            for item in state.get("items", {}).values()
+        ]
+        items.sort(key=lambda entry: entry.get("updated_at", ""), reverse=True)
         untracked = discover_untracked_branches(state, base=base, repo_dir=repo)
+        all_tracked_batch_names = set(state.get("batches", {}).keys())
 
     existing_batches = discover_local_batch_branches(batches, repo_dir=repo)
-    existing_names = {entry["branch"] for entry in existing_batches}
+    existing_names = {entry["branch"] for entry in existing_batches} | all_tracked_batch_names
     suggested_new_batch = suggest_new_batch_name(existing_names, repo_dir=repo)
     master_sha = resolve_commit(base, repo) if ref_exists(base, repo) else ""
     return {
@@ -1193,6 +1385,8 @@ def build_http_handler(repo_dir: Path, default_base: str = "master"):
                         verification=body.get("verification"),
                         performance=body.get("performance"),
                         review_notes=body.get("review_notes"),
+                        status=body.get("status"),
+                        skip_doc_review=bool(body.get("skip_doc_review", False)),
                         repo_dir=repo_dir,
                     )
                     self.send_json(200, {"item": result})
@@ -1255,6 +1449,25 @@ def build_http_handler(repo_dir: Path, default_base: str = "master"):
                     )
                     self.send_json(200, result)
                     return
+                if path == "/api/batches/sync":
+                    result = sync_merged_batches(
+                        delete_branches=bool(body.get("delete_branches", False)),
+                        repo_dir=repo_dir,
+                    )
+                    self.send_json(200, result)
+                    return
+                if path == "/api/batches/mark-merged":
+                    batch_name = str(body.get("batch", "")).strip()
+                    if not batch_name:
+                        raise LocalReviewError("batch is required")
+                    result = mark_batch_merged(
+                        batch_branch=batch_name,
+                        pr_url=body.get("pr_url"),
+                        delete_branch=bool(body.get("delete_branch", False)),
+                        repo_dir=repo_dir,
+                    )
+                    self.send_json(200, result)
+                    return
                 self.send_json(404, {"error": f"not found: {path}"})
             except LocalReviewError as exc:
                 self.send_json(400, {"error": str(exc)})
@@ -1294,6 +1507,7 @@ def cmd_serve(args: argparse.Namespace) -> int:
 def cmd_submit(args: argparse.Namespace) -> int:
     branch = args.branch or current_branch(ROOT)
     close_keyword = "Refs" if args.refs else "Closes"
+    status = "doc_review" if args.doc_review else None
     item = submit_branch(
         branch=branch,
         base=args.base,
@@ -1304,6 +1518,8 @@ def cmd_submit(args: argparse.Namespace) -> int:
         verification=args.verify,
         performance=args.perf,
         review_notes=args.notes,
+        status=status,
+        skip_doc_review=args.skip_doc_review,
         repo_dir=ROOT,
     )
     if args.json:
@@ -1498,6 +1714,40 @@ def cmd_prepare_pr(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_sync(args: argparse.Namespace) -> int:
+    result = sync_merged_batches(delete_branches=args.delete_batch_branches, repo_dir=ROOT)
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        synced = result["synced_batches"]
+        if not synced:
+            print("(no merged batches to sync)")
+            return 0
+        for entry in synced:
+            suffix = " (batch branch deleted)" if entry["deleted_branch"] else ""
+            print(
+                f"merged: {entry['batch']} ({len(entry['updated_items'])} items updated){suffix}"
+            )
+    return 0
+
+
+def cmd_mark_merged(args: argparse.Namespace) -> int:
+    result = mark_batch_merged(
+        batch_branch=args.batch,
+        pr_url=args.pr_url,
+        delete_branch=args.delete_branch,
+        repo_dir=ROOT,
+    )
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        suffix = " (batch branch deleted)" if result["deleted_branch"] else ""
+        print(
+            f"marked merged: {result['batch']} ({len(result['updated_items'])} items updated){suffix}"
+        )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Local PR-style review queue UI and batch integration CLI."
@@ -1521,6 +1771,17 @@ def build_parser() -> argparse.ArgumentParser:
     p_submit.add_argument("--verify", action="append", help="Verification result line (repeatable).")
     p_submit.add_argument("--perf", help="Performance measurement note.")
     p_submit.add_argument("--notes", help="Review points or open questions.")
+    doc_group = p_submit.add_mutually_exclusive_group()
+    doc_group.add_argument(
+        "--doc-review",
+        action="store_true",
+        help="Force status to doc_review even if no docs changed.",
+    )
+    doc_group.add_argument(
+        "--skip-doc-review",
+        action="store_true",
+        help="Set status to ready directly without doc_review.",
+    )
     p_submit.add_argument("--json", action="store_true", help="Output JSON.")
     p_submit.set_defaults(func=cmd_submit)
 
@@ -1598,6 +1859,26 @@ def build_parser() -> argparse.ArgumentParser:
     p_pr.add_argument("--create", action="store_true", help="Push and run gh pr create.")
     p_pr.add_argument("--json", action="store_true", help="Output JSON.")
     p_pr.set_defaults(func=cmd_prepare_pr)
+
+    p_sync = sub.add_parser("sync", help="Detect batches merged into base and mark them merged.")
+    p_sync.add_argument(
+        "--delete-batch-branches",
+        action="store_true",
+        help="Delete local merged batch branches if unused by worktrees.",
+    )
+    p_sync.add_argument("--json", action="store_true", help="Output JSON.")
+    p_sync.set_defaults(func=cmd_sync)
+
+    p_mark = sub.add_parser("mark-merged", help="Explicitly mark a batch as merged into base.")
+    p_mark.add_argument("--batch", required=True, help="Batch branch name.")
+    p_mark.add_argument("--pr-url", help="Optional merged PR URL.")
+    p_mark.add_argument(
+        "--delete-branch",
+        action="store_true",
+        help="Delete local batch branch if unused by worktrees.",
+    )
+    p_mark.add_argument("--json", action="store_true", help="Output JSON.")
+    p_mark.set_defaults(func=cmd_mark_merged)
 
     return parser
 

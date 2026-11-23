@@ -34,11 +34,13 @@
   <main id="view-review" class="layout">
     <aside class="sidebar">
       <div class="sidebar-filters" id="status-filters">
-        <button class="filter-pill active" data-status="all">All <span class="pill-count">0</span></button>
+        <button class="filter-pill active" data-status="active">Active <span class="pill-count">0</span></button>
         <button class="filter-pill" data-status="ready">Ready <span class="pill-count">0</span></button>
+        <button class="filter-pill" data-status="doc_review">Doc Review <span class="pill-count">0</span></button>
         <button class="filter-pill" data-status="changes_requested">Changes <span class="pill-count">0</span></button>
         <button class="filter-pill" data-status="approved">Approved <span class="pill-count">0</span></button>
         <button class="filter-pill" data-status="integrated">Integrated <span class="pill-count">0</span></button>
+        <button class="filter-pill" data-status="merged">Merged <span class="pill-count">0</span></button>
       </div>
       <div id="queue-list" class="queue-list"></div>
 
@@ -78,6 +80,16 @@
             <div id="pr-reviews-list" class="reviews-list"></div>
           </div>
 
+          <div id="doc-review-bar" class="doc-review-bar hidden">
+            <div class="integrate-bar-info">
+              <strong>文章レビュー待ち（agy）</strong>
+              <span class="integrate-bar-hint">ドキュメント変更の文章チェック待ちです。確認済みなら Ready へ進められます。</span>
+            </div>
+            <div class="integrate-controls">
+              <button id="btn-pass-doc-review" class="btn btn-primary btn-sm" type="button">文章レビュー済みにする (Ready)</button>
+            </div>
+          </div>
+
           <div id="integrate-bar" class="integrate-bar hidden">
             <div class="integrate-bar-head">
               <div class="integrate-bar-info">
@@ -102,7 +114,7 @@
 
           <div id="integrated-bar" class="integrated-bar hidden">
             <div class="integrate-bar-info">
-              <strong>統合済み</strong>
+              <strong id="integrated-bar-title">統合済み</strong>
               <span id="integrated-bar-detail" class="integrate-bar-hint"></span>
             </div>
             <div class="integrate-controls">
@@ -172,8 +184,21 @@
 
     <div class="batch-columns">
       <section class="card batch-section">
-        <h2>Local Batches</h2>
+        <div class="section-head">
+          <h2>Local Batches</h2>
+          <div class="integrate-controls">
+            <label class="checkbox-inline">
+              <input id="sync-delete-branches" type="checkbox" checked>
+              <span>マージ済み batch ブランチ削除</span>
+            </label>
+            <button id="btn-sync-batches" class="btn btn-secondary btn-sm" type="button">マージ済みを同期</button>
+          </div>
+        </div>
         <div id="batch-list" class="batch-list"></div>
+        <details id="merged-batches-section" class="merged-batches-section hidden">
+          <summary>Merged Batches (<span id="merged-batches-count">0</span>)</summary>
+          <div id="merged-batch-list" class="batch-list"></div>
+        </details>
       </section>
 
       <section class="card batch-section">
