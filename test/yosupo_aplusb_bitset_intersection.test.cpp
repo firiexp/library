@@ -113,7 +113,7 @@ void check_kernels() {
     for (int n = 0; n <= 257; ++n) {
         for (int offset = 0; offset < 4; ++offset) {
             vector<unsigned long long> a(n + offset), b(n + offset);
-            for (int shape = 0; shape < 4; ++shape) {
+            for (int shape = 0; shape < 5; ++shape) {
                 int expected = 0, distance = 0, count = 0;
                 for (int i = offset; i < n + offset; ++i) {
                     a[i] = rng();
@@ -121,6 +121,7 @@ void check_kernels() {
                     if (shape == 1 && i == offset) b[i] = ~0ULL;
                     if (shape == 2 && i == n + offset - 1) b[i] = ~0ULL;
                     if (shape == 3) b[i] = rng();
+                    if (shape == 4) a[i] = b[i] = ~0ULL;
                     for (auto x = a[i] & b[i]; x; x &= x - 1) ++expected;
                     for (auto x = a[i] ^ b[i]; x; x &= x - 1) ++distance;
                     for (auto x = a[i]; x; x &= x - 1) ++count;

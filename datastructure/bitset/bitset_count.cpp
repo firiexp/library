@@ -32,24 +32,38 @@ inline int count_scalar(const Word *src, int m, const Word *other = nullptr) {
 }
 
 #if defined(__x86_64__) || defined(_M_X64)
-template<Operation Op = Operation::Identity>
-__attribute__((target("avx2,popcnt"))) inline int count_avx2(const Word *src, int m, const Word *other = nullptr) {
+template<Operation Op>
+__attribute__((target("avx2,popcnt"))) inline __m256i count_bytes_avx2(const Word *src, const Word *other, int i) {
     const __m256i lookup = _mm256_setr_epi8(
         0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
         0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
     const __m256i mask = _mm256_set1_epi8(15);
+    __m256i x = _mm256_loadu_si256((const __m256i *)(src + i));
+    if constexpr (Op == Operation::And) x = _mm256_and_si256(x, _mm256_loadu_si256((const __m256i *)(other + i)));
+    if constexpr (Op == Operation::Xor) x = _mm256_xor_si256(x, _mm256_loadu_si256((const __m256i *)(other + i)));
+    __m256i lo = _mm256_and_si256(x, mask);
+    __m256i hi = _mm256_and_si256(_mm256_srli_epi16(x, 4), mask);
+    return _mm256_add_epi8(_mm256_shuffle_epi8(lookup, lo), _mm256_shuffle_epi8(lookup, hi));
+}
+
+template<Operation Op = Operation::Identity>
+__attribute__((target("avx2,popcnt"))) inline int count_avx2(const Word *src, int m, const Word *other = nullptr) {
     const __m256i zero = _mm256_setzero_si256();
     __m256i sum = zero;
     int i = 0;
-    for (; i + 4 <= m; i += 4) {
-        __m256i x = _mm256_loadu_si256((const __m256i *)(src + i));
-        if constexpr (Op == Operation::And) x = _mm256_and_si256(x, _mm256_loadu_si256((const __m256i *)(other + i)));
-        if constexpr (Op == Operation::Xor) x = _mm256_xor_si256(x, _mm256_loadu_si256((const __m256i *)(other + i)));
-        __m256i lo = _mm256_and_si256(x, mask);
-        __m256i hi = _mm256_and_si256(_mm256_srli_epi16(x, 4), mask);
-        __m256i counts = _mm256_add_epi8(_mm256_shuffle_epi8(lookup, lo), _mm256_shuffle_epi8(lookup, hi));
-        sum = _mm256_add_epi64(sum, _mm256_sad_epu8(counts, zero));
+    for (; m - i >= 64; i += 64) {
+        __m256i bytes = zero;
+        #pragma GCC unroll 4
+        for (int j = 0; j < 64; j += 4) {
+            bytes = _mm256_add_epi8(bytes, count_bytes_avx2<Op>(src, other, i + j));
+        }
+        sum = _mm256_add_epi64(sum, _mm256_sad_epu8(bytes, zero));
     }
+    __m256i bytes = zero;
+    for (; m - i >= 4; i += 4) {
+        bytes = _mm256_add_epi8(bytes, count_bytes_avx2<Op>(src, other, i));
+    }
+    sum = _mm256_add_epi64(sum, _mm256_sad_epu8(bytes, zero));
     alignas(32) Word lanes[4];
     _mm256_storeu_si256((__m256i *)lanes, sum);
     int result = lanes[0] + lanes[1] + lanes[2] + lanes[3];
