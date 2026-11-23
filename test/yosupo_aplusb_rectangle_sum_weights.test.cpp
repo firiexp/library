@@ -13,6 +13,15 @@ using ull = unsigned long long;
 
 template<class T>
 void check(bool modular) {
+    PointAddRectangleSum<T> dense;
+    for (int w = -15; w <= 16; ++w) dense.add_point(3, 4, T(w));
+    assert(dense.solve().empty());
+    dense.add_query(3, 4, 4, 5);
+    dense.add_point(3, 4, T(-20));
+    dense.add_point(-2, 1, T(7));
+    dense.add_query(-2, 1, 4, 5);
+    assert((dense.solve() == vector<T>{T(16), T(3)}));
+
     const vector<int> coords = {-1000000000, -16777217, -1, 0, 1, 16777215, 16777216, 16777217, 1000000000};
     mt19937 rng(63);
     for (int tc = 0; tc < 100; ++tc) {
@@ -20,9 +29,12 @@ void check(bool modular) {
         vector<tuple<int, int, ll>> points;
         vector<T> expected;
         assert(solver.solve().empty());
+        const int prefix_lengths[] = {0, 4, 64, 100};
+        int prefix = prefix_lengths[tc / 4 % 4];
         for (int step = 0; step < 100; ++step) {
             auto coord = [&]() { return coords[rng() % coords.size()]; };
-            if (rng() % 2) {
+            bool update = step < prefix || (step > prefix && (prefix == 0 ? step % 2 : rng() % 2));
+            if (update) {
                 int x = coord(), y = coord();
                 if (tc % 4 == 1 || tc % 4 == 3) x = -1;
                 if (tc % 4 == 2 || tc % 4 == 3) y = 0;
