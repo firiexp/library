@@ -1,74 +1,109 @@
 #include "int_point.cpp"
 
-pair<int, int> closest_pair(const vector<IntPoint> &points) {
-    using Dist = __int128_t;
-    struct P {
-        long long x;
-        long long y;
-        int idx;
+namespace closest_pair_detail {
+inline long long square_difference(int a, int b) {
+    long long d = (long long)a - b;
+    return d * d;
+}
+
+inline __uint128_t square_difference(long long a, long long b) {
+    uint64_t d = a < b ? uint64_t(b) - uint64_t(a) : uint64_t(a) - uint64_t(b);
+    return __uint128_t(d) * d;
+}
+
+inline long long sum_squares(long long x, long long y) {
+    return x + y;
+}
+
+inline pair<bool, __uint128_t> sum_squares(__uint128_t x, __uint128_t y) {
+    __uint128_t low = x + y;
+    return {low < x, low};
+}
+
+template<class Coord>
+pair<int, int> solve(const vector<IntPoint> &points, IntPoint origin) {
+    struct Point {
+        Coord x, y;
+        int index;
     };
-
     int n = points.size();
-    assert(n >= 2);
-    vector<P> ps(n);
+    vector<Point> ps;
+    ps.reserve(n);
     for (int i = 0; i < n; ++i) {
-        ps[i] = {points[i].x, points[i].y, i};
+        ps.push_back({Coord(points[i].x - origin.x), Coord(points[i].y - origin.y), i});
     }
-    sort(ps.begin(), ps.end(), [](const P &a, const P &b) {
-        if (a.x != b.x) return a.x < b.x;
-        if (a.y != b.y) return a.y < b.y;
-        return a.idx < b.idx;
+    sort(ps.begin(), ps.end(), [](const Point &a, const Point &b) {
+        return a.x != b.x ? a.x < b.x : a.y < b.y;
     });
+    for (int i = 1; i < n; ++i) {
+        if (ps[i - 1].x == ps[i].x && ps[i - 1].y == ps[i].y) {
+            return {ps[i - 1].index, ps[i].index};
+        }
+    }
 
-    Dist best = -1;
-    pair<int, int> ans = {-1, -1};
-    auto update = [&](const P &a, const P &b) {
-        Dist dx = Dist(a.x) - Dist(b.x);
-        Dist dy = Dist(a.y) - Dist(b.y);
-        Dist d = dx * dx + dy * dy;
-        pair<int, int> cand = {a.idx, b.idx};
-        if (best == -1 || d < best) {
+    auto distance = [](const Point &a, const Point &b) {
+        return sum_squares(square_difference(a.x, b.x), square_difference(a.y, b.y));
+    };
+    auto best = distance(ps[0], ps[1]);
+    pair<int, int> answer{ps[0].index, ps[1].index};
+    auto update = [&](const Point &a, const Point &b) {
+        auto d = distance(a, b);
+        if (d < best) {
             best = d;
-            ans = cand;
+            answer = {a.index, b.index};
         }
     };
-    update(ps[0], ps[1]);
 
-    vector<int> ord(n), scratch(n);
+    auto by_y = [](const Point &a, const Point &b) { return a.y < b.y; };
+    if (is_sorted(ps.begin(), ps.end(), by_y) || is_sorted(ps.rbegin(), ps.rend(), by_y)) {
+        for (int i = 2; i < n; ++i) update(ps[i - 1], ps[i]);
+        return answer;
+    }
+
+    vector<Point> scratch(n);
     auto dfs = [&](auto &&self, int l, int r) -> void {
-        if (r - l == 1) {
-            ord[l] = l;
+        if (r - l <= 8) {
+            for (int i = l; i < r; ++i) {
+                for (int j = i + 1; j < r; ++j) update(ps[i], ps[j]);
+            }
+            sort(ps.begin() + l, ps.begin() + r, by_y);
             return;
         }
-        int m = (l + r) >> 1;
-        long long mx = ps[m].x;
+        int m = l + (r - l) / 2;
+        Coord mid_x = ps[m].x;
         self(self, l, m);
         self(self, m, r);
-        int i = l, j = m;
-        for (int k = l; k < r; ++k) {
-            if (j == r || (i < m && ps[ord[i]].y < ps[ord[j]].y)) {
-                scratch[k] = ord[i++];
-            } else {
-                scratch[k] = ord[j++];
-            }
-        }
-        copy(scratch.begin() + l, scratch.begin() + r, ord.begin() + l);
+        merge(ps.begin() + l, ps.begin() + m, ps.begin() + m, ps.begin() + r, scratch.begin(), by_y);
+        copy_n(scratch.begin(), r - l, ps.begin() + l);
         int count = 0;
-        for (int k = l; k < r; ++k) {
-            int idx = ord[k];
-            Dist dx = Dist(ps[idx].x) - Dist(mx);
-            if (dx * dx > best) continue;
-            for (int t = count - 1; t >= 0; --t) {
-                int idy = scratch[l + t];
-                Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);
-                if (best == 0 || dy * dy > best) break;
-                update(ps[idx], ps[idy]);
+        for (int i = l; i < r; ++i) {
+            if (sum_squares(square_difference(ps[i].x, mid_x), 0) >= best) continue;
+            for (int j = count - 1; j >= 0; --j) {
+                if (sum_squares(square_difference(ps[i].y, scratch[j].y), 0) >= best) break;
+                update(ps[i], scratch[j]);
             }
-            scratch[l + count++] = idx;
+            scratch[count++] = ps[i];
         }
     };
     dfs(dfs, 0, n);
-    return ans;
+    return answer;
+}
+}
+
+pair<int, int> closest_pair(const vector<IntPoint> &points) {
+    assert(points.size() >= 2);
+    if (points.size() == 2) return {0, 1};
+    IntPoint lo = points[0], hi = points[0];
+    for (const auto &p : points) {
+        lo.x = min(lo.x, p.x);
+        lo.y = min(lo.y, p.y);
+        hi.x = max(hi.x, p.x);
+        hi.y = max(hi.y, p.y);
+    }
+    if (__int128_t(hi.x) - lo.x <= INT32_MAX && __int128_t(hi.y) - lo.y <= INT32_MAX) {
+        return closest_pair_detail::solve<int>(points, lo);
+    }
+    return closest_pair_detail::solve<long long>(points, {0, 0});
 }
 
 /**
