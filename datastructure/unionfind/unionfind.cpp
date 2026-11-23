@@ -32,6 +32,21 @@ public:
     int size(){ return forest_size; }
     int size(int i){ return -uni[root(i)]; }
     bool same(int a, int b) { return root(a) == root(b); }
+
+    vector<vector<int>> groups() {
+        vector<int> group_index(n);
+        vector<vector<int>> result;
+        result.reserve(forest_size);
+        for (int v = 0; v < n; ++v) {
+            if (uni[v] >= 0) continue;
+            group_index[v] = (int)result.size();
+            result.emplace_back().reserve(-uni[v]);
+        }
+        for (int v = 0; v < n; ++v) {
+            result[group_index[root(v)]].push_back(v);
+        }
+        return result;
+    }
 };
 
 #endif

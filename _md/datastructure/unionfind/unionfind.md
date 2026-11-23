@@ -15,6 +15,7 @@ documentation_of: //datastructure/unionfind/unionfind.cpp
 - `int size()` : 集合の数を返す。$O(1)$
 - `int size(int i)` : `i` の属する集合の大きさを返す。償却 $O(\alpha(N))$
 - `bool same(int a, int b)` : `a` と `b` が同じ集合に属するかどうかを返す。償却 $O(\alpha(N))$
+- `vector<vector<int>> groups()` : 各集合の頂点列を返す。集合は代表元の昇順、各集合内は頂点番号の昇順に並ぶ。時間・領域 $O(N)$
 
 ## 使い方
 `UnionFind uf(n);` を作り、`unite(a, b)` で併合し、`same(a, b)` で連結性を判定する。頂点番号は `0 <= v < n` とする。

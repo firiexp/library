@@ -21,14 +21,23 @@ struct PointAddRectangleSum {
     }
 
     vector<T> solve() const {
+        auto first_query = find_if(ops.begin(), ops.end(), [](const Operation &op) {
+            return op.type == 1;
+        });
+        if (first_query == ops.end()) return {};
+
         FenwickTree2D<T> bit;
         for (const auto &op : ops) {
             if (op.type == 0) bit.add_point(op.x, op.y);
         }
-        bit.build();
+        vector<T> initial_weights;
+        initial_weights.reserve(first_query - ops.begin());
+        for (auto it = ops.begin(); it != first_query; ++it) initial_weights.push_back(it->w);
+        bit.build(initial_weights);
 
         vector<T> ans;
-        for (const auto &op : ops) {
+        for (auto it = first_query; it != ops.end(); ++it) {
+            const auto &op = *it;
             if (op.type == 0) {
                 bit.add(op.x, op.y, op.w);
             } else {

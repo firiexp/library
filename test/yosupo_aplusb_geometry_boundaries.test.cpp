@@ -145,6 +145,14 @@ void rectangle_check() {
     check({{-2000000000, 0, 2000000000, 1}});
     check({{0, -2000000000, 1, 2000000000}});
     check({{-2000000000, -3, 1, 4}, {-1, -2, 2000000000, 5}, {-5, 0, 5, 0}});
+    check({{0, 0, 4, 8}, {1, 2, 6, 6}, {1, 2, 6, 6}, {2, 3, 5, 5},
+           {4, -2, 7, 2}, {4, 6, 7, 8}, {6, 2, 7, 6}});
+    AreaOfUnionOfRectangles<long long, __int128_t> wide;
+    const __int128_t span = (__int128_t)LLONG_MAX - LLONG_MIN;
+    wide.add_rectangle(LLONG_MIN, 0, LLONG_MAX, 1);
+    assert(wide.solve() == span);
+    wide.add_rectangle(-1, LLONG_MIN, 1, LLONG_MAX);
+    assert(wide.solve() == 3 * span - 2);
     mt19937 rng(17);
     const vector<int> coords{-2000000000, -7, -1, 0, 1, 7, 2000000000};
     for (int tc = 0; tc < 300; ++tc) {
@@ -180,16 +188,10 @@ long long prim(const vector<vector<long long>> &g) {
 }
 
 void manhattan_check() {
-    mt19937 rng(37);
-    for (int n = 0; n <= 35; ++n) for (int tc = 0; tc < 30; ++tc) {
-        vector<long long> x(n), y(n);
-        for (int i = 0; i < n; ++i) {
-            x[i] = int(rng() % 11) - 5;
-            y[i] = tc == 0 ? -x[i] : int(rng() % 11) - 5;
-            if (tc == 1) x[i] = y[i] = 0;
-        }
+    auto check = [](const auto &x, const auto &y) {
+        int n = x.size();
         auto edges = manhattanMST(x, y);
-        if (n == 0) assert(edges.empty());
+        assert(edges.size() <= 4 * x.size());
         vector<vector<long long>> complete(n, vector<long long>(n));
         auto sparse = vector<vector<long long>>(n, vector<long long>(n, LLONG_MAX));
         for (int u = 0; u < n; ++u) for (int v = 0; v < n; ++v)
@@ -199,6 +201,25 @@ void manhattan_check() {
             sparse[u][v] = sparse[v][u] = complete[u][v];
         }
         assert(prim(complete) == prim(sparse));
+    };
+    check(vector<signed char>{100, -100, 100}, vector<signed char>{-110, 110, -100});
+    for (int mask = 0; mask < 1024; ++mask) {
+        vector<long long> x(5), y(5);
+        for (int i = 0; i < 5; ++i) {
+            x[i] = (mask >> (2 * i)) & 1;
+            y[i] = (mask >> (2 * i + 1)) & 1;
+        }
+        check(x, y);
+    }
+    mt19937 rng(37);
+    for (int n = 0; n <= 35; ++n) for (int tc = 0; tc < 30; ++tc) {
+        vector<long long> x(n), y(n);
+        for (int i = 0; i < n; ++i) {
+            x[i] = int(rng() % 11) - 5;
+            y[i] = tc == 0 ? -x[i] : int(rng() % 11) - 5;
+            if (tc == 1) x[i] = y[i] = 0;
+        }
+        check(x, y);
     }
 }
 

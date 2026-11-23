@@ -1,8 +1,6 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/challenges/sources/PCK/Final/0403"
 #include <algorithm>
 #include <cstdlib>
-#include <map>
-#include <numeric>
 #include <tuple>
 #include <vector>
 using namespace std;
