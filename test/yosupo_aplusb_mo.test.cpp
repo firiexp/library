@@ -9,7 +9,7 @@ void check_sum_and_distinct() {
     mt19937 rng(227);
     for (int tc = 0; tc < 300; ++tc) {
         int n = rng() % 101, count = rng() % 201;
-        vector<int> a(n), freq(16);
+        vector<int> a(n);
         for (int &value : a) value = rng() % 16;
         vector<Query> queries;
         vector<pair<int, int>> expected;
@@ -23,32 +23,61 @@ void check_sum_and_distinct() {
             set<int> distinct(a.begin() + l, a.begin() + r);
             expected.emplace_back(accumulate(a.begin() + l, a.begin() + r, 0), distinct.size());
         }
-        int width = tc % 3 == 0 ? 1 : tc % 3 == 1 ? 7 : INT_MAX;
-        int sum = 0, distinct = 0, previous = -1;
-        vector<int> seen(count);
-        auto add = [&](int i) {
-            sum += a[i];
-            distinct += freq[a[i]]++ == 0;
+        const int widths[] = {0, 1, 7, INT_MAX};
+        int width = widths[tc / 4 % 4];
+        int block = width ? width : max(1, int(n / sqrt(max(1, count))));
+        Query::B = block;
+        auto run = [&](bool symmetric) {
+            int sum = 0, distinct = 0, previous = -1;
+            vector<int> freq(16), seen(count);
+            vector<pair<int, int>> answers(count);
+            auto add = [&](int i) {
+                sum += a[i];
+                distinct += freq[a[i]]++ == 0;
+            };
+            auto erase = [&](int i) {
+                sum -= a[i];
+                distinct -= --freq[a[i]] == 0;
+            };
+            auto output = [&](int no) {
+                int i = -no - 1;
+                assert(0 <= i && i < count);
+                answers[i] = {sum, distinct};
+                if (previous != -1) assert(!(queries[i] < queries[previous]));
+                previous = i;
+                ++seen[i];
+            };
+            if (!symmetric) mo_solve(n, queries, add, add, erase, erase, output, width);
+            else if (width) mo_solve(n, queries, add, erase, output, width);
+            else mo_solve(n, queries, add, erase, output);
+            for (int value : seen) assert(value == 1);
+            return answers;
         };
-        auto erase = [&](int i) {
-            sum -= a[i];
-            distinct -= --freq[a[i]] == 0;
-        };
-        Query::B = width;
-        mo_solve(n, queries, add, add, erase, erase, [&](int no) {
-            int i = -no - 1;
-            assert(make_pair(sum, distinct) == expected[i]);
-            if (previous != -1) assert(!(queries[i] < queries[previous]));
-            previous = i;
-            ++seen[i];
-        }, width);
-        for (int value : seen) assert(value == 1);
-        assert(Query::bucket_size == width);
+        auto directional = run(false);
+        auto symmetric = run(true);
+        assert(directional == expected && symmetric == directional);
+        assert(Query::bucket_size == block);
     }
+}
+
+void check_shared_callbacks() {
+    vector<Query> qs{ {4, 8, 0}, {0, 7, 1}, {3, 6, 2} };
+    int added = 0, erased = 0;
+    auto counter = [](int &total) {
+        return [&total, calls = 0](int) mutable {
+            ++calls;
+            ++total;
+            assert(calls == total);
+        };
+    };
+    mo_solve(8, qs, counter(added), counter(erased), [&](int no) {
+        assert(added - erased == qs[no].r - qs[no].l);
+    }, 8);
 }
 
 int main() {
     check_sum_and_distinct();
+    check_shared_callbacks();
     mt19937 rng(87);
     for (int tc = 0; tc < 10000; ++tc) {
         int n = rng() % 31, q = rng() % 41;
@@ -95,7 +124,8 @@ int main() {
             ++seen[id];
         };
         int width = tc % 3 == 0 ? 0 : tc % 3 == 1 ? 1 : n + 2;
-        mo_solve(n, qs, add_left, add_right, erase_left, erase_right, output, width);
+        if (width) mo_solve(n, qs, add_left, add_right, erase_left, erase_right, output, width);
+        else mo_solve(n, qs, add_left, add_right, erase_left, erase_right, output);
         assert(Query::bucket_size == 7);
         assert(qs.size() == original.size());
         for (int i = 0; i < q; ++i) {
