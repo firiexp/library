@@ -17,7 +17,7 @@ vector<int> parents(const vector<vector<int>> &g, int root) {
     return p;
 }
 
-void check_tree(vector<vector<int>> g, vector<int> roots) {
+void check_tree(const vector<vector<int>> &g, vector<int> roots) {
     int n = g.size();
     HeavyLightDecomposition hld(g);
     HeavyLightDecompositionEdge edges(g);
@@ -35,10 +35,37 @@ void check_tree(vector<vector<int>> g, vector<int> roots) {
     for (int u = 0; u < n; ++u) {
         auto p = parents(g, u);
         for (int v = 0; v < n; ++v) {
-            if (p[v] == -1) continue;
+            auto check_jump = [&](int k, int expected) {
+                assert(ordered.jump(u, v, k) == expected);
+                assert(ordered_edges.jump(u, v, k) == expected);
+            };
+            check_jump(INT_MIN, -1);
+            check_jump(-1, -1);
+            check_jump(INT_MAX, -1);
+            if (p[v] == -1) {
+                check_jump(0, -1);
+                continue;
+            }
             vector<int> path{v};
             while (path.back() != u) path.push_back(p[path.back()]);
             reverse(path.begin(), path.end());
+            int length = (int)path.size() - 1;
+            for (int k = 0; k <= length; ++k) check_jump(k, path[k]);
+            check_jump(length + 1, -1);
+            int up = 0;
+            while (up < length && parent[path[up]] == path[up + 1]) ++up;
+            assert(ordered_edges.lca(u, v) == path[up]);
+            assert(ordered_edges.ancestor(u, up) == path[up]);
+            assert(ordered_edges.distance(u, v) == length);
+            auto check_length = [&](const auto &index, int expected) {
+                int size = 0;
+                index.path(u, v, [&](int l, int r) { size += r - l; });
+                assert(size == expected);
+                auto count = [](int l, int r) { return r - l; };
+                assert(index.path_query(u, v, 0, count, plus<int>()) == expected);
+            };
+            check_length(ordered, length + 1);
+            check_length(ordered_edges, length);
             for (bool edge : {false, true}) {
                 vector<int> expected;
                 if (!edge) expected = path;
@@ -80,9 +107,10 @@ void check_tree(vector<vector<int>> g, vector<int> roots) {
                     for (int i = r; i-- > l;) result += to_string(hld.id_inv[i]) + ",";
                     return result;
                 };
-                assert(hld.path_query_ordered(u, v, string(), ql, qr,
+                assert(ordered.path_query_ordered(u, v, string(), ql, qr,
                     [](const string &a, const string &b) { return a + b; }, edge) == text);
                 if (edge) {
+                    assert(ordered_edges.path_query_ordered(u, v, string(), ql, qr, plus<string>()) == text);
                     vector<int> wrapped;
                     ordered_edges.path_ordered(u, v, [&](int l, int r, bool reversed) {
                         for (int i = 0; i < r - l; ++i) {

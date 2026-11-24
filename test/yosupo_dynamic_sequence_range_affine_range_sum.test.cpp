@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/dynamic_sequence_range_affine_range_sum"
 
+#include <cassert>
 #include <algorithm>
 #include <array>
 #include <vector>

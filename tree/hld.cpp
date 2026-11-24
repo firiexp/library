@@ -53,7 +53,7 @@ public:
     vector<vector<int>> G;
     vector<int> par, dep, sub_size, id, id_inv, tree_id, head;
     explicit HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n){}
-    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n) {}
+    explicit HeavyLightDecomposition(const vector<vector<int>> &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n) {}
 
     void add_edge(int u, int v){
         G[u].emplace_back(v);
@@ -97,6 +97,15 @@ public:
     }
 
     int distance(int u, int v) const { return dep[u] + dep[v] - 2*dep[lca(u, v)]; }
+
+    int jump(int u, int v, int k) const {
+        if (k < 0 || tree_id[u] != tree_id[v]) return -1;
+        int w = lca(u, v);
+        int up = dep[u] - dep[w];
+        int length = up + (dep[v] - dep[w]);
+        if (k > length) return -1;
+        return k <= up ? ancestor(u, k) : ancestor(v, length - k);
+    }
 
     pair<int, int> path_intersection(int a, int b, int c, int d) const {
         if (tree_id[a] != tree_id[b] || tree_id[a] != tree_id[c] ||
@@ -145,7 +154,7 @@ public:
     }
 
     template<typename F>
-    void add(int u, int v, const F &f, bool edge){
+    void add(int u, int v, const F &f, bool edge) const {
         while (head[u] != head[v]){
             if(id[u] > id[v]) swap(u, v);
             f(id[head[v]], id[v]+1);
@@ -156,7 +165,7 @@ public:
     }
 
     template<typename F>
-    void path(int u, int v, const F &f, bool edge = false){
+    void path(int u, int v, const F &f, bool edge = false) const {
         add(u, v, f, edge);
     }
 
@@ -186,13 +195,13 @@ public:
     }
 
     template<typename F>
-    void apply_subtree(int v, const F &f, bool edge = false){
+    void apply_subtree(int v, const F &f, bool edge = false) const {
         auto [l, r] = subtree(v, edge);
         f(l, r);
     }
 
     template<typename T, typename Q, typename F>
-    T query(int u, int v, const T &e, const Q &q, const F &f, bool edge){
+    T query(int u, int v, const T &e, const Q &q, const F &f, bool edge) const {
         T l = e, r = e;
         while(head[u] != head[v]){
             if(id[u] > id[v]) swap(u, v), swap(l, r);
@@ -204,12 +213,12 @@ public:
     }
 
     template<typename T, typename Q, typename F>
-    T path_query(int u, int v, const T &e, const Q &q, const F &f, bool edge = false){
+    T path_query(int u, int v, const T &e, const Q &q, const F &f, bool edge = false) const {
         return query(u, v, e, q, f, edge);
     }
 
     template<typename T, typename QL, typename QR, typename F>
-    T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F &f, bool edge){
+    T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F &f, bool edge) const {
         T l = e, r = e;
         while(head[u] != head[v]){
             if(id[u] > id[v]) {
@@ -225,12 +234,12 @@ public:
     }
 
     template<typename T, typename QL, typename QR, typename F>
-    T path_query_ordered(int u, int v, const T &e, const QL &ql, const QR &qr, const F &f, bool edge = false){
+    T path_query_ordered(int u, int v, const T &e, const QL &ql, const QR &qr, const F &f, bool edge = false) const {
         return query_order(u, v, e, ql, qr, f, edge);
     }
 
     template<typename Q>
-    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){
+    decltype(auto) subtree_query(int v, const Q &q, bool edge = false) const {
         auto [l, r] = subtree(v, edge);
         return q(l, r);
     }

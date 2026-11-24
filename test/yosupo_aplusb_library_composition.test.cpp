@@ -105,6 +105,7 @@ void check_composed_libraries() {
     assert(hld_edge.subtree(0) == make_pair(1, 3));
     assert(bcc.build() == 2);
     assert(bct.build() == 3 && bct.is_articulation[0]);
+    assert(bcc.bcc_edges.size() == 2 && bct.bcc.bcc_edges.empty());
     aux.buildLCA();
     virtual_tree.build();
     assert(aux.LCA(1, 2) == 0 && virtual_tree.lca(1, 2) == 0);

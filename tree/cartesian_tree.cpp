@@ -1,26 +1,31 @@
+#ifndef FIRIEXP_LIBRARY_TREE_CARTESIAN_TREE_CPP
+#define FIRIEXP_LIBRARY_TREE_CARTESIAN_TREE_CPP
+
+struct CartesianTree {
+    int root;
+    vector<int> parent, left, right;
+};
+
 template<class T>
-pair<vector<vector<int>>, int> CartesianTree(const vector<T> &a) {
+CartesianTree cartesian_tree(const vector<T> &a) {
     int n = a.size();
-    vector<vector<int>> g(n);
-    vector<int> parent(n, -1), st;
-    st.reserve(n);
+    CartesianTree tree{-1, vector<int>(n, -1), vector<int>(n, -1), vector<int>(n, -1)};
     for (int i = 0; i < n; ++i) {
-        int last = -1;
-        while (!st.empty() && a[i] < a[st.back()]) {
-            last = st.back();
-            st.pop_back();
+        int p = i - 1, last = -1;
+        while (p != -1 && a[i] < a[p]) {
+            last = p;
+            p = tree.parent[p];
         }
-        if (last != -1) parent[last] = i;
-        if (!st.empty()) parent[i] = st.back();
-        st.push_back(i);
+        tree.left[i] = last;
+        if (last != -1) tree.parent[last] = i;
+        tree.parent[i] = p;
+        if (p == -1) tree.root = i;
+        else tree.right[p] = i;
     }
-    int root = -1;
-    for (int i = 0; i < n; ++i) {
-        if (parent[i] == -1) root = i;
-        else g[parent[i]].push_back(i);
-    }
-    return {std::move(g), root};
+    return tree;
 }
+
+#endif
 
 /**
  * @brief Cartesian Tree

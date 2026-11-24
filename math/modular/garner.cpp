@@ -1,3 +1,5 @@
+#include "../extgcd.cpp"
+
 template <class T>
 T pow_ (T x, T n, T M){
     uint64_t u = 1, xx = x;
@@ -9,17 +11,6 @@ T pow_ (T x, T n, T M){
     return static_cast<T>(u);
 };
 
-
-template<typename T>
-T extgcd(T a, T b, T &x ,T &y){
-    for (T u = y = 1, v = x = 0; a; ) {
-        ll q = b/a;
-        swap(x -= q*u, u);
-        swap(y -= q*v, v);
-        swap(b -= q*a, a);
-    }
-    return b;
-}
 
 template<typename T>
 T mod_inv(T x, T m){

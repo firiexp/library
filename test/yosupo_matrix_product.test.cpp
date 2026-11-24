@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/matrix_product"
 
+#include <cassert>
 #include <vector>
 using namespace std;
 

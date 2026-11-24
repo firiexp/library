@@ -1,4 +1,5 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0422"
+#include <cassert>
 #include <iostream>
 #include <algorithm>
 #include <map>
