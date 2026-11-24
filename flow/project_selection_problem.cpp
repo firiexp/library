@@ -9,6 +9,26 @@ class ProjectSelectionProblem {
     vector<char> forced_true, forced_false;
     vector<int> selected;
 
+    void add_all_profit(const vector<int> &vs, T profit, bool all_true) {
+        assert(profit >= 0);
+        if (profit == 0) return;
+        if (vs.empty()) {
+            base_score += profit;
+            return;
+        }
+        int bonus_vertex = vs.front();
+        const auto count = vs.size();
+        if (count > 1) {
+            bonus_vertex = add_vertex();
+            for (size_t i = 0; i < count; ++i) {
+                if (all_true) add_if_then(bonus_vertex, vs[i]);
+                else add_if_then(vs[i], bonus_vertex);
+            }
+        }
+        if (all_true) add_true_profit(bonus_vertex, profit);
+        else add_false_profit(bonus_vertex, profit);
+    }
+
 public:
     ProjectSelectionProblem() : n(0) {}
     explicit ProjectSelectionProblem(int n)
@@ -33,6 +53,14 @@ public:
     void add_false_profit(int v, T x) {
         base_score += x;
         weight[v] -= x;
+    }
+
+    void add_all_true_profit(const vector<int> &vs, T profit) {
+        add_all_profit(vs, profit, true);
+    }
+
+    void add_all_false_profit(const vector<int> &vs, T profit) {
+        add_all_profit(vs, profit, false);
     }
 
     void add_penalty(int x, int y, T cost) {

@@ -8,13 +8,13 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../flow/project_selection_problem.cpp"
 
 template<class Score>
-void check(ProjectSelectionProblem<ll> &psp, Score score, int fixed = -1) {
-    int n = psp.size();
+void check(ProjectSelectionProblem<ll> &psp, int n, Score score, int fixed = -1) {
     ll best = LLONG_MIN;
     for (int mask = 0; mask < (1 << n); ++mask)
         if (fixed == -1 || mask == fixed) best = max(best, score(mask));
     for (int repeat = 0; repeat < 2; ++repeat) {
-        assert(psp.solve() == best);
+        ll value = psp.solve();
+        assert(value == best);
         const auto &selected = psp.get_selected();
         int mask = 0;
         for (int i = 0; i < n; ++i) mask |= selected[i] << i;
@@ -35,13 +35,19 @@ void self_check() {
                 if ((fixed >> v) & 1) psp.force_true(v);
                 else psp.force_false(v);
             }
-            check(psp, [&](int mask) { return table[2 * (mask & 1) + ((mask >> 1) & 1)]; }, fixed);
+            check(psp, 2, [&](int mask) { return table[2 * (mask & 1) + ((mask >> 1) & 1)]; }, fixed);
         }
         ProjectSelectionProblem<ll> same(1);
         same.add_pair_profit(0, 0, a, b, c, d);
-        check(same, [&](int mask) { return mask ? d : a; });
+        check(same, 1, [&](int mask) { return mask ? d : a; });
     }
-    mt19937 rng(66);
+    ProjectSelectionProblem<ll> empty;
+    empty.add_all_true_profit({}, 3);
+    empty.add_all_false_profit({}, 5);
+    assert(empty.size() == 0);
+    check(empty, 0, [](int) { return 8LL; });
+
+    mt19937 rng(66), group_rng(540);
     for (int tc = 0; tc < 2000; ++tc) {
         int n = 1 + rng() % 6;
         ProjectSelectionProblem<ll> psp(n);
@@ -53,8 +59,9 @@ void self_check() {
             psp.add_false_profit(i, no[i]);
         }
         vector<tuple<int, int, array<ll, 4>>> terms;
+        vector<ll> group_score(1 << n);
         auto score = [&](int mask) {
-            ll sum = 0;
+            ll sum = group_score[mask];
             for (int i = 0; i < n; ++i) sum += (mask >> i) & 1 ? yes[i] : no[i];
             for (auto [u, v, p] : terms) sum += p[2 * ((mask >> u) & 1) + ((mask >> v) & 1)];
             return sum;
@@ -66,7 +73,33 @@ void self_check() {
             p[3] = max(p[3], p[1] + p[2] - p[0]);
             psp.add_pair_profit(u, v, p[0], p[1], p[2], p[3]);
             terms.emplace_back(u, v, p);
-            if (i == 3 || i == 7) check(psp, score);
+            if (i == 3 || i == 7) check(psp, n, score);
+        }
+        for (int i = 0; i < 8; ++i) {
+            vector<int> vs(group_rng() % (n + 3));
+            int members = 0;
+            for (int &v : vs) {
+                v = group_rng() % n;
+                members |= 1 << v;
+            }
+            ll profit = group_rng() % 6;
+            bool all_true = group_rng() % 2;
+            int before = psp.size();
+            if (all_true) psp.add_all_true_profit(vs, profit);
+            else psp.add_all_false_profit(vs, profit);
+            assert(psp.size() == before + (profit > 0 && vs.size() > 1));
+            for (int mask = 0; mask < (1 << n); ++mask)
+                if ((mask & members) == (all_true ? members : 0)) group_score[mask] += profit;
+        }
+        check(psp, n, score);
+        if (tc >= 100) continue;
+        for (int fixed = 0; fixed < (1 << n); ++fixed) {
+            auto constrained = psp;
+            for (int v = 0; v < n; ++v) {
+                if (fixed >> v & 1) constrained.force_true(v);
+                else constrained.force_false(v);
+            }
+            check(constrained, n, score, fixed);
         }
     }
 }
