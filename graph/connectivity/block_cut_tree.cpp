@@ -16,7 +16,7 @@ struct BlockCutTree {
     }
 
     int build() {
-        block_count = bcc.build();
+        block_count = bcc.build(false);
         vector<int> cnt(n);
         for (auto &&vs : bcc.bcc_vertices) {
             for (auto &&v : vs) ++cnt[v];
