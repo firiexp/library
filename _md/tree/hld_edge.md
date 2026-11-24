@@ -14,41 +14,43 @@ documentation_of: //tree/hld_edge.cpp
 - `HeavyLightDecompositionEdge hld(n)`
   頂点数 `n` の木を作る。$O(N)$
 - `HeavyLightDecompositionEdge hld(g)`
-  隣接リスト `vector<vector<int>>& g` から木を作る。$O(N)$
+  隣接リスト `const vector<vector<int>>& g` から木を作る。$O(N)$
 - `void add_edge(int u, int v)`
   木辺を張る。償却 $O(1)$
 - `void build(vector<int> roots = {0})`
   前処理をする。森では各成分の根を `roots` に1つずつ指定する。時間・領域 $O(N)$
-- `int lca(int u, int v)`
+- `int lca(int u, int v) const`
   `u` と `v` の最近共通祖先を返す。$O(\log N)$
 - `int parent(int v) const`
   `v` の親を返す。根なら `-1`。$O(1)$
-- `int ancestor(int v, int k)`
+- `int ancestor(int v, int k) const`
   `v` から根方向へ `k` 回遡った頂点を返す。存在しなければ `-1`。$O(\log N)$
-- `int distance(int u, int v)`
+- `int distance(int u, int v) const`
   `u` と `v` の間の辺数を返す。$O(\log N)$
+- `int jump(int u, int v, int k) const`
+  `u` から `v` へ `k` 辺進んだ頂点を返す。`u` と `v` が別の木に属する場合、または `k` が負かパスの辺数を超える場合は `-1`。$O(\log N)$
 - `int edge_index(int v) const`
   `parent(v) - v` の辺が載る位置を返す。根なら `-1`。$O(1)$
-- `pair<int, int> subtree(int v)`
+- `pair<int, int> subtree(int v) const`
   部分木の辺集合に対応する半開区間 `[l, r)` を返す。$O(1)$
-- `void path(int u, int v, F f)`
-  `u - v` パス上の辺を被覆する各区間へ `f(l, r)` を呼ぶ。$O(\log N)$
+- `void path(int u, int v, F f) const`
+  `u - v` パス上の辺を被覆する $O(\log N)$ 個の区間へ `f(l, r)` を呼ぶ。$O(\log N)$
 - `void path_ordered(int u, int v, F f) const`
-  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す。$O(\log N)$
-- `T path_query(int u, int v, T e, Q q, F f)`
+  `u -> v` の順に、辺を被覆する $O(\log N)$ 個の空でない半開区間 `[l, r)` とその向きを `f` に渡す。$O(\log N)$
+- `T path_query(int u, int v, T e, Q q, F f) const`
   パス上の辺の値を `q` で集約し、`f` で結合して返す。結合は可換とする。$O(\log^2 N)$
-- `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f)`
+- `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f) const`
   `u -> v` の順に `ql`・`qr` の辺の区間集約を `f` で結合して返す。$O(\log^2 N)$
-- `void apply_subtree(int v, F f)`
-  部分木の辺区間へ `f(l, r)` を呼ぶ。$O(1)$
-- `subtree_query(int v, Q q)`
+- `void apply_subtree(int v, F f) const`
+  部分木の辺区間へ `f(l, r)` を1回呼ぶ。$O(1)$
+- `subtree_query(int v, Q q) const`
   `v` の部分木の辺クエリ。返り値の型は `q` から推論する。$O(\log N)$
 
 ## 使い方
-各辺の値は子頂点側に置く。
+木を構成して `build()` を呼んだあと、各辺の値を子頂点側に置く。
 `parent(v) - v` の辺を更新したいときは `edge_index(v)` を使う。
 パス順序付きの集約には `path_query_ordered`、区間ごとの処理には `path_ordered` を使う。
-両端点は同じ連結成分に属することを前提とする。
+`lca`・`distance` およびパス操作は両端点が同じ連結成分に属することを前提とする。
 集約の `e` は単位元、`f(a, b)` は結合演算とする。
 `q(l, r)` と `ql(l, r)` は区間 `[l, r)` を添字の昇順、`qr(l, r)` は降順に集約する。
 
@@ -71,6 +73,6 @@ auto ans = hld.path_query(a, b, 0LL,
 ```
 
 ## 実装上の補足
-内部では頂点版 HLD の `edge = true` を使っている。
+内部では `HeavyLightDecomposition` の `edge = true` を使っている。
 `subtree(v)` は `v` 自身へ入る辺を含まないので、根の部分木では木全体の辺区間になる。
-`path_ordered` は LCA の位置を除き、辺を子頂点の位置で渡す。
+`path_ordered` は空区間を渡さないが、`path`・`path_query`・`path_query_ordered`・`apply_subtree`・`subtree_query` は空区間 `[l, l)` を渡しうる。

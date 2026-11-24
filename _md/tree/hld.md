@@ -12,44 +12,48 @@ documentation_of: //tree/hld.cpp
 
 - `HeavyLightDecomposition hld(n)`
   頂点数 `n` の木を作る。$O(N)$
+- `HeavyLightDecomposition hld(g)`
+  隣接リスト `const vector<vector<int>>& g` から木を作る。$O(N)$
 - `void add_edge(int u, int v)`
   木辺を張る。償却 $O(1)$
 - `void build(vector<int> roots = {0})`
   前処理をする。森では各成分の根を `roots` に1つずつ指定する。時間・領域 $O(N)$
-- `int lca(int u, int v)`
+- `int lca(int u, int v) const`
   最近共通祖先を返す。$O(\log N)$
-- `int parent(int v)`
+- `int parent(int v) const`
   親を返す。根なら `-1`。$O(1)$
-- `int ancestor(int v, int k)`
+- `int ancestor(int v, int k) const`
   `k` 個上の祖先を返す。存在しなければ `-1`。$O(\log N)$
-- `int distance(int u, int v)`
+- `int distance(int u, int v) const`
   木上距離を返す。$O(\log N)$
+- `int jump(int u, int v, int k) const`
+  `u` から `v` へ `k` 辺進んだ頂点を返す。`u` と `v` が別の木に属する場合、または `k` が負かパスの辺数を超える場合は `-1`。$O(\log N)$
 - `pair<int, int> path_intersection(int a, int b, int c, int d) const`
-  頂点パス `a -> b` と `c -> d` の共通部分を、`a -> b` の順に端点の組で返す。空、または4頂点が同じ木に属さなければ `{-1, -1}`。1頂点だけなら両端点が同じになる。時間 $O(\log N)$、追加領域 $O(1)$
-- `pair<int, int> subtree(int v, bool edge = false)`
+  頂点パス `a -> b` と `c -> d` の共通部分を、`a -> b` の順に端点の組で返す。空、または4頂点が同じ木に属さなければ `{-1, -1}`。1頂点だけなら両端点が同じになる。$O(\log N)$
+- `pair<int, int> subtree(int v, bool edge = false) const`
   部分木に対応する半開区間 `[l, r)` を返す。$O(1)$
 - `void rerooted_subtree(int v, int root, F f) const`
-  `root` を根とした場合の `v` の部分木に対応する区間へ `f(l, r)` を呼ぶ。空でない半開区間を `id` の昇順で高々2つ渡す。区間の取得は $O(\log N)$ 時間、$O(1)$ 作業領域
+  `root` を根とした場合の `v` の部分木に対応する区間へ `f(l, r)` を呼ぶ。空でない半開区間を `id` の昇順で高々2つ渡す。$O(\log N)$
 - `int rerooted_lca(int u, int v, int root) const`
-  `root` を根とした場合の `u, v` の最近共通祖先を $O(\log N)$ 時間、$O(1)$ 作業領域で返す
-- `void path(int u, int v, F f, bool edge = false)`
-  パスを被覆する各区間へ `f(l, r)` を呼ぶ。$O(\log N)$
+  `root` を根とした場合の `u`, `v` の最近共通祖先を返す。$O(\log N)$
+- `void path(int u, int v, F f, bool edge = false) const`
+  パスを被覆する $O(\log N)$ 個の区間へ `f(l, r)` を呼ぶ。$O(\log N)$
 - `void path_ordered(int u, int v, F f, bool edge = false) const`
-  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す。$O(\log N)$
-- `T path_query(int u, int v, T e, Q q, F f, bool edge = false)`
+  `u -> v` の順に、パスを被覆する $O(\log N)$ 個の空でない半開区間 `[l, r)` とその向きを `f` に渡す。$O(\log N)$
+- `T path_query(int u, int v, T e, Q q, F f, bool edge = false) const`
   パス上の値を `q` で集約し、`f` で結合して返す。結合は可換とする。$O(\log^2 N)$
-- `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f, bool edge = false)`
+- `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f, bool edge = false) const`
   `u -> v` の順に `ql`・`qr` の区間集約を `f` で結合して返す。$O(\log^2 N)$
-- `void apply_subtree(int v, F f, bool edge = false)`
-  部分木区間へ `f(l, r)` を呼ぶ。$O(1)$
-- `subtree_query(int v, Q q, bool edge = false)`
+- `void apply_subtree(int v, F f, bool edge = false) const`
+  部分木区間へ `f(l, r)` を1回呼ぶ。$O(1)$
+- `subtree_query(int v, Q q, bool edge = false) const`
   `v` の部分木クエリ。返り値の型は `q` から推論する。$O(\log N)$
 
 ## 使い方
-`id[v]` を頂点 `v` の 1 次元位置としてセグメント木や BIT に載せる。
+木を構成して `build()` を呼んだあと、`id[v]` を頂点 `v` の 1 次元位置としてセグメント木や BIT に載せる。
 部分木は `subtree(v)` の区間 1 本で取れる。
 パスは `path` / `path_ordered` / `path_query` / `path_query_ordered` を使う。
-両端点は同じ連結成分に属することを前提とする。
+`lca`・`distance` およびパス操作は両端点が同じ連結成分に属することを前提とする。
 集約の `e` は単位元、`f(a, b)` は結合演算とする。
 `q(l, r)` と `ql(l, r)` は区間 `[l, r)` を添字の昇順、`qr(l, r)` は降順に集約する。
 
@@ -103,9 +107,5 @@ if (x != -1) {
 
 ## 実装上の補足
 `edge = true` にすると、LCA 側の頂点を除いた辺クエリ区間になる。
-`path_query_ordered` は `u -> v` の向きを保つ。
-後半の区間をスタック領域の固定長配列に保存し、逆順に取り出す。light edge の数は `int` のビット数未満なので、その幅を配列の上限とし、heap 確保は行わない。
-頂点モードの `u = v` は1要素、辺モードは空パスとなり callback を呼ばない。
-前処理は再帰を使わない。
-`path_intersection` は `c`, `d` からパス `a -> b` への最近点を LCA で求める。
-最近点が異なればその間が共通部分となる。同じなら、その頂点がパス `c -> d` にも含まれるかを調べる。
+`path_ordered` は空区間を渡さず、`edge = true` で `u == v` のときは callback を呼ばないが、`path`・`path_query`・`path_query_ordered`・`apply_subtree`・`subtree_query` は `edge = true` で空区間 `[l, l)` を渡しうる。
+前処理は非再帰で行い、`path_ordered` は後半の区間を固定長配列に積むため動的確保を行わない。
