@@ -65,8 +65,7 @@ int main() {
             for (int j = 1; j < B; ++j) {
                 to[j][i] = to[j-1][to[j-1][i]];
                 if(~to[j][i]) {
-                    dp[j][i] = ro.mul(dp[j-1][i], ro.p()[1 << (j-1)])+dp[j-1][to[j-1][i]];
-                    if(dp[j][i] >= M) dp[j][i] -= M;
+                    dp[j][i] = ro.concat(dp[j-1][i], dp[j-1][to[j-1][i]], 1 << (j-1));
                 }else break;
             }
         }

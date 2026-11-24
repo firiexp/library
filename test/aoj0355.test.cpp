@@ -28,7 +28,8 @@ struct Monoid{
     using T = array<ll, 3>;
     using L = char;
     static T f(T a, T b) {
-        return {(a[0]*rolling_hash<MOD1>::p()[b[2]]+b[0])%MOD1, (a[1]*rolling_hash<MOD2>::p()[b[2]]+b[1])%MOD2, a[2]+b[2]};
+        return {rolling_hash<MOD1>::concat(a[0], b[0], b[2]),
+                rolling_hash<MOD2>::concat(a[1], b[1], b[2]), a[2] + b[2]};
     }
     static T g(T a, L b) {
         if(b == l()) return a;
