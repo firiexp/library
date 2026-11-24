@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/bitwise_xor_convolution"
 
+#include <cassert>
 #include <vector>
 using namespace std;
 

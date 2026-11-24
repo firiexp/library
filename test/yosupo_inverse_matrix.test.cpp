@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/inverse_matrix"
 
+#include <cassert>
 #include <vector>
 using namespace std;
 

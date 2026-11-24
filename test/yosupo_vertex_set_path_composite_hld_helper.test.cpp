@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/vertex_set_path_composite"
 
+#include <cassert>
 #include <array>
 #include <limits>
 #include <vector>

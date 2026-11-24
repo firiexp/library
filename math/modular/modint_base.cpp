@@ -1,6 +1,8 @@
 #ifndef FIRIEXP_LIBRARY_UTIL_MODINT_BASE_CPP
 #define FIRIEXP_LIBRARY_UTIL_MODINT_BASE_CPP
 
+#include "../extgcd.cpp"
+
 template <uint Mod>
 struct modint {
     uint val;
@@ -25,7 +27,12 @@ public:
     modint operator+() const { return *this; }
     modint operator-() const { return modint() - *this; }
     modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }
-    modint inv() const { return pow(Mod - 2); }
+    modint inv() const {
+        ll x, y;
+        [[maybe_unused]] ll gcd = extgcd<ll>(val, Mod, x, y);
+        assert(gcd == 1);
+        return modint(x);
+    }
     friend modint operator+(const modint& a, const modint& b) { return modint(a) += b; }
     friend modint operator-(const modint& a, const modint& b) { return modint(a) -= b; }
     friend modint operator*(const modint& a, const modint& b) { return modint(a) *= b; }

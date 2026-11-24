@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/matrix_rank"
 
+#include <cassert>
 #include <vector>
 using namespace std;
 
