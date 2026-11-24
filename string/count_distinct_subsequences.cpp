@@ -13,6 +13,19 @@ T count_distinct_subsequences(string_view s) {
     return total - T(1);
 }
 
+template<class Count, class T>
+Count count_distinct_subsequences(const vector<T>& a) {
+    unordered_map<T, Count> last;
+    Count total(1);
+    for (const T& x : a) {
+        Count& previous = last.try_emplace(x, 0).first->second;
+        Count next = total + total - previous;
+        previous = total;
+        total = next;
+    }
+    return total - Count(1);
+}
+
 #endif
 
 /**

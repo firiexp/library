@@ -16,14 +16,27 @@ struct AdditiveCount {
     friend AdditiveCount operator-(AdditiveCount a, AdditiveCount b) { return AdditiveCount(a.value - b.value); }
 };
 
-void check(const string& s) {
-    set<string> subsequences;
+template<class Sequence>
+long long brute_count(const Sequence& s) {
+    set<Sequence> subsequences;
     for (int mask = 1; mask < (1 << s.size()); ++mask) {
-        string t;
-        for (int i = 0; i < (int)s.size(); ++i) if (mask >> i & 1) t += s[i];
+        Sequence t;
+        for (int i = 0; i < (int)s.size(); ++i) if (mask >> i & 1) t.push_back(s[i]);
         subsequences.insert(t);
     }
-    long long expected = subsequences.size();
+    return subsequences.size();
+}
+
+template<class T>
+void check_vector(const vector<T>& a) {
+    long long expected = brute_count(a);
+    assert(count_distinct_subsequences<long long>(a) == expected);
+    assert(count_distinct_subsequences<AdditiveCount>(a).value == expected);
+    assert(count_distinct_subsequences<modint<3>>(a) == modint<3>(expected));
+}
+
+void check(const string& s) {
+    long long expected = brute_count(s);
     auto original = s;
     assert(count_distinct_subsequences<long long>(s) == expected);
     assert(count_distinct_subsequences<AdditiveCount>(s).value == expected);
@@ -46,11 +59,17 @@ int main() {
                 code /= 3;
             }
             check(s);
+            check_vector(vector<int>(s.begin(), s.end()));
         }
     }
     check("abcdefghijkl");
     check("abababababab");
     check(string(12, '\xff'));
+    check_vector(vector<long long>{});
+    check_vector(vector<long long>{LLONG_MIN, 0, LLONG_MAX, 1LL << 40, LLONG_MIN, LLONG_MAX});
+    check_vector(vector<int>{INT_MIN, 0, INT_MAX, INT_MIN});
+    check_vector(vector<string>{"red", "blue", "red", "green"});
+    check_vector(vector<bool>{true, false, true});
     mt19937 rng(313);
     for (int trial = 0; trial < 300; ++trial) {
         string s(rng() % 13, '\0');
@@ -59,4 +78,5 @@ int main() {
     }
     assert(count_distinct_subsequences<long long>(string(100000, 'a')) == 100000);
     assert(count_distinct_subsequences<modint<3>>(string(100000, 'a')) == modint<3>(100000));
+    assert(count_distinct_subsequences<long long>(vector<long long>(100000, LLONG_MIN)) == 100000);
 }
