@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <random>
 #include <string>
 #include <type_traits>
 
