@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_PRIME_MILLER_RABIN_CPP
+#define FIRIEXP_LIBRARY_MATH_PRIME_MILLER_RABIN_CPP
+
 using u128 = __uint128_t;
 
 struct mod64 {
@@ -83,6 +86,8 @@ bool miller_rabin(T m){
     }
     return true;
 }
+
+#endif
 
 /**
  * @brief Miller-Rabin素数判定

@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_PRIME_GET_PRIME2_CPP
+#define FIRIEXP_LIBRARY_MATH_PRIME_GET_PRIME2_CPP
+
 #include "linear_sieve.cpp"
 
 template<typename T>
@@ -23,7 +26,8 @@ vector<ExactDiv<uint>> get_prime_exact_div(int n) {
     for (auto &&p : primes) res.emplace_back((uint)p);
     return res;
 }
-const auto primes = get_prime_exact_div(32000);
+
+#endif
 
 /**
  * @brief 高速素数列挙(ExactDiv)

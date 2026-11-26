@@ -35,6 +35,7 @@ using ull = unsigned long long;
 #include "../math/prime/get_prime2.cpp"
 #include "../math/convolution/gcd_transform.cpp"
 #include "../math/prime/primefactor.cpp"
+#include "../math/prime/miller_rabin.cpp"
 #include "../math/prime/primefactor_ll.cpp"
 
 #include "../geometry/dualgraph.cpp"
