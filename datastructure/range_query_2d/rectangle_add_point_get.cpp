@@ -40,70 +40,65 @@ struct RectangleAddPointGet {
                 x_index_upper[idx] = (int)(lower_bound(ord_x.begin(), ord_x.end(), ops[idx].r) - ord_x.begin()) + 1;
             }
         }
-        vector<int> cnt(m + 1);
-        auto count_point = [&](int xi) {
-            for (int i = xi; i <= m; i += i & -i) ++cnt[i];
-        };
-        for (int idx = 0; idx < (int)ops.size(); ++idx) {
-            if (ops[idx].type == 1) continue;
-            count_point(x_index_lower[idx]);
-            count_point(x_index_lower[idx]);
-            count_point(x_index_upper[idx]);
-            count_point(x_index_upper[idx]);
-        }
         vector<vector<int>> ys(m + 1);
-        for (int i = 1; i <= m; ++i) ys[i].reserve(cnt[i]);
-        auto reserve_point = [&](int xi, int y) {
-            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);
-        };
-        for (int idx = 0; idx < (int)ops.size(); ++idx) {
-            auto &&op = ops[idx];
-            if (op.type == 0) {
-                reserve_point(x_index_lower[idx], op.d);
-                reserve_point(x_index_lower[idx], op.u);
-                reserve_point(x_index_upper[idx], op.d);
-                reserve_point(x_index_upper[idx], op.u);
+        vector<RectInfo> rect_info(ops.size());
+        vector<int> add_yi;
+        {
+            struct Endpoint {
+                int y, xi, start;
+            };
+            vector<Endpoint> endpoints;
+            endpoints.reserve(2 * xs.size());
+            vector<int> counts(m + 1);
+            int visits = 0;
+            for (int idx = 0; idx < (int)ops.size(); ++idx) {
+                const auto& op = ops[idx];
+                if (op.type != 0) continue;
+                auto register_side = [&](int xi, int side) {
+                    int length = 0;
+                    for (int i = xi; i <= m; i += i & -i) ++length;
+                    counts[xi] += 2;
+                    rect_info[idx].start[side] = visits;
+                    rect_info[idx].start[side + 1] = visits + length;
+                    endpoints.push_back({op.d, xi, visits});
+                    endpoints.push_back({op.u, xi, visits + length});
+                    visits += 2 * length;
+                };
+                register_side(x_index_lower[idx], 0);
+                register_side(x_index_upper[idx], 2);
             }
-        }
-        for (int i = 1; i <= m; ++i) {
-            sort(ys[i].begin(), ys[i].end());
-            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());
+            for (int i = 1; i <= m; ++i) {
+                ys[i].reserve(counts[i]);
+                int parent = i + (i & -i);
+                if (parent <= m) counts[parent] += counts[i];
+            }
+            sort(endpoints.begin(), endpoints.end(), [](const Endpoint& a, const Endpoint& b) {
+                return a.y < b.y;
+            });
+            add_yi.resize(visits);
+            for (auto [y, xi, start] : endpoints) {
+                for (int i = xi; i <= m; i += i & -i) {
+                    auto& row = ys[i];
+                    if (row.empty() || row.back() != y) row.push_back(y);
+                    add_yi[start++] = (int)row.size();
+                }
+            }
         }
 
         vector<int> offset(m + 2, 0);
         for (int i = 1; i <= m; ++i) offset[i + 1] = offset[i] + (int)ys[i].size();
-        vector<T> bit(offset[m + 1], 0);
-        auto path_len_add = [&](int xi) {
-            int len = 0;
-            for (int i = xi; i <= m; i += i & -i) ++len;
-            return len;
-        };
         auto path_len_sum = [&](int xi) {
             int len = 0;
             for (int i = xi; i > 0; i -= i & -i) ++len;
             return len;
         };
-        vector<RectInfo> rect_info(ops.size());
         vector<int> query_start(ops.size(), -1);
-        int total_add_visits = 0, total_sum_visits = 0;
+        int total_sum_visits = 0;
         for (int idx = 0; idx < (int)ops.size(); ++idx) {
-            if (ops[idx].type == 0) {
-                total_add_visits += path_len_add(x_index_lower[idx]) * 2;
-                total_add_visits += path_len_add(x_index_upper[idx]) * 2;
-            } else {
-                total_sum_visits += path_len_sum(x_index_upper[idx]);
-            }
+            if (ops[idx].type == 1) total_sum_visits += path_len_sum(x_index_upper[idx]);
         }
-        vector<int> add_yi(total_add_visits);
         vector<int> sum_yi(total_sum_visits);
-        int add_ptr = 0, sum_ptr = 0;
-        auto encode_add = [&](int xi, int y) {
-            int start = add_ptr;
-            for (int i = xi; i <= m; i += i & -i) {
-                add_yi[add_ptr++] = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin()) + 1;
-            }
-            return start;
-        };
+        int sum_ptr = 0;
         auto encode_sum = [&](int xi, int y) {
             int start = sum_ptr;
             for (int i = xi; i > 0; i -= i & -i) {
@@ -112,23 +107,17 @@ struct RectangleAddPointGet {
             return start;
         };
         for (int idx = 0; idx < (int)ops.size(); ++idx) {
-            auto &&op = ops[idx];
-            if (op.type == 0) {
-                rect_info[idx].start[0] = encode_add(x_index_lower[idx], op.d);
-                rect_info[idx].start[1] = encode_add(x_index_lower[idx], op.u);
-                rect_info[idx].start[2] = encode_add(x_index_upper[idx], op.d);
-                rect_info[idx].start[3] = encode_add(x_index_upper[idx], op.u);
-            } else {
-                query_start[idx] = encode_sum(x_index_upper[idx], op.d);
-            }
+            if (ops[idx].type == 1) query_start[idx] = encode_sum(x_index_upper[idx], ops[idx].d);
         }
 
+        ys.clear();
+        vector<T> bit(offset[m + 1], 0);
         auto add_point = [&](int xi, int start, T w) {
             int ptr = start;
             for (int i = xi; i <= m; i += i & -i) {
                 int yi = add_yi[ptr++];
-                int sz = (int)ys[i].size();
                 int base = offset[i];
+                int sz = offset[i + 1] - base;
                 for (; yi <= sz; yi += yi & -yi) bit[base + yi - 1] += w;
             }
         };

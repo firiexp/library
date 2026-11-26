@@ -17,10 +17,10 @@ documentation_of: //datastructure/range_query_2d/rectangle_add_point_get.cpp
 - `void add_query(int x, int y)`
   点 `(x, y)` の値を取るクエリを積む。償却 $O(1)$
 - `vector<T> solve() const`
-  追加順に各クエリの答えを返す。時間 $O((R+Q)\log^2 R)$、追加領域 $O((R+Q)\log R)$
+  追加順に各クエリの答えを返す。全体の時間は $O((R+Q)\log^2 R)$、追加領域は $O((R+Q)\log R)$
 
 ## 使い方
 初期長方形も更新も `add_rectangle` で積む。
 
 ## 実装上の補足
-$x$ 座標の圧縮には長方形の左右端だけを使う。長方形数を $R$ とすると、圧縮は $O(R\log R)$、$x$ 方向の BIT の行数は $O(R)$。
+$x$ 座標の圧縮には長方形の左右端だけを使う。各行には $y$ 座標を昇順に入れ、同じ値は一度だけ残す。
