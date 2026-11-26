@@ -1,21 +1,21 @@
-bool kth_root_integer_leq(ull x, int k, ull a) {
-    __uint128_t p = 1;
-    for (int i = 0; i < k; ++i) {
-        p *= x;
-        if (p > a) return false;
-    }
-    return true;
-}
-
-ull kth_root_integer(ull a, int k) {
+ull kth_root_integer(ull a, ull k) {
     if (k == 1 || a <= 1) return a;
-    ull ng = min<ull>(a, (1ULL << 32)) + 1, ok = 0;
-    while (ng - ok > 1) {
-        ull mid = ok + (ng - ok) / 2;
-        if (kth_root_integer_leq(mid, k, a)) ok = mid;
-        else ng = mid;
+    unsigned bits = 64 - __builtin_clzll(a);
+    if (k >= bits) return 1;
+    ull low = 1ULL << ((bits - 1) / k);
+    ull high = low * 2;
+    int top_bit = 63 - __builtin_clzll(k);
+    while (high - low > 1) {
+        ull mid = (low + high) / 2;
+        __uint128_t power = mid;
+        for (int bit = top_bit - 1; bit >= 0; --bit) {
+            power *= power;
+            if ((k >> bit) & 1) power *= mid;
+        }
+        if (power <= a) low = mid;
+        else high = mid;
     }
-    return ok;
+    return low;
 }
 
 /**
