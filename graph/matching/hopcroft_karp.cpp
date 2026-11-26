@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GRAPH_HOPCROFT_KARP_CPP
+#define FIRIEXP_LIBRARY_GRAPH_HOPCROFT_KARP_CPP
+
 class HopcroftKarp {
     int l, r;
     vector<pair<int, int>> edges;
@@ -141,6 +144,8 @@ public:
         return ret;
     }
 };
+
+#endif
 
 /**
  * @brief Hopcroft-Karp法

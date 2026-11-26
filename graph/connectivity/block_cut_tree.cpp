@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GRAPH_BLOCK_CUT_TREE_CPP
+#define FIRIEXP_LIBRARY_GRAPH_BLOCK_CUT_TREE_CPP
+
 using namespace std;
 
 #include "biconnected_components.cpp"
@@ -55,6 +58,8 @@ struct BlockCutTree {
         return m;
     }
 };
+
+#endif
 
 /**
  * @brief ブロックカット木(Block-Cut Tree)
