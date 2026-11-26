@@ -17,6 +17,12 @@ void hull_check() {
     check({}, {});
     check({Point(1, 2)}, {Point(1, 2)});
     check({Point(2, 3), Point(-1, 0)}, {Point(-1, 0), Point(2, 3)});
+    check({Point(0, 0), Point(1, 0), Point(2, 0)},
+          {Point(0, 0), Point(1, 0), Point(2, 0)});
+    check({Point(0, 1), Point(2, -1), Point(-2, 3), Point(1, 0)},
+          {Point(2, -1), Point(1, 0), Point(0, 1), Point(-2, 3)});
+    check({Point(0, 0), Point(1, 0), Point(2, -1e-12)},
+          {Point(2, -1e-12), Point(1, 0), Point(0, 0)});
     Polygon triangle{Point(0, 0), Point(2, 0), Point(0, 2)};
     check({triangle[2], triangle[0], triangle[1]}, triangle);
     Polygon boundary{Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1),
@@ -28,6 +34,26 @@ void hull_check() {
         shuffle(input.begin(), input.end(), rng);
         check(input, boundary);
     }
+}
+
+void segment_cross_point_check() {
+    auto check = [](Segment s, Segment t) {
+        for (Segment first : {s, Segment(s.b, s.a)}) {
+            for (Segment second : {t, Segment(t.b, t.a)}) {
+                for (Point p : {crossPoint(first, second), crossPoint(second, first)}) {
+                    assert(distance(first, p) < EPS);
+                    assert(distance(second, p) < EPS);
+                }
+            }
+        }
+    };
+    check(Segment(Point(1, 0), Point(2, 0)), Segment(Point(0, 0), Point(1, 0)));
+    check(Segment(Point(-1e16, 0), Point(0, 0)), Segment(Point(1, 0), Point(0, 0)));
+    check(Segment(Point(0, 4), Point(3, 1)), Segment(Point(2, 2), Point(4, 0)));
+    check(Segment(Point(1, -1), Point(1, 4)), Segment(Point(1, 0), Point(1, 2)));
+    check(Segment(Point(-1, 1), Point(1, -1)), Segment(Point(0, 0), Point(0, 0)));
+    check(Segment(Point(0, 0), Point(3, 3)), Segment(Point(0, 3), Point(3, 0)));
+    check(Segment(Point(0, 0), Point(0, 1)), Segment(Point(-1e-12, 0.5), Point(1e-12, 0.5)));
 }
 
 void diameter_check() {
@@ -225,6 +251,7 @@ void manhattan_check() {
 
 int main() {
     hull_check();
+    segment_cross_point_check();
     diameter_check();
     polygon_read_check();
     contains_convex_check();
