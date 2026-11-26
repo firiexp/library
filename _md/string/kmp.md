@@ -13,8 +13,10 @@ Knuth-Morris-Pratt 法で、テキスト中のパターンの出現開始位置�
 
 ### 単発検索
 
-- `vector<int> kmp_table(s)` : 失敗関数テーブルを $O(|s|)$ で返す
-- `vector<int> kmp_search(text, pattern)` : 一致開始位置を昇順で返す。位置は0-indexed。$O(|text| + |pattern|)$
+- `vector<int> kmp_table(const string &s)` : 長さ `|s| + 1` の配列 `table` を返す。`table[0] = -1`、`table[i]`（`i >= 1`）は接頭辞 `s[0..i)` の最長 border 長（最小周期は `i - table[i]`）。$O(|s|)$
+- `vector<int> kmp_search(const string &text, const string &pattern)` : 一致開始位置を昇順で返す。位置は0-indexed。$O(|text| + |pattern|)$
+- `vector<int> kmp_table(const vector<T> &v)` : `vector<T>` 版。仕様と計算量は同じ
+- `vector<int> kmp_search(const vector<T> &text, const vector<T> &pattern)` : `vector<T>` 版。仕様と計算量は同じ
 
 ### KMPMatcher
 
@@ -32,7 +34,19 @@ Knuth-Morris-Pratt 法で、テキスト中のパターンの出現開始位置�
 
 ## 使い方
 
-単発検索は `auto pos = kmp_search(text, pattern);` でよい。
+```cpp
+auto table = kmp_table("ababa");        // {-1, 0, 0, 1, 2, 3}
+auto pos = kmp_search("ababa", "aba");  // {0, 2}
+```
+
+`vector<T>` も同じように渡せる。
+
+```cpp
+vector<int> pattern = {1, -2, 1};
+vector<int> text = {1, -2, 1, -2, 1};
+auto v_table = kmp_table(pattern);       // {-1, 0, 0, 1}
+auto v_pos = kmp_search(text, pattern);  // {0, 2}
+```
 
 ### KMPMatcher
 
