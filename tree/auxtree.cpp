@@ -3,14 +3,13 @@
 
 #include "../datastructure/sparsetable.cpp"
 
-struct F {
-    using T = pair<int, int>;
-    static T f(T a, T b) { return min(a, b); }
-    static T e() { return T{INF<int>, -1}; }
-};
-
 class AuxTree {
-    SparseTable<F> table;
+    struct MinDepth {
+        using T = pair<int, int>;
+        static T f(T a, T b) { return min(a, b); }
+    };
+
+    SparseTable<MinDepth> table;
     void dfs_euler(int v, int p, int d, int &k, int &l){
         id[v] = k;
         vs[k] = v;
