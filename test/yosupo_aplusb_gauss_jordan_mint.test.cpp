@@ -56,7 +56,11 @@ void check(vector<vector<mint>> a, bool extended) {
 }
 
 void self_check() {
-    check({{}, {}}, false);
+    for (int rows : {0, 2}) {
+        vector<vector<mint>> a(rows);
+        assert(gauss_jordan(a) == 0);
+        assert(gauss_jordan(a, true) == 0);
+    }
     check({{0, 0, 1}, {0, 0, 2}}, true);
     check({{0, 0, 0}, {0, 1, 2}, {0, 2, 1}}, false);
     mt19937 rng(163);
