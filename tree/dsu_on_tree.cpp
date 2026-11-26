@@ -11,6 +11,7 @@ struct DSUonTree {
 
     template<class G>
     explicit DSUonTree(const vector<vector<G>> &g, int root = 0) : DSUonTree((int)g.size()) {
+        if (n == 0) return;
         vector<int> parent(n, -2);
         vector<int> st(1, root);
         parent[root] = -1;
@@ -32,6 +33,7 @@ struct DSUonTree {
     }
 
     void build(int root = 0) {
+        if (n == 0) return;
         this->root = root;
         start.assign(n + 1, 0);
         to.assign(edges.size() * 2, 0);
@@ -62,6 +64,7 @@ struct DSUonTree {
 
     template<class ADD, class QUERY, class REMOVE>
     void run_add_remove(ADD add, QUERY query, REMOVE remove) const {
+        if (n == 0) return;
         auto dfs = [&](auto &&self, int v, int p, bool keep) -> void {
             for (int ei = start[v]; ei < start[v + 1]; ++ei) {
                 int u = to[ei];
