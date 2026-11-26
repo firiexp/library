@@ -25,10 +25,21 @@ struct EulerianTrail {
     }
 
     Result solve() const {
+        return solve_impl(-1);
+    }
+
+    Result solve(int start) const {
+        if (start < 0 || start >= n) return {false, {}, {}};
+        return solve_impl(start);
+    }
+
+private:
+    Result solve_impl(int requested_start) const {
         int m = edges.size();
         if (m == 0) {
-            return {true, {0}, {}};
+            return {true, {requested_start < 0 ? 0 : requested_start}, {}};
         }
+        if (requested_start >= 0 && g[requested_start].empty()) return {false, {}, {}};
 
         vector<int> deg(n);
         for (const auto &e : edges) {
@@ -37,8 +48,9 @@ struct EulerianTrail {
             else ++deg[e.to];
         }
 
-        int start = -1, plus = 0, minus = 0;
+        int start = -1;
         if constexpr (directed) {
+            int plus = 0, minus = 0;
             for (int v = 0; v < n; ++v) {
                 int diff = deg[v];
                 if (diff == 1) {
@@ -53,14 +65,7 @@ struct EulerianTrail {
             if (!((plus == 1 && minus == 1) || (plus == 0 && minus == 0))) {
                 return {false, {}, {}};
             }
-            if (start == -1) {
-                for (int v = 0; v < n; ++v) {
-                    if (!g[v].empty()) {
-                        start = v;
-                        break;
-                    }
-                }
-            }
+            if (requested_start >= 0 && plus == 1 && start != requested_start) return {false, {}, {}};
         } else {
             int odd = 0;
             for (int v = 0; v < n; ++v) {
@@ -70,12 +75,15 @@ struct EulerianTrail {
                 }
             }
             if (!(odd == 0 || odd == 2)) return {false, {}, {}};
-            if (start == -1) {
-                for (int v = 0; v < n; ++v) {
-                    if (deg[v] > 0) {
-                        start = v;
-                        break;
-                    }
+            if (requested_start >= 0 && odd == 2 && !(deg[requested_start] & 1)) return {false, {}, {}};
+        }
+        if (requested_start >= 0) {
+            start = requested_start;
+        } else if (start == -1) {
+            for (int v = 0; v < n; ++v) {
+                if (!g[v].empty()) {
+                    start = v;
+                    break;
                 }
             }
         }
