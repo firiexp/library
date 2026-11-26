@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_FPS_TAYLOR_SHIFT_CPP
+#define FIRIEXP_LIBRARY_FPS_TAYLOR_SHIFT_CPP
+
 #include "ntt.cpp"
 
 poly taylor_shift(const poly &f, mint c) {
@@ -27,6 +30,8 @@ poly taylor_shift(const poly &f, mint c) {
     for (int i = 0; i < n; ++i) g[i] = d[n - 1 - i] * ifact[i];
     return g;
 }
+
+#endif
 
 /**
  * @brief Taylor Shift

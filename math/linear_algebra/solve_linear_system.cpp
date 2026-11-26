@@ -15,7 +15,7 @@ optional<LinearSystemSolution> solve_linear_system(
         assert((int)A[row].size() == m);
         A[row].push_back(b[row]);
     }
-    int rank = n ? gauss_jordan(A, true) : 0;
+    int rank = gauss_jordan(A, true);
     for (int row = rank; row < n; ++row) {
         if (A[row][m].val) return nullopt;
     }

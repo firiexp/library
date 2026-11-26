@@ -11,17 +11,14 @@ struct ExactDiv {
         return x;
     }
     bool divide(T n) const {
-        if(val == 2) return !(n & 1);
         return n * this->i <= this->t;
     }
 };
 
-vector<ExactDiv<uint>> get_prime(int n){
-    if(n <= 1) return vector<ExactDiv<uint>>();
+vector<ExactDiv<uint>> get_odd_primes(uint n){
     vector<bool> is_prime(n+1, true);
     vector<ExactDiv<uint>> prime;
-    is_prime[0] = is_prime[1] = false;
-    for (int i = 2; i <= n; ++i) {
+    for (uint i = 3; i <= n; i += 2) {
         if(is_prime[i]) prime.emplace_back(i);
         for (auto &&j : prime){
             if(i*j.val > n) break;
@@ -31,22 +28,32 @@ vector<ExactDiv<uint>> get_prime(int n){
     }
     return prime;
 }
-const auto primes = get_prime(32000);
+const auto odd_primes = get_odd_primes(46340);
 
 }
 
 template<class T>
-vector<T> prime_factor_trial(T n){
+vector<T> prime_factor_trial(T n) {
+    static_assert(std::numeric_limits<T>::is_integer);
+    if (n < 1 || n > INT_MAX) std::abort();
     vector<T> res;
-    if (n == 1) return res;
-    for (auto &&i : primefactor_trial_detail::primes) {
-        while (i.divide(n)){
-            res.emplace_back(i.val);
-            n /= i.val;
-            if (n == 1) return res;
+    uint remaining = static_cast<uint>(n);
+    while (remaining % 2 == 0) {
+        res.emplace_back(2);
+        remaining /= 2;
+    }
+    if (remaining == 1) return res;
+    const auto &primes = primefactor_trial_detail::odd_primes;
+    const auto end = std::upper_bound(primes.begin(), primes.end(), remaining,
+        [](uint value, const auto &p) { return value < p.val * p.val; });
+    for (auto p = primes.begin(); p != end; ++p) {
+        while (p->divide(remaining)) {
+            res.emplace_back(p->val);
+            remaining /= p->val;
+            if (remaining == 1) return res;
         }
     }
-    if(n != 1) res.emplace_back(n);
+    res.emplace_back(remaining);
     return res;
 }
 

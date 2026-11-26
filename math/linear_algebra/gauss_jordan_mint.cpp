@@ -1,6 +1,7 @@
 #include "../modular/modint.cpp"
 
 int gauss_jordan(vector<vector<mint>> &A, bool is_extended = false) {
+    if (A.empty()) return 0;
     int m = A.size(), n = A[0].size();
     int rank = 0;
     for (int col = 0; col < n; ++col) {

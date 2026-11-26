@@ -1010,20 +1010,29 @@ struct DynamicWeightedWaveletMatrix {
     }
 
     CountSum range_count_sum(int l, int r, const T &lower, const T &upper) const {
+        if (empty_range(l, r, lower, upper)) return {0, U()};
         CountSum hi = count_sum_less(l, r, upper);
         CountSum lo = count_sum_less(l, r, lower);
         return {hi.count - lo.count, hi.sum - lo.sum};
     }
 
     int range_freq(int l, int r, const T &lower, const T &upper) const {
+        if (empty_range(l, r, lower, upper)) return 0;
         return count_less(l, r, upper) - count_less(l, r, lower);
     }
 
     U range_sum(int l, int r, const T &lower, const T &upper) const {
+        if (empty_range(l, r, lower, upper)) return U();
         int lower_xi = lower_bound_value(lower);
         int upper_xi = lower_bound_value(upper);
         auto sums = sum_less_index_pair(l, r, lower_xi, upper_xi);
         return sums.second - sums.first;
+    }
+
+private:
+    bool empty_range(int l, int r, const T &lower, const T &upper) const {
+        assert(built && 0 <= l && l <= n && 0 <= r && r <= n);
+        return l >= r || !(lower < upper);
     }
 };
 

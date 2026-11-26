@@ -9,12 +9,12 @@ documentation_of: //flow/gomory_hu_tree.cpp
 同じグラフで多数の頂点対の最小カットクエリを処理する場合に使う。
 
 ## できること
-元のグラフの頂点数を $N$、辺数を $M$ とする。
+元のグラフの頂点数を $N$、辺数を $M$ とする。容量型 `T` には符号付き整数型を使う。
 
 - `GomoryHuTree<T>::Edge{u, v, capacity}`
-  頂点 `u`, `v` を結ぶ無向辺と非負の整数容量。
+  頂点 `u` と `v` を結ぶ容量 `capacity` の無向辺。入力辺の容量は非負とする。
 - `GomoryHuTree<T> tree(n, edges)`
-  $N-1$ 回の最大流で木を構築する。最大流以外の時間は $O(N(N+M))$。
+  $N-1$ 回の最大流で木を構築する。自己ループは無視し、カットをまたぐ多重辺の容量は1本ずつ加算する。計算量は Dinic $N-1$ 回 +  $O(N(N+M))$。
 - `const vector<Edge>& edges() const`
   木の $N-1$ 本の辺を返す。`capacity` が木の辺重み。$O(1)$。
 - `T min_cut(int u, int v) const`
@@ -22,15 +22,14 @@ documentation_of: //flow/gomory_hu_tree.cpp
 - `vector<bool> min_cut_side(int u, int v) const`
   異なる2頂点を分ける最小カットで、`u` 側に属する元頂点を `true` とする長さ $N$ の列を返す。`u` は `true`、`v` は `false`。時間・追加領域ともに $O(N)$。
 
-構築後の保持領域は $O(N\log N)$。1頂点の木は構築でき、`edges()` は空になる。
+構築後の保持領域は $O(N\log N)$。
 
 ## 使い方
-
 ```cpp
-using CutTree = GomoryHuTree<ll>;
+using CutTree = GomoryHuTree<long long>;
 vector<CutTree::Edge> input{ {0, 1, 3}, {1, 2, 4}, {0, 2, 2}};
 CutTree tree(3, input);
-ll value = tree.min_cut(0, 2);
+long long value = tree.min_cut(0, 2);
 auto side = tree.min_cut_side(0, 2);
 const auto& weighted_tree = tree.edges();
 ```
@@ -44,4 +43,4 @@ const auto& weighted_tree = tree.edges();
 最小カットの始点側に従って親を付け替え、親子を反転する場合は既存のカット値も引き継ぐ。
 値のクエリは木上の二分累乗でパスの最小値を求める。
 集合の復元はパスをたどって最小重みの辺を1本選び、親から子の順に走査してその辺を除いた成分を求める。追加の最大流計算は行わない。
-最大流には無向版 `Dinic` を使い、1回あたりの最悪時間は $O(MN^2)$。内部の DFS は再帰なので、大きく深いグラフではスタック容量に注意する。
+最大流には無向版 `Dinic` を使い、1回あたりの最悪時間は $O(MN^2)$。

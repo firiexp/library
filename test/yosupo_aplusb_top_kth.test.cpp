@@ -99,7 +99,10 @@ void self_check() {
     }
 }
 
+#include "top_k_value_self_check.cpp"
+
 int main() {
+    check_top_k_value_semantics<TopKTreap<ll>>();
     self_check();
 
 }

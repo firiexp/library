@@ -34,7 +34,26 @@ void check(HopcroftKarp &hk, const vector<unsigned> &edges, int r) {
     }
 }
 
+void seeded_matching_check() {
+    HopcroftKarp hk(5, 5);
+    vector<unsigned> edges(5);
+    auto add = [&](int u, int v) {
+        hk.add_edge(u, v);
+        edges[u] |= 1U << v;
+    };
+    for (int v : {0, 2}) {
+        add(v, v);
+        add(v, v + 1);
+        add(v + 1, v);
+        hk.match_left[v] = hk.match_right[v] = v;
+    }
+    check(hk, edges, 5);
+    add(4, 4);
+    check(hk, edges, 5);
+}
+
 void self_check() {
+    seeded_matching_check();
     for (int k : {2, 7, 32000}) {
         HopcroftKarp hk(k + 1, k + 1);
         hk.add_edge(k, 0);

@@ -12,6 +12,12 @@ documentation_of: //datastructure/top_kth.cpp
 
 - `TopKTreap<T, SumT, Largest> st(K = 0, seed = 2463534242u)`
   順序付き先頭 `K` 個を基準にする空 multiset を作る。`K >= 0` とする。$O(1)$
+- `TopKTreap b = a`
+  `a` を `b` へ 複製する。コピー時間はノード数に比例する
+- `TopKTreap b = std::move(a)`
+  `a` を `b` に移す。移動後の `a` は `K = 0` の空集合になる。$O(1)$
+- `std::swap(a, b)`
+  `a` と `b` を交換する。$O(1)$
 - `void reserve(int capacity)`
   ノード領域を `capacity` 個ぶん事前確保する。確保済みノード数に比例する時間
 - `int k() const`

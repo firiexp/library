@@ -16,8 +16,10 @@ Kosaraju 法で成分番号を求め、必要なら縮約 DAG も作る。
   辺 `u -> v` を張る。償却 $O(1)$
 - `int build(bool build_dag = true)`
   強連結成分分解を実行して成分数を返す。`false` なら縮約 DAG を作らず、`G_out` を空にする。時間・領域 $O(N+M)$
-- `int operator[](int v)`
+- `int operator[](int v) const`
   頂点 `v` の属する成分番号を返す。$O(1)$
+- `vector<vector<int>> groups() const`
+  成分ごとの頂点列を成分番号順（トポロジカル順）に返す。各成分の頂点番号は昇順に並ぶ。$O(N)$
 - `vector<int> cmp`
   各頂点の成分番号を持つ
 - `vector<int> sz`
@@ -26,9 +28,8 @@ Kosaraju 法で成分番号を求め、必要なら縮約 DAG も作る。
   `G_out[c]` に成分 `c` から出る辺の行き先の成分番号を昇順で持つ。多重辺・自己ループは除かれる
 
 ## 使い方
-辺を張ってから `build()` を呼ぶ。
-以後は `cmp[v]` や `scc[v]` で成分番号を見て、`G_out` を縮約 DAG として使う。
-成分番号と頂点数だけが必要なら `build(false)` を呼ぶ。`cmp`・`sz`・返り値は `build()` と同じで、以前作った `G_out` は残らない。
+縮約 DAG が不要なら、辺を張ってから `scc.build(false)` を呼ぶ。成分ごとの頂点列は `scc.groups()`、各頂点の成分番号は `scc[v]` で取得できる。
+縮約 DAG も使う場合は `scc.build()` で分解し、`G_out` を参照する。
 
 ## 実装上の補足
 成分番号はトポロジカル順で、小さい番号から大きい番号へ辺が向かう。

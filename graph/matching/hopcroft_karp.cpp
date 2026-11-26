@@ -2,7 +2,7 @@ class HopcroftKarp {
     int l, r;
     vector<pair<int, int>> edges;
     vector<int> start, elist;
-    vector<int> dist;
+    vector<int> dist, bfs_order;
     int terminal_depth;
     bool dirty = true;
 
@@ -17,50 +17,54 @@ class HopcroftKarp {
         }
     }
 
+    int collect_free_roots() {
+        int count = 0;
+        for (int v = 0; v < l; ++v) {
+            if (match_left[v] == -1 && start[v] < start[v + 1]) bfs_order[count++] = v;
+        }
+        return count;
+    }
+
+    bool build_layers(int root_count) {
+        int head = 0, tail = root_count;
+        fill(dist.begin(), dist.end(), -1);
+        for (int i = 0; i < root_count; ++i) dist[bfs_order[i]] = 0;
+        terminal_depth = l + 1;
+        while (head < tail) {
+            int v = bfs_order[head++];
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int to = elist[ei];
+                int u = match_right[to];
+                if (u == -1) {
+                    terminal_depth = dist[v] + 1;
+                    return true;
+                }
+                if (dist[u] != -1) continue;
+                dist[u] = dist[v] + 1;
+                bfs_order[tail++] = u;
+            }
+        }
+        return false;
+    }
+
 public:
     vector<int> match_left, match_right;
 
-    explicit HopcroftKarp(int l, int r) : l(l), r(r), start(l + 1), dist(l), match_left(l, -1), match_right(r, -1) {}
+    explicit HopcroftKarp(int l, int r) : l(l), r(r), start(l + 1), dist(l), bfs_order(l), match_left(l, -1), match_right(r, -1) {}
 
     void add_edge(int a, int b) {
         edges.emplace_back(a, b);
         dirty = true;
     }
 
-    bool bfs() {
-        queue<int> q;
-        fill(dist.begin(), dist.end(), -1);
-        for (int i = 0; i < l; ++i) {
-            if (match_left[i] != -1) continue;
-            dist[i] = 0;
-            q.push(i);
-        }
-        terminal_depth = l + 1;
-        while (!q.empty()) {
-            int v = q.front();
-            q.pop();
-            if (dist[v] >= terminal_depth) continue;
-            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
-                int to = elist[ei];
-                int u = match_right[to];
-                if (u == -1) {
-                    terminal_depth = dist[v] + 1;
-                    continue;
-                }
-                if (dist[u] != -1) continue;
-                dist[u] = dist[v] + 1;
-                q.push(u);
-            }
-        }
-        return terminal_depth <= l;
-    }
+    bool bfs() { return build_layers(collect_free_roots()); }
 
     bool dfs(int v) {
         for (int ei = start[v]; ei < start[v + 1]; ++ei) {
             int to = elist[ei];
             int u = match_right[to];
             if (u == -1 && dist[v] + 1 != terminal_depth) continue;
-            if (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;
+            if (u != -1 && (dist[u] != dist[v] + 1 || dist[u] >= terminal_depth || !dfs(u))) continue;
             match_left[v] = to;
             match_right[to] = v;
             return true;
@@ -86,10 +90,15 @@ public:
                 }
             }
         }
-        while (bfs()) {
-            for (int i = 0; i < l; ++i) {
-                if (match_left[i] == -1 && dfs(i)) ++ret;
+        int root_count = collect_free_roots();
+        while (root_count && build_layers(root_count)) {
+            int remaining = 0;
+            for (int i = 0; i < root_count; ++i) {
+                int v = bfs_order[i];
+                if (dfs(v)) ++ret;
+                else bfs_order[remaining++] = v;
             }
+            root_count = remaining;
         }
         dirty = false;
         return ret;

@@ -87,6 +87,13 @@ public:
     }
 
     int operator[](int k) const { return cmp[k]; }
+
+    vector<vector<int>> groups() const {
+        vector<vector<int>> result(sz.size());
+        for (int c = 0; c < int(sz.size()); ++c) result[c].reserve(sz[c]);
+        for (int v = 0; v < n; ++v) result[cmp[v]].push_back(v);
+        return result;
+    }
 };
 
 /**

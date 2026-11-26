@@ -32,11 +32,10 @@ documentation_of: //datastructure/slope_trick.cpp
 - `eval(x)`
   現在の `f(x)` を返す。キャッシュ構築時は $O(K\log K)$、構築後は $O(\log K)$
 - `merge(other)`
-  `f(x) += other(x)` とし、`other` の内容を破壊する。両者の折れ点数の合計を $K$ として $O(K\log K)$
+  `f(x) += other(x)` とし、`other` の内容を破壊する。マージ前の折れ点数（重複を含む）をそれぞれ $K_1, K_2$ とすると、償却 $O(\min(K_1,K_2)\log(K_1+K_2))$
 
 ## 使い方
-`INF` は `numeric_limits<T>::max() / 4` を表す。
-無限端を示す返却用の値であり、折れ点の値域を制限しない。有限の折れ点が `±INF` の外にある場合も扱えるが、`query()` の無限端は数値として区間の大小比較に使わない。
+
 ```cpp
 SlopeTrick<long long> st;
 st.add_abs(5);

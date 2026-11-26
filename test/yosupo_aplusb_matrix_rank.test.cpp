@@ -45,7 +45,7 @@ void check(vector<vector<mint>> a, bool independent = true) {
     int rank = matrix_rank(a);
     assert(a == original);
     if (independent) assert(rank == minor_rank(a));
-    if (!a.empty()) assert(rank == gauss_jordan(a));
+    assert(rank == gauss_jordan(a));
     assert(rank == matrix_rank(std::move(original)));
 }
 

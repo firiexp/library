@@ -59,6 +59,16 @@ vector<ll> run_with_reset(const DSUonTree &dsu, const vector<ll> &w) {
 }
 
 void self_check() {
+    for (auto dsu : {DSUonTree(0), DSUonTree(vector<vector<int>>{})}) {
+        dsu.build();
+        int vertex_calls = 0, resets = 0;
+        auto visit = [&](int) { ++vertex_calls; };
+        dsu.run_add_remove(visit, visit, visit);
+        dsu.run_add_reset(visit, visit, [&]() { ++resets; });
+        assert(vertex_calls == 0);
+        assert(resets == 1);
+    }
+
     mt19937 rng(0);
     for (int tc = 0; tc < 300; ++tc) {
         int n = rng() % 40 + 1;
