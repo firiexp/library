@@ -29,14 +29,10 @@ int main() {
         G.add_edge(a, b);
     }
     printf("%d\n", G.build(false));
-    vector<vector<int>> res(G.sz.size());
-    for (int i = 0; i < n; ++i) {
-        res[G[i]].emplace_back(i);
-    }
-    for (int i = 0; i < G.sz.size(); ++i) {
-        printf("%d", G.sz[i]);
-        for (auto &&j : res[i]) {
-            printf(" %d", j);
+    for (const auto &group : G.groups()) {
+        printf("%zu", group.size());
+        for (int v : group) {
+            printf(" %d", v);
         }
         puts("");
     }

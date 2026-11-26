@@ -22,9 +22,11 @@ void check(SCC &g, int n, const vector<pair<int, int>> &edges) {
             for (int v = 0; v < n; ++v)
                 reachable[u][v] = reachable[u][v] || (reachable[u][w] && reachable[w][v]);
     vector<int> sizes(k);
+    vector<vector<int>> expected_groups(k);
     for (int u = 0; u < n; ++u) {
         assert(0 <= g[u] && g[u] < k);
         ++sizes[g[u]];
+        expected_groups[g[u]].push_back(u);
         for (int v = 0; v < n; ++v)
             assert((g[u] == g[v]) == (reachable[u][v] && reachable[v][u]));
     }
@@ -41,8 +43,10 @@ void check(SCC &g, int n, const vector<pair<int, int>> &edges) {
     auto cmp = g.cmp;
     auto out = g.G_out;
     for (bool build_dag : {false, false, true, true, false}) {
-        assert(g.build(build_dag) == k);
+        int count = g.build(build_dag);
+        assert(count == k);
         assert(g.cmp == cmp && g.sz == sizes);
+        assert(as_const(g).groups() == expected_groups);
         if (build_dag) assert(g.G_out == out);
         else assert(g.G_out.empty());
     }
