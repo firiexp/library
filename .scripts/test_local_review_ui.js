@@ -3,6 +3,16 @@
     if (!condition) throw new Error(message);
   }
 
+  async function waitFor(predicate, message, timeoutMs = 3000) {
+    const start = Date.now();
+    while (Date.now() - start < timeoutMs) {
+      const value = predicate();
+      if (value) return value;
+      await new Promise((resolve) => setTimeout(resolve, 20));
+    }
+    throw new Error(message);
+  }
+
   try {
     const find = (selector) => document.querySelector(selector);
     find("#auto-refresh").checked = false;
@@ -56,6 +66,64 @@
     check(!find("#integrate-batch-input").classList.contains("hidden"),
       "new batch input should be visible when no batch exists");
 
+    find(".edit-file-btn").click();
+    await waitFor(
+      () => !find("#file-editor-modal").classList.contains("hidden"),
+      "file editor modal did not open"
+    );
+    const editorInput = find("#editor-textarea");
+    check(editorInput.value.includes("return a - b;"), "editor missing file content");
+    editorInput.value = editorInput.value.replace("a - b", "a * b");
+    editorInput.dispatchEvent(new Event("input"));
+    find("#editor-tab-preview").click();
+    await waitFor(
+      () => find("#editor-preview-pane .diff-table"),
+      "editor preview diff did not render"
+    );
+    check(find("#editor-preview-pane").textContent.includes("a * b"), "preview missing updated line");
+    find("#editor-commit-btn").click();
+    await waitFor(
+      () => find("#file-editor-modal").classList.contains("hidden") &&
+        find("#diff-container").textContent.includes("a * b"),
+      "direct file edit did not commit and refresh diff"
+    );
+    check(!find("#edit-check-banner").classList.contains("hidden"), "self check banner should be visible");
+
+    find(".diff-table .line-add .add-comment-btn").click();
+    await waitFor(() => find(".comment-form"), "new-side composer did not open");
+    check(find(".composer-apply-btn").classList.contains("hidden"), "apply button should stay hidden without suggestion");
+    const insertBtn = Array.from(find(".comment-form").querySelectorAll("button"))
+      .find((btn) => btn.textContent.includes("Insert suggestion"));
+    insertBtn.click();
+    check(!find(".composer-apply-btn").classList.contains("hidden"), "apply button should show with suggestion");
+    const composerInput = find(".comment-form textarea");
+    composerInput.value = composerInput.value.replace("a * b", "a + b + 1");
+    composerInput.dispatchEvent(new Event("input"));
+    find(".composer-apply-btn").click();
+    await waitFor(
+      () => !find(".comment-form") && find("#diff-container").textContent.includes("a + b + 1"),
+      "composer suggestion apply did not update diff"
+    );
+
+    await apiPost("/api/threads", {
+      branch: state.selectedBranch,
+      path: "lib.cpp",
+      side: "new",
+      line: 2,
+      anchor_sha: state.diffData.new_sha,
+      body: "use + 2\n```suggestion\n    return a + b + 2;\n```",
+    });
+    await refreshAll();
+    const applyThreadBtn = await waitFor(
+      () => find(".apply-suggestion-btn"),
+      "thread apply suggestion button did not render"
+    );
+    applyThreadBtn.click();
+    await waitFor(
+      () => find("#diff-container").textContent.includes("a + b + 2") && !find(".apply-suggestion-btn"),
+      "thread suggestion apply did not commit and resolve thread"
+    );
+
     await submitReviewAction("approve");
     check(!find("#integrate-bar").classList.contains("hidden"), "integrate bar should show after approve");
     check(find("#review-action-bar").classList.contains("hidden"),
@@ -68,6 +136,7 @@
     await integrateSingle(state.selectedBranch, batchName, state.deleteBranchOnIntegrate);
     check(!find("#integrated-bar").classList.contains("hidden"), "integrated bar should show after integrate");
     check(find("#integrate-bar").classList.contains("hidden"), "integrate bar should hide after integrate");
+    check(!find("#edit-file-btn") && !find(".edit-file-btn"), "edit button should hide after integrate");
     check(!find("#integrate-batch-select").classList.contains("hidden"),
       "existing batch select should show after a batch branch is created");
     check(find("#integrate-batch-select").value === batchName,

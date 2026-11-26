@@ -6,6 +6,7 @@ import argparse
 import ast
 import contextlib
 import datetime as dt
+import difflib
 import fcntl
 import http.server
 import json
@@ -33,6 +34,8 @@ HUNK_HEADER_RE = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(.*)$")
 GITHUB_REMOTE_RE = re.compile(
     r"(?:git@github\.com:|https?://github\.com/)([^/\s]+/[^/\s]+?)(?:\.git)?$"
 )
+SUGGESTION_BLOCK_RE = re.compile(r"```suggestion\r?\n(.*?)```", re.DOTALL)
+CPP_EXTS = (".cpp", ".hpp", ".h", ".cc", ".cxx")
 
 
 class LocalReviewError(RuntimeError):
@@ -794,6 +797,494 @@ def record_review(
         return enrich_item(item, repo_dir)
 
 
+def validate_repo_relative_path(path: str) -> str:
+    if not path or "\x00" in path or "\\" in path or path.startswith("/"):
+        raise LocalReviewError(f"invalid repository path: {path!r}")
+    parts = path.split("/")
+    if any(part in {"", ".", ".."} for part in parts) or parts[0] == ".git":
+        raise LocalReviewError(f"invalid repository path: {path!r}")
+    return path
+
+
+def read_blob_text(ref: str, path: str, repo_dir: Path | None = None) -> tuple[str, str, str]:
+    validate_repo_relative_path(path)
+    repo = repo_dir or ROOT
+    sha = resolve_commit(ref, repo)
+    ls = run_git(["ls-tree", "-z", sha, "--", path], cwd=repo)
+    entry = ls.stdout.split("\x00")[0] if ls.stdout else ""
+    if not entry:
+        raise LocalReviewError(f"file not found at {short_sha(sha)}: {path}")
+    meta, _, _ = entry.partition("\t")
+    parts = meta.split()
+    if len(parts) != 3 or parts[1] != "blob" or parts[0] == "120000":
+        raise LocalReviewError(f"cannot edit non-regular file: {path}")
+    mode, _, obj_sha = parts
+    raw = subprocess.run(["git", "cat-file", "blob", obj_sha], cwd=str(repo), capture_output=True)
+    if raw.returncode != 0:
+        detail = raw.stderr.decode("utf-8", errors="replace").strip()
+        raise LocalReviewError(f"git cat-file blob failed: {detail}")
+    if b"\x00" in raw.stdout:
+        raise LocalReviewError(f"cannot edit binary file: {path}")
+    try:
+        text = raw.stdout.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise LocalReviewError(f"file is not valid UTF-8: {path}") from exc
+    return sha, mode, text
+
+
+def get_file_content(
+    branch: str,
+    path: str,
+    ref: str = "",
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    if not ref and not branch_exists(branch, repo_dir):
+        raise LocalReviewError(f"local branch not found: {branch}")
+    target_ref = ref or f"refs/heads/{branch}"
+    sha, mode, text = read_blob_text(target_ref, path, repo_dir)
+    return {
+        "branch": branch,
+        "path": path,
+        "head_sha": sha,
+        "short_sha": short_sha(sha),
+        "mode": mode,
+        "eol": "crlf" if "\r\n" in text else "lf",
+        "content": text,
+    }
+
+
+def normalize_edited_content(original_text: str, new_text: str) -> str:
+    if "\r\n" in original_text and "\r\n" not in new_text:
+        return new_text.replace("\n", "\r\n")
+    return new_text
+
+
+def build_preview_diff(path: str, old_text: str, new_text: str) -> dict[str, Any]:
+    normalized = normalize_edited_content(old_text, new_text)
+    diff_lines = list(
+        difflib.unified_diff(
+            old_text.splitlines(keepends=True),
+            normalized.splitlines(keepends=True),
+            fromfile=f"a/{path}",
+            tofile=f"b/{path}",
+            n=3,
+        )
+    )
+    hunks: list[dict[str, Any]] = []
+    current_hunk: dict[str, Any] | None = None
+    old_line = 0
+    new_line = 0
+    additions = 0
+    deletions = 0
+
+    for raw_line in diff_lines:
+        line = raw_line.rstrip("\r\n")
+        hunk_match = HUNK_HEADER_RE.match(line)
+        if hunk_match:
+            old_line = int(hunk_match.group(1))
+            new_line = int(hunk_match.group(3))
+            current_hunk = {
+                "header": line,
+                "old_start": old_line,
+                "old_count": int(hunk_match.group(2) or "1"),
+                "new_start": new_line,
+                "new_count": int(hunk_match.group(4) or "1"),
+                "lines": [],
+            }
+            hunks.append(current_hunk)
+            continue
+        if current_hunk is None:
+            continue
+        if line.startswith("+"):
+            current_hunk["lines"].append(
+                {"type": "add", "old_line": None, "new_line": new_line, "content": line[1:]}
+            )
+            additions += 1
+            new_line += 1
+        elif line.startswith("-"):
+            current_hunk["lines"].append(
+                {"type": "del", "old_line": old_line, "new_line": None, "content": line[1:]}
+            )
+            deletions += 1
+            old_line += 1
+        elif line.startswith(" "):
+            current_hunk["lines"].append(
+                {"type": "context", "old_line": old_line, "new_line": new_line, "content": line[1:]}
+            )
+            old_line += 1
+            new_line += 1
+        elif line.startswith("\\"):
+            current_hunk["lines"].append(
+                {"type": "meta", "old_line": None, "new_line": None, "content": line}
+            )
+
+    return {
+        "path": path,
+        "has_changes": old_text != normalized,
+        "additions": additions,
+        "deletions": deletions,
+        "hunks": hunks,
+    }
+
+
+def preview_file_edit(
+    branch: str,
+    path: str,
+    content: str,
+    expected_head: str = "",
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    if not branch_exists(branch, repo_dir):
+        raise LocalReviewError(f"local branch not found: {branch}")
+    head_sha = resolve_commit(f"refs/heads/{branch}", repo_dir)
+    if expected_head and head_sha != expected_head:
+        raise LocalReviewError("branch changed since the file was loaded; reload before saving")
+    _, _, current_text = read_blob_text(head_sha, path, repo_dir)
+    payload = build_preview_diff(path, current_text, content)
+    payload["head_sha"] = head_sha
+    return payload
+
+
+def run_self_check_in_worktree(wt_dir: Path) -> dict[str, Any]:
+    script = wt_dir / "scripts" / "codex_self_check.py"
+    if not script.is_file():
+        return {
+            "ran": False,
+            "ok": True,
+            "skipped": True,
+            "returncode": 0,
+            "summary": "scripts/codex_self_check.py not found",
+            "output": "",
+        }
+    try:
+        proc = subprocess.run(
+            [sys.executable, str(script)],
+            cwd=str(wt_dir),
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+    except subprocess.TimeoutExpired:
+        return {
+            "ran": True,
+            "ok": False,
+            "skipped": False,
+            "returncode": -1,
+            "summary": "codex_self_check: timeout",
+            "output": "codex_self_check.py timed out",
+        }
+    combined = "\n".join(part for part in (proc.stdout.strip(), proc.stderr.strip()) if part)
+    return {
+        "ran": True,
+        "ok": proc.returncode == 0,
+        "skipped": False,
+        "returncode": proc.returncode,
+        "summary": "codex_self_check: pass" if proc.returncode == 0 else "codex_self_check: fail",
+        "output": combined,
+    }
+
+
+def normalize_suggestion_replacement(raw: str) -> tuple[bool, list[str]]:
+    if raw == "":
+        return True, []
+    trimmed = raw[:-2] if raw.endswith("\r\n") else (raw[:-1] if raw.endswith("\n") else raw)
+    return False, trimmed.replace("\r\n", "\n").split("\n")
+
+
+def apply_lines_replacement(
+    current_text: str,
+    start_line: int,
+    end_line: int,
+    raw_suggestion: str,
+) -> str:
+    lines = current_text.splitlines(keepends=True)
+    if start_line < 1 or end_line < start_line or end_line > len(lines):
+        raise LocalReviewError(
+            f"suggestion line range {start_line}-{end_line} is out of range (1-{len(lines)})"
+        )
+    is_delete, replacement_lines = normalize_suggestion_replacement(raw_suggestion)
+    eol = "\r\n" if "\r\n" in current_text else "\n"
+    formatted: list[str] = []
+    if not is_delete:
+        had_trailing_eol = lines[end_line - 1].endswith(("\n", "\r\n"))
+        last_idx = len(replacement_lines) - 1
+        for idx, line in enumerate(replacement_lines):
+            if idx == last_idx and end_line == len(lines) and not had_trailing_eol:
+                formatted.append(line)
+            else:
+                formatted.append(line + eol)
+    return "".join(lines[: start_line - 1] + formatted + lines[end_line:])
+
+
+def _commit_branch_file_change(
+    branch: str,
+    path: str,
+    transform: Any,
+    commit_message: str,
+    expected_head: str = "",
+    run_self_check: bool = True,
+    pre_check: Any = None,
+    post_commit: Any = None,
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    validate_repo_relative_path(path)
+    repo = repo_dir or ROOT
+    if not branch_exists(branch, repo):
+        raise LocalReviewError(f"local branch not found: {branch}")
+
+    with locked_state(repo, write=True) as state:
+        item = state["items"].get(branch)
+        if item is None:
+            raise LocalReviewError(f"branch is not registered in local review: {branch}")
+        if item.get("status") in {"integrated", "merged"}:
+            raise LocalReviewError(f"branch is already {item.get('status')}: {branch}")
+
+        branch_ref = f"refs/heads/{branch}"
+        start_sha = resolve_commit(branch_ref, repo)
+        if expected_head and start_sha != expected_head:
+            raise LocalReviewError("branch changed since the file was loaded; reload before saving")
+        if pre_check is not None:
+            pre_check(item, start_sha)
+
+        existing_wt = find_worktree_for_branch(branch, repo)
+        if existing_wt is not None:
+            if not is_worktree_clean(existing_wt) or resolve_commit("HEAD", existing_wt) != start_sha:
+                raise LocalReviewError(f"worktree for {branch} has local changes: {existing_wt}")
+
+        with tempfile.TemporaryDirectory(prefix="local-review-edit-") as scratch:
+            wt_dir = Path(scratch) / "worktree"
+            run_git(["worktree", "add", "--detach", str(wt_dir), start_sha], cwd=repo)
+            try:
+                raw_target = wt_dir / path
+                if raw_target.is_symlink() or not raw_target.exists():
+                    raise LocalReviewError(f"cannot edit non-regular file: {path}")
+                target = raw_target.resolve()
+                if not target.is_relative_to(wt_dir.resolve()) or not target.is_file():
+                    raise LocalReviewError(f"cannot edit non-regular file: {path}")
+                raw_bytes = target.read_bytes()
+                if b"\x00" in raw_bytes:
+                    raise LocalReviewError(f"cannot edit binary file: {path}")
+                try:
+                    current_text = raw_bytes.decode("utf-8")
+                except UnicodeDecodeError as exc:
+                    raise LocalReviewError(f"file is not valid UTF-8: {path}") from exc
+
+                new_text = transform(current_text)
+                if new_text == current_text:
+                    raise LocalReviewError("no changes to commit")
+                with open(target, "w", encoding="utf-8", newline="") as fh:
+                    fh.write(new_text)
+
+                run_git(["add", "--", path], cwd=wt_dir)
+                if not run_git(["diff", "--cached", "--name-only"], cwd=wt_dir).stdout.strip():
+                    raise LocalReviewError("no changes to commit")
+                run_git(["commit", "-m", commit_message], cwd=wt_dir)
+                new_sha = resolve_commit("HEAD", wt_dir)
+
+                if existing_wt is None:
+                    run_git(["update-ref", branch_ref, new_sha, start_sha], cwd=repo)
+                else:
+                    if not is_worktree_clean(existing_wt) or resolve_commit("HEAD", existing_wt) != start_sha:
+                        raise LocalReviewError(f"worktree for {branch} has local changes: {existing_wt}")
+                    run_git(["merge", "--ff-only", new_sha], cwd=existing_wt)
+
+                if run_self_check:
+                    self_check = run_self_check_in_worktree(wt_dir)
+                else:
+                    self_check = {
+                        "ran": False,
+                        "ok": True,
+                        "skipped": True,
+                        "returncode": 0,
+                        "summary": "skipped",
+                        "output": "",
+                    }
+            finally:
+                run_git(["worktree", "remove", "--force", str(wt_dir)], cwd=repo)
+
+        timestamp = now_iso()
+        had_unreviewed_doc = branch_has_doc_changes(
+            item.get("base", "master"),
+            start_sha,
+            item.get("doc_reviewed_sha", ""),
+            repo,
+        )
+        item["head_sha"] = new_sha
+        if item.get("status") == "approved":
+            item["status"] = "ready"
+        if is_doc_path(path) and item.get("status") != "doc_review" and not had_unreviewed_doc:
+            item["doc_reviewed_sha"] = new_sha
+        item["updated_at"] = timestamp
+        extra = post_commit(item, new_sha, timestamp) if post_commit is not None else {}
+
+        result: dict[str, Any] = {
+            "item": enrich_item(item, repo),
+            "branch": branch,
+            "path": path,
+            "commit_sha": new_sha,
+            "short_sha": short_sha(new_sha),
+            "self_check": self_check,
+            "is_cpp_edit": path.endswith(CPP_EXTS),
+        }
+        if extra:
+            result.update(extra)
+        return result
+
+
+def commit_file_edit(
+    branch: str,
+    path: str,
+    content: str,
+    expected_head: str = "",
+    message: str = "",
+    run_self_check: bool = True,
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    commit_msg = (message or "").strip() or f"Edit {path}"
+    return _commit_branch_file_change(
+        branch=branch,
+        path=path,
+        transform=lambda current_text: normalize_edited_content(current_text, content),
+        commit_message=commit_msg,
+        expected_head=expected_head,
+        run_self_check=run_self_check,
+        repo_dir=repo_dir,
+    )
+
+
+def apply_suggestion(
+    branch: str,
+    thread_id: str = "",
+    comment_id: str = "",
+    suggestion_index: int = 0,
+    path: str = "",
+    line: int | None = None,
+    start_line: int | None = None,
+    replacement: str | None = None,
+    expected_head: str = "",
+    message: str = "",
+    resolve: bool = True,
+    run_self_check: bool = True,
+    repo_dir: Path | None = None,
+) -> dict[str, Any]:
+    repo = repo_dir or ROOT
+    if thread_id:
+        with locked_state(repo, write=False) as state:
+            item = state["items"].get(branch)
+            if item is None:
+                raise LocalReviewError(f"branch is not registered in local review: {branch}")
+            thread = next((t for t in item.get("threads", []) if t.get("id") == thread_id), None)
+            if thread is None:
+                raise LocalReviewError(f"thread not found: {thread_id}")
+            if thread.get("side") != "new":
+                raise LocalReviewError("only new-side suggestions can be applied directly")
+            comments = thread.get("comments", [])
+            if comment_id:
+                comment = next((c for c in comments if c.get("id") == comment_id), None)
+                if comment is None:
+                    raise LocalReviewError(f"comment not found: {comment_id}")
+            else:
+                comment = next(
+                    (c for c in comments if SUGGESTION_BLOCK_RE.search(c.get("body", ""))),
+                    None,
+                )
+                if comment is None:
+                    raise LocalReviewError("no suggestion block found in thread")
+            blocks = SUGGESTION_BLOCK_RE.findall(comment.get("body", ""))
+            if suggestion_index < 0 or suggestion_index >= len(blocks):
+                raise LocalReviewError(f"suggestion block not found at index {suggestion_index}")
+            raw_suggestion = blocks[suggestion_index]
+            target_path = thread["path"]
+            end_line = int(thread["line"])
+            resolved_start = int(thread.get("start_line") or end_line)
+
+        def check_thread_fresh(current_item: dict[str, Any], start_sha: str) -> None:
+            current_thread = next(
+                (t for t in current_item.get("threads", []) if t.get("id") == thread_id),
+                None,
+            )
+            if current_thread is None:
+                raise LocalReviewError(f"thread not found: {thread_id}")
+            if current_thread.get("side") != "new":
+                raise LocalReviewError("only new-side suggestions can be applied directly")
+            anchor = current_thread.get("anchor_sha") or current_thread.get("head_sha") or ""
+            if anchor and anchor != start_sha:
+                if not ref_exists(anchor, repo):
+                    raise LocalReviewError(
+                        "file changed since this suggestion was created; reload or use Edit"
+                    )
+                diff_proc = run_git(
+                    ["diff", "--quiet", anchor, start_sha, "--", target_path],
+                    cwd=repo,
+                    check=False,
+                )
+                if diff_proc.returncode != 0:
+                    raise LocalReviewError(
+                        "file changed since this suggestion was created; reload or use Edit"
+                    )
+
+        def update_thread_after_apply(
+            current_item: dict[str, Any],
+            new_sha: str,
+            timestamp: str,
+        ) -> dict[str, Any]:
+            current_thread = next(
+                t for t in current_item.get("threads", []) if t.get("id") == thread_id
+            )
+            current_thread.setdefault("comments", []).append(
+                {
+                    "id": new_id("cmt"),
+                    "author": "human",
+                    "body": "Suggestion を適用しました",
+                    "commit": short_sha(new_sha),
+                    "created_at": timestamp,
+                }
+            )
+            current_thread["updated_at"] = timestamp
+            if resolve:
+                current_thread["is_resolved"] = True
+            return {"thread": current_thread}
+
+        commit_msg = (message or "").strip() or f"Apply suggestion to {target_path}"
+        return _commit_branch_file_change(
+            branch=branch,
+            path=target_path,
+            transform=lambda current_text: apply_lines_replacement(
+                current_text, resolved_start, end_line, raw_suggestion
+            ),
+            commit_message=commit_msg,
+            expected_head=expected_head,
+            run_self_check=run_self_check,
+            pre_check=check_thread_fresh,
+            post_commit=update_thread_after_apply,
+            repo_dir=repo,
+        )
+
+    if not path:
+        raise LocalReviewError("path is required")
+    if line is None or int(line) < 1:
+        raise LocalReviewError(f"invalid line number: {line}")
+    if replacement is None:
+        raise LocalReviewError("replacement is required")
+    end_line = int(line)
+    resolved_start = int(start_line) if start_line is not None else end_line
+    if resolved_start < 1 or resolved_start > end_line:
+        raise LocalReviewError(f"invalid line range: {resolved_start}-{end_line}")
+    line_label = f"{resolved_start}" if resolved_start == end_line else f"{resolved_start}-{end_line}"
+    commit_msg = (message or "").strip() or f"Edit {path}:{line_label}"
+    return _commit_branch_file_change(
+        branch=branch,
+        path=path,
+        transform=lambda current_text: apply_lines_replacement(
+            current_text, resolved_start, end_line, replacement
+        ),
+        commit_message=commit_msg,
+        expected_head=expected_head,
+        run_self_check=run_self_check,
+        repo_dir=repo,
+    )
+
+
 def get_comments_report(
     branch: str,
     unresolved_only: bool = True,
@@ -1358,6 +1849,14 @@ def build_http_handler(repo_dir: Path, default_base: str = "master"):
                         raise LocalReviewError("batch parameter is required")
                     self.send_json(200, build_batch_pr_draft(batch, repo_dir=repo_dir))
                     return
+                if path == "/api/file":
+                    branch = query.get("branch", [""])[0]
+                    file_path = query.get("path", [""])[0]
+                    ref = query.get("ref", [""])[0]
+                    if not branch or not file_path:
+                        raise LocalReviewError("branch and path parameters are required")
+                    self.send_json(200, get_file_content(branch=branch, path=file_path, ref=ref, repo_dir=repo_dir))
+                    return
                 self.send_json(404, {"error": f"not found: {path}"})
             except LocalReviewError as exc:
                 self.send_json(400, {"error": str(exc)})
@@ -1464,6 +1963,66 @@ def build_http_handler(repo_dir: Path, default_base: str = "master"):
                         batch_branch=batch_name,
                         pr_url=body.get("pr_url"),
                         delete_branch=bool(body.get("delete_branch", False)),
+                        repo_dir=repo_dir,
+                    )
+                    self.send_json(200, result)
+                    return
+                if path == "/api/edit/preview":
+                    branch = str(body.get("branch", "")).strip()
+                    file_path = str(body.get("path", "")).strip()
+                    content = body.get("content")
+                    if not branch or not file_path:
+                        raise LocalReviewError("branch and path are required")
+                    if not isinstance(content, str):
+                        raise LocalReviewError("content must be a string")
+                    result = preview_file_edit(
+                        branch=branch,
+                        path=file_path,
+                        content=content,
+                        expected_head=str(body.get("expected_head", "")),
+                        repo_dir=repo_dir,
+                    )
+                    self.send_json(200, result)
+                    return
+                if path == "/api/edit/file":
+                    branch = str(body.get("branch", "")).strip()
+                    file_path = str(body.get("path", "")).strip()
+                    content = body.get("content")
+                    if not branch or not file_path:
+                        raise LocalReviewError("branch and path are required")
+                    if not isinstance(content, str):
+                        raise LocalReviewError("content must be a string")
+                    result = commit_file_edit(
+                        branch=branch,
+                        path=file_path,
+                        content=content,
+                        expected_head=str(body.get("expected_head", "")),
+                        message=str(body.get("message", "")),
+                        run_self_check=bool(body.get("run_self_check", True)),
+                        repo_dir=repo_dir,
+                    )
+                    self.send_json(200, result)
+                    return
+                if path == "/api/edit/suggestion":
+                    branch = str(body.get("branch", "")).strip()
+                    if not branch:
+                        raise LocalReviewError("branch is required")
+                    line_val = body.get("line")
+                    start_val = body.get("start_line")
+                    idx_val = body.get("suggestion_index", 0)
+                    result = apply_suggestion(
+                        branch=branch,
+                        thread_id=str(body.get("thread_id", "")),
+                        comment_id=str(body.get("comment_id", "")),
+                        suggestion_index=int(idx_val) if idx_val not in (None, "") else 0,
+                        path=str(body.get("path", "")).strip(),
+                        line=int(line_val) if line_val not in (None, "") else None,
+                        start_line=int(start_val) if start_val not in (None, "") else None,
+                        replacement=body.get("replacement"),
+                        expected_head=str(body.get("expected_head", "")),
+                        message=str(body.get("message", "")),
+                        resolve=bool(body.get("resolve", True)),
+                        run_self_check=bool(body.get("run_self_check", True)),
                         repo_dir=repo_dir,
                     )
                     self.send_json(200, result)

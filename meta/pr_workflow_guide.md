@@ -79,6 +79,7 @@ python3 scripts/local_review.py serve
 - 左サイドバーの既定フィルタ `Active` にはレビュー対象（`Doc Review` / `Ready` / `Changes` / `Approved`）だけが表示され、`Integrated` や `Merged` は別フィルタへ分離される。
 - 通常は `Ready`（文章レビュー済み）のブランチを選び、Unified / Split 差分で確認する。
 - 行の `+` ボタンからインラインコメントや `Insert suggestion` を投稿できる。
+- 軽微なドキュメント修正や自明な小修正は、各ファイルの `Edit` ボタンから全文編集・差分プレビュー・直接コミットを行える。`suggestion`（既存コメントまたは `+` コンポーザ）の `Apply & commit` からもワンクリックで対象ブランチへコミットできる。コミット後は `codex_self_check.py` が自動実行され結果が表示される（失敗時もコミットは残るためそのまま再編集できる）。
 - レビュー結果として **`Approve`** / **`Request Changes`** / **`Comment`** / **`Reject`** を記録する。
 - 再提出されたブランチは Range セレクタの `Since last review` で前回レビュー以降の差分だけ確認できる。
 

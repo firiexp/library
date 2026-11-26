@@ -23,6 +23,8 @@ const state = {
   batchTargetNewEdited: false,
   deleteBranchOnIntegrate: true,
   reopenReviewForm: false,
+  activeEditor: null,
+  editCheckResults: new Map(),
 };
 
 function el(tag, attrs = {}, ...children) {
@@ -104,21 +106,317 @@ function issueUrl(issueNumber) {
   return `https://github.com/${state.overview.github_slug}/issues/${issueNumber}`;
 }
 
-function renderCommentBody(bodyText) {
+function extractSuggestionBlocks(text) {
+  const regex = /```suggestion\r?\n([\s\S]*?)```/g;
+  const blocks = [];
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    blocks.push(match[1]);
+  }
+  return blocks;
+}
+
+function canEditItem(item) {
+  return Boolean(
+    item &&
+    item.branch_exists &&
+    item.status !== "integrated" &&
+    item.status !== "merged" &&
+    state.diffData &&
+    state.diffData.new_sha === item.live_head_sha
+  );
+}
+
+function canApplyThreadSuggestion(item, thread) {
+  return Boolean(canEditItem(item) && thread && thread.side === "new" && !thread.is_resolved);
+}
+
+function recordEditResult(branch, res) {
+  state.editCheckResults.set(branch, {
+    path: res.path,
+    shortSha: res.short_sha,
+    selfCheck: res.self_check,
+    isCppEdit: Boolean(res.is_cpp_edit),
+  });
+}
+
+function showCommitResultToast(res, label) {
+  const selfCheck = res.self_check;
+  if (selfCheck && !selfCheck.ok) {
+    showToast(`${label} (${res.short_sha}) — ${selfCheck.summary}`, true);
+  } else {
+    const suffix = selfCheck && selfCheck.ran ? ` (${selfCheck.summary})` : "";
+    showToast(`${label} (${res.short_sha})${suffix}`);
+  }
+}
+
+function renderEditCheckBanner(item) {
+  const banner = document.getElementById("edit-check-banner");
+  if (!banner) return;
+  const result = item ? state.editCheckResults.get(item.branch) : null;
+  if (!result) {
+    banner.className = "edit-check-banner hidden";
+    banner.innerHTML = "";
+    return;
+  }
+  const { path, shortSha, selfCheck, isCppEdit } = result;
+  const statusClass = selfCheck && !selfCheck.ok
+    ? "edit-check-fail"
+    : selfCheck && selfCheck.ran
+      ? "edit-check-ok"
+      : "edit-check-info";
+  banner.className = `edit-check-banner ${statusClass}`;
+  banner.innerHTML = "";
+
+  const summaryText = selfCheck ? selfCheck.summary : "committed";
+  const hintParts = [path];
+  if (isCppEdit) {
+    hintParts.push("C++ ファイルを直接編集しました。必要に応じて verify を実行してください。");
+  }
+
+  const actions = [];
+  if (selfCheck && !selfCheck.ok && canEditItem(item)) {
+    actions.push(
+      el(
+        "button",
+        {
+          className: "btn btn-secondary btn-sm",
+          type: "button",
+          onClick: () => openFileEditor(item, path),
+        },
+        "ファイルを再編集"
+      )
+    );
+  }
+  actions.push(
+    el(
+      "button",
+      {
+        className: "btn btn-ghost btn-sm",
+        type: "button",
+        onClick: () => {
+          state.editCheckResults.delete(item.branch);
+          renderEditCheckBanner(item);
+        },
+      },
+      "閉じる"
+    )
+  );
+
+  banner.appendChild(
+    el(
+      "div",
+      { className: "edit-check-head" },
+      el(
+        "div",
+        { className: "edit-check-info-group" },
+        el("strong", {}, `コミットしました (${shortSha}): ${summaryText}`),
+        el("span", { className: "integrate-bar-hint" }, hintParts.join(" · "))
+      ),
+      el("div", { className: "form-actions-right" }, ...actions)
+    )
+  );
+  if (selfCheck && !selfCheck.ok && selfCheck.output) {
+    banner.appendChild(el("pre", { className: "edit-check-output" }, selfCheck.output));
+  }
+}
+
+async function applyThreadSuggestion(item, thread, comment, suggestionIndex, buttonEl) {
+  if (buttonEl) buttonEl.disabled = true;
+  try {
+    const res = await apiPost("/api/edit/suggestion", {
+      branch: item.branch,
+      thread_id: thread.id,
+      comment_id: comment.id,
+      suggestion_index: suggestionIndex,
+      expected_head: item.live_head_sha,
+      resolve: true,
+      run_self_check: true,
+    });
+    recordEditResult(item.branch, res);
+    showCommitResultToast(res, `Suggestion を適用しました`);
+    await refreshAll(item.branch);
+  } catch (err) {
+    showToast(err.message, true);
+  } finally {
+    if (buttonEl && buttonEl.isConnected) buttonEl.disabled = false;
+  }
+}
+
+function renderEditorPreview(preview) {
+  const pane = document.getElementById("editor-preview-pane");
+  pane.innerHTML = "";
+  if (!preview.has_changes || !(preview.hunks || []).length) {
+    pane.appendChild(el("div", { className: "empty-state" }, "変更はありません。"));
+    return;
+  }
+  const tbody = el("tbody");
+  for (const hunk of preview.hunks) {
+    tbody.appendChild(
+      el("tr", { className: "diff-hunk-row" }, el("td", { colspan: "4" }, hunk.header))
+    );
+    for (const line of hunk.lines) {
+      const prefix = line.type === "add" ? "+" : line.type === "del" ? "-" : line.type === "meta" ? "" : " ";
+      const rowClass = line.type === "add" ? "line-add" : line.type === "del" ? "line-del" : "";
+      tbody.appendChild(
+        el(
+          "tr",
+          { className: rowClass },
+          el("td", { className: "line-num" }, line.old_line ?? ""),
+          el("td", { className: "line-num" }, line.new_line ?? ""),
+          el("td", { className: "line-action" }),
+          el(
+            "td",
+            { className: "code-cell" },
+            el("span", { className: "line-prefix" }, prefix),
+            line.content
+          )
+        )
+      );
+    }
+  }
+  pane.appendChild(diffTable(preview, "unified", tbody));
+}
+
+async function switchEditorMode(mode) {
+  const editor = state.activeEditor;
+  if (!editor) return;
+  editor.mode = mode;
+  document.getElementById("editor-tab-edit").classList.toggle("active", mode === "edit");
+  document.getElementById("editor-tab-preview").classList.toggle("active", mode === "preview");
+  const textarea = document.getElementById("editor-textarea");
+  const previewPane = document.getElementById("editor-preview-pane");
+  textarea.classList.toggle("hidden", mode !== "edit");
+  previewPane.classList.toggle("hidden", mode !== "preview");
+  if (mode !== "preview") return;
+
+  previewPane.innerHTML = "";
+  previewPane.appendChild(el("div", { className: "empty-state" }, "プレビューを生成中..."));
+  try {
+    const preview = await apiPost("/api/edit/preview", {
+      branch: editor.branch,
+      path: editor.path,
+      content: editor.draft,
+      expected_head: editor.headSha,
+    });
+    if (state.activeEditor !== editor || editor.mode !== "preview") return;
+    renderEditorPreview(preview);
+  } catch (err) {
+    if (state.activeEditor !== editor || editor.mode !== "preview") return;
+    previewPane.innerHTML = "";
+    previewPane.appendChild(el("div", { className: "empty-state" }, err.message));
+  }
+}
+
+async function openFileEditor(item, path) {
+  if (!item) return;
+  try {
+    const data = await apiGet(
+      `/api/file?branch=${encodeURIComponent(item.branch)}&path=${encodeURIComponent(path)}&ref=${encodeURIComponent(item.live_head_sha)}`
+    );
+    document.getElementById("editor-file-path").textContent = path;
+    document.getElementById("editor-head-sha").textContent = data.short_sha || data.head_sha.slice(0, 7);
+    const textarea = document.getElementById("editor-textarea");
+    textarea.value = data.content;
+    const editor = {
+      branch: item.branch,
+      path,
+      headSha: data.head_sha,
+      original: textarea.value,
+      draft: textarea.value,
+      mode: "edit",
+      saving: false,
+    };
+    state.activeEditor = editor;
+    document.getElementById("editor-commit-msg").value = `Edit ${path}`;
+    document.getElementById("editor-commit-btn").disabled = false;
+    document.getElementById("file-editor-modal").classList.remove("hidden");
+    await switchEditorMode("edit");
+    textarea.focus();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
+function closeFileEditor(force = false) {
+  if (!state.activeEditor) return;
+  if (!force && state.activeEditor.draft !== state.activeEditor.original) {
+    if (!window.confirm("未保存の編集があります。破棄しますか？")) return;
+  }
+  state.activeEditor = null;
+  document.getElementById("file-editor-modal").classList.add("hidden");
+}
+
+async function commitFileEditor() {
+  const editor = state.activeEditor;
+  if (!editor || editor.saving) return;
+  const commitBtn = document.getElementById("editor-commit-btn");
+  editor.saving = true;
+  commitBtn.disabled = true;
+  try {
+    const message = document.getElementById("editor-commit-msg").value.trim();
+    const res = await apiPost("/api/edit/file", {
+      branch: editor.branch,
+      path: editor.path,
+      content: editor.draft,
+      expected_head: editor.headSha,
+      message,
+      run_self_check: true,
+    });
+    recordEditResult(editor.branch, res);
+    closeFileEditor(true);
+    showCommitResultToast(res, `${res.path} をコミットしました`);
+    await refreshAll(res.branch);
+  } catch (err) {
+    showToast(err.message, true);
+  } finally {
+    if (state.activeEditor === editor) editor.saving = false;
+    commitBtn.disabled = false;
+  }
+}
+
+function renderCommentBody(bodyText, suggestionCtx = null) {
   const container = el("div", { className: "comment-body" });
   const regex = /```suggestion\r?\n([\s\S]*?)```/g;
   let lastIndex = 0;
+  let suggestionIdx = 0;
   let match;
   while ((match = regex.exec(bodyText)) !== null) {
     if (match.index > lastIndex) {
       container.appendChild(document.createTextNode(bodyText.slice(lastIndex, match.index)));
     }
+    const idx = suggestionIdx;
+    suggestionIdx += 1;
     const suggestionCode = match[1].replace(/\r?\n$/, "");
+    let applyBtn = null;
+    if (suggestionCtx && canApplyThreadSuggestion(suggestionCtx.item, suggestionCtx.thread)) {
+      applyBtn = el(
+        "button",
+        {
+          className: "btn btn-primary btn-sm apply-suggestion-btn",
+          type: "button",
+          onClick: () =>
+            applyThreadSuggestion(
+              suggestionCtx.item,
+              suggestionCtx.thread,
+              suggestionCtx.comment,
+              idx,
+              applyBtn
+            ),
+        },
+        "Apply & commit"
+      );
+    }
     container.appendChild(
       el(
         "div",
         { className: "suggestion-box" },
-        el("div", { className: "suggestion-head" }, "Suggested change"),
+        el(
+          "div",
+          { className: "suggestion-head" },
+          el("span", {}, "Suggested change"),
+          applyBtn
+        ),
         el("pre", { className: "suggestion-code" }, suggestionCode)
       )
     );
@@ -507,6 +805,7 @@ function renderPrHeader(item) {
     state.diffRange = "base";
     rangeSelect.value = "base";
   }
+  renderEditCheckBanner(item);
 }
 
 function groupThreads(item, files) {
@@ -637,7 +936,7 @@ function buildThreadElement(item, thread) {
         c.commit ? el("code", {}, c.commit) : null,
         el("span", {}, (c.created_at || "").replace("T", " ").slice(0, 16))
       ),
-      renderCommentBody(c.body || "")
+      renderCommentBody(c.body || "", { item, thread, comment: c })
     )
   );
 
@@ -651,12 +950,59 @@ function buildThreadElement(item, thread) {
 }
 
 function buildComposerElement(item, path, side, lineNumber, lineContent) {
+  let applyBtn = null;
+  const syncApplyButton = () => {
+    if (!applyBtn) return;
+    const blocks = extractSuggestionBlocks(textarea.value);
+    applyBtn.classList.toggle("hidden", blocks.length !== 1);
+  };
+
   const textarea = el("textarea", {
     rows: "3",
     placeholder: `${path}:${lineNumber} への指摘を入力...`,
-    onInput: (ev) => { state.openComposer.draft = ev.target.value; },
+    onInput: (ev) => {
+      state.openComposer.draft = ev.target.value;
+      syncApplyButton();
+    },
   });
   textarea.value = state.openComposer.draft || "";
+
+  if (side === "new" && canEditItem(item)) {
+    applyBtn = el(
+      "button",
+      {
+        className: "btn btn-approve btn-sm composer-apply-btn hidden",
+        type: "button",
+        onClick: async () => {
+          const blocks = extractSuggestionBlocks(textarea.value);
+          if (blocks.length !== 1) return;
+          applyBtn.disabled = true;
+          try {
+            const res = await apiPost("/api/edit/suggestion", {
+              branch: item.branch,
+              path,
+              line: lineNumber,
+              start_line: lineNumber,
+              replacement: blocks[0],
+              expected_head: item.live_head_sha,
+              run_self_check: true,
+            });
+            state.openComposer = null;
+            recordEditResult(item.branch, res);
+            showCommitResultToast(res, `${path}:${lineNumber} を更新しました`);
+            await refreshAll(item.branch);
+          } catch (err) {
+            showToast(err.message, true);
+          } finally {
+            if (applyBtn.isConnected) applyBtn.disabled = false;
+          }
+        },
+      },
+      "Apply & commit"
+    );
+    syncApplyButton();
+  }
+
   return el(
     "div",
     { className: "thread-card" },
@@ -680,6 +1026,7 @@ function buildComposerElement(item, path, side, lineNumber, lineContent) {
               const block = `\`\`\`suggestion\n${lineContent}\n\`\`\`\n`;
               textarea.value = textarea.value ? `${textarea.value}\n${block}` : block;
               state.openComposer.draft = textarea.value;
+              syncApplyButton();
               textarea.focus();
             },
           },
@@ -699,6 +1046,7 @@ function buildComposerElement(item, path, side, lineNumber, lineContent) {
             },
             "Cancel"
           ),
+          applyBtn,
           el(
             "button",
             {
@@ -934,6 +1282,7 @@ function renderDiff(item) {
   const container = document.getElementById("diff-container");
   jumpBar.innerHTML = "";
   container.innerHTML = "";
+  renderEditCheckBanner(item);
   document.querySelectorAll(".review-action-bar button").forEach((button) => {
     button.disabled =
       !state.diffData || !item.branch_exists || item.status === "integrated" || item.status === "merged";
@@ -1003,6 +1352,28 @@ function renderDiff(item) {
     });
     viewedCheckbox.checked = viewed;
 
+    let editBtn = null;
+    if (
+      !file.is_binary &&
+      file.status !== "deleted" &&
+      item.branch_exists &&
+      item.status !== "integrated" &&
+      item.status !== "merged"
+    ) {
+      const headMismatch = state.diffData.new_sha !== item.live_head_sha;
+      editBtn = el(
+        "button",
+        {
+          className: "btn btn-secondary btn-sm edit-file-btn",
+          type: "button",
+          title: headMismatch ? "Select the current branch head in Range to edit." : "Edit file directly",
+          onClick: () => openFileEditor(item, file.path),
+        },
+        "Edit"
+      );
+      editBtn.disabled = headMismatch;
+    }
+
     const header = el(
       "div",
       { className: "diff-file-header" },
@@ -1020,6 +1391,7 @@ function renderDiff(item) {
       el(
         "div",
         { className: "diff-file-right" },
+        editBtn,
         renderDiffstat(file),
         el("label", { className: "checkbox-inline" }, viewedCheckbox, "Viewed")
       )
@@ -1081,6 +1453,9 @@ async function loadDiffForSelected() {
 async function selectBranch(branch) {
   const reviewBody = document.getElementById("review-body");
   if (branch !== state.selectedBranch) {
+    if (state.activeEditor && state.activeEditor.branch !== branch) {
+      closeFileEditor(true);
+    }
     if (state.selectedBranch) state.reviewDrafts.set(state.selectedBranch, reviewBody.value);
     state.selectedBranch = branch;
     reviewBody.value = state.reviewDrafts.get(branch) || "";
@@ -1092,6 +1467,8 @@ async function selectBranch(branch) {
   if (!item) {
     ++diffRequest;
     state.diffData = null;
+    closeFileEditor(true);
+    renderEditCheckBanner(null);
     document.getElementById("empty-state").classList.remove("hidden");
     document.getElementById("review-workspace").classList.add("hidden");
     return;
@@ -1350,8 +1727,12 @@ function switchTab(tab) {
 }
 
 function editingReview() {
-  return state.openComposer || document.querySelector(".thread-reply-form:not(.hidden)") ||
-    document.activeElement?.matches("textarea, select, input:not([type=checkbox])");
+  return Boolean(
+    state.activeEditor ||
+    state.openComposer ||
+    document.querySelector(".thread-reply-form:not(.hidden)") ||
+    document.activeElement?.matches("textarea, select, input:not([type=checkbox])")
+  );
 }
 
 function bindBatchTargetEvents(selectId, inputId, checkboxId) {
@@ -1527,6 +1908,32 @@ function bindEvents() {
       showToast("Copied PR body");
     } catch {
       showToast("Clipboard copy failed", true);
+    }
+  });
+
+  document.getElementById("editor-close-btn").addEventListener("click", () => closeFileEditor(false));
+  document.getElementById("editor-cancel-btn").addEventListener("click", () => closeFileEditor(false));
+  document.getElementById("file-editor-modal").addEventListener("click", (ev) => {
+    if (ev.target.id === "file-editor-modal") closeFileEditor(false);
+  });
+  document.getElementById("editor-tab-edit").addEventListener("click", () => switchEditorMode("edit"));
+  document.getElementById("editor-tab-preview").addEventListener("click", () => switchEditorMode("preview"));
+  document.getElementById("editor-textarea").addEventListener("input", (ev) => {
+    if (state.activeEditor) state.activeEditor.draft = ev.target.value;
+  });
+  document.getElementById("editor-commit-btn").addEventListener("click", () => commitFileEditor());
+  document.addEventListener("keydown", (ev) => {
+    if (!state.activeEditor) return;
+    if (ev.key === "Escape") {
+      ev.preventDefault();
+      closeFileEditor(false);
+    } else if (
+      (ev.ctrlKey || ev.metaKey) &&
+      ev.key === "Enter" &&
+      (ev.target?.id === "editor-textarea" || ev.target?.id === "editor-commit-msg")
+    ) {
+      ev.preventDefault();
+      commitFileEditor();
     }
   });
 

@@ -116,4 +116,4 @@ python3 scripts/local_review.py sync --delete-batch-branches
 python3 scripts/local_review.py mark-merged --batch batch/YYYYMMDD --delete-branch
 ```
 
-状態ファイルは `<git-common-dir>/local-review/state.json` に保存されるため、並列 worktree 間で自動的に共有され、`git status` には現れない。`serve` は `127.0.0.1:8765` で GitHub PR 風の Web UI（キュー一覧、Unified / Split diff、行コメント、`suggestion` 挿入、前回レビュー以降の差分表示、バッチ統合、PR 下書き生成）を提供する。
+状態ファイルは `<git-common-dir>/local-review/state.json` に保存されるため、並列 worktree 間で自動的に共有され、`git status` には現れない。`serve` は `127.0.0.1:8765` で GitHub PR 風の Web UI（キュー一覧、Unified / Split diff、行コメント、`suggestion` 挿入と直接適用、ファイル単位の直接編集と `codex_self_check` 自動実行、前回レビュー以降の差分表示、バッチ統合、PR 下書き生成）を提供する。

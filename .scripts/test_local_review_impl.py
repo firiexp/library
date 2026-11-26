@@ -395,10 +395,291 @@ class LocalReviewWorkflowTest(unittest.TestCase):
                 diff = json.loads(resp.read().decode("utf-8"))
                 self.assertEqual(diff["stats"]["files"], 1)
                 self.assertEqual(diff["files"][0]["path"], "extra.cpp")
+
+            with urllib.request.urlopen(
+                f"{base_url}/api/file?branch=issue/301-http&path=extra.cpp"
+            ) as resp:
+                file_payload = json.loads(resp.read().decode("utf-8"))
+                self.assertIn("return 1;", file_payload["content"])
+                head_sha = file_payload["head_sha"]
+
+            preview_req = urllib.request.Request(
+                f"{base_url}/api/edit/preview",
+                data=json.dumps(
+                    {
+                        "branch": "issue/301-http",
+                        "path": "extra.cpp",
+                        "content": "int one() { return 10; }\n",
+                        "expected_head": head_sha,
+                    }
+                ).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(preview_req) as resp:
+                preview_payload = json.loads(resp.read().decode("utf-8"))
+                self.assertTrue(preview_payload["has_changes"])
+                self.assertEqual(preview_payload["additions"], 1)
+
+            edit_req = urllib.request.Request(
+                f"{base_url}/api/edit/file",
+                data=json.dumps(
+                    {
+                        "branch": "issue/301-http",
+                        "path": "extra.cpp",
+                        "content": "int one() { return 10; }\n",
+                        "expected_head": head_sha,
+                        "message": "Edit extra via HTTP",
+                    }
+                ).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(edit_req) as resp:
+                edit_payload = json.loads(resp.read().decode("utf-8"))
+                self.assertEqual(edit_payload["path"], "extra.cpp")
+                self.assertTrue(edit_payload["is_cpp_edit"])
+                self.assertTrue(edit_payload["self_check"]["skipped"])
+                new_head = edit_payload["commit_sha"]
+
+            suggest_req = urllib.request.Request(
+                f"{base_url}/api/edit/suggestion",
+                data=json.dumps(
+                    {
+                        "branch": "issue/301-http",
+                        "path": "extra.cpp",
+                        "line": 1,
+                        "start_line": 1,
+                        "replacement": "int one() { return 11; }\n",
+                        "expected_head": new_head,
+                    }
+                ).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(suggest_req) as resp:
+                suggest_payload = json.loads(resp.read().decode("utf-8"))
+                self.assertNotEqual(suggest_payload["commit_sha"], new_head)
+                self.assertIn("return 11;", git(self.root, "show", "issue/301-http:extra.cpp"))
         finally:
             server.shutdown()
             server.server_close()
             thread.join(timeout=2)
+
+    def test_direct_file_edit_commit_worktree_sync_and_self_check(self) -> None:
+        branch = "issue/801-edit"
+        git(self.root, "switch", "-c", branch, "master")
+        scripts_dir = self.root / "scripts"
+        scripts_dir.mkdir()
+        (scripts_dir / "codex_self_check.py").write_text(
+            "import pathlib, sys\n"
+            "text = pathlib.Path('doc.md').read_text(encoding='utf-8')\n"
+            "if 'BAD_MARKER' in text:\n"
+            "    print('error: bad marker found', file=sys.stderr)\n"
+            "    raise SystemExit(1)\n"
+            "print('ok: fake self check')\n",
+            encoding="utf-8",
+        )
+        (self.root / "doc.md").write_text("line1\nline2\n", encoding="utf-8")
+        (self.root / "crlf.txt").write_bytes(b"a\r\nb\r\n")
+        (self.root / "bin.dat").write_bytes(b"\x00\x01\x02")
+        git(self.root, "add", ".")
+        git(self.root, "commit", "-m", "Add editable files")
+        git(self.root, "switch", "master")
+
+        submitted = lr.submit_branch(branch, base="master", repo_dir=self.root)
+        head_sha = submitted["head_sha"]
+
+        file_info = lr.get_file_content(branch, "doc.md", repo_dir=self.root)
+        self.assertEqual(file_info["content"], "line1\nline2\n")
+        self.assertEqual(file_info["eol"], "lf")
+        self.assertEqual(lr.get_file_content(branch, "crlf.txt", repo_dir=self.root)["eol"], "crlf")
+
+        for bad_path in ("../secret", "/etc/passwd", ".git/config", "missing.txt", "bin.dat"):
+            with self.assertRaises(lr.LocalReviewError):
+                lr.get_file_content(branch, bad_path, repo_dir=self.root)
+
+        preview = lr.preview_file_edit(
+            branch, "doc.md", "line1\nline2-updated\n", expected_head=head_sha, repo_dir=self.root
+        )
+        self.assertTrue(preview["has_changes"])
+        self.assertEqual((preview["additions"], preview["deletions"]), (1, 1))
+        self.assertFalse(
+            lr.preview_file_edit(branch, "doc.md", "line1\nline2\n", repo_dir=self.root)["has_changes"]
+        )
+
+        res1 = lr.commit_file_edit(
+            branch, "doc.md", "line1\nline2-updated\n", expected_head=head_sha, repo_dir=self.root
+        )
+        self.assertTrue(res1["self_check"]["ran"])
+        self.assertTrue(res1["self_check"]["ok"])
+        self.assertFalse(res1["is_cpp_edit"])
+        self.assertEqual(git(self.root, "rev-parse", "--abbrev-ref", "HEAD"), "master")
+
+        with self.assertRaisesRegex(lr.LocalReviewError, "branch changed"):
+            lr.commit_file_edit(branch, "doc.md", "stale\n", expected_head=head_sha, repo_dir=self.root)
+        with self.assertRaisesRegex(lr.LocalReviewError, "no changes"):
+            lr.commit_file_edit(
+                branch, "doc.md", "line1\nline2-updated\n", expected_head=res1["commit_sha"], repo_dir=self.root
+            )
+
+        wt = Path(self.tmp.name) / "wt_edit"
+        git(self.root, "worktree", "add", str(wt), branch)
+        dirty = wt / "dirty.txt"
+        dirty.write_text("keep", encoding="utf-8")
+        with self.assertRaisesRegex(lr.LocalReviewError, "local changes"):
+            lr.commit_file_edit(branch, "crlf.txt", "a\nb-crlf\n", repo_dir=self.root)
+        dirty.unlink()
+
+        res_crlf = lr.commit_file_edit(branch, "crlf.txt", "a\nb-crlf\n", repo_dir=self.root)
+        self.assertEqual((wt / "crlf.txt").read_bytes(), b"a\r\nb-crlf\r\n")
+        self.assertEqual(git(wt, "rev-parse", "HEAD"), res_crlf["commit_sha"])
+        git(self.root, "worktree", "remove", "--force", str(wt))
+
+        res_fail = lr.commit_file_edit(branch, "doc.md", "BAD_MARKER\n", repo_dir=self.root)
+        self.assertTrue(res_fail["self_check"]["ran"])
+        self.assertFalse(res_fail["self_check"]["ok"])
+        self.assertEqual(res_fail["self_check"]["returncode"], 1)
+        self.assertIn("bad marker found", res_fail["self_check"]["output"])
+        self.assertEqual(
+            subprocess.run(
+                ["git", "show", f"{branch}:doc.md"],
+                cwd=str(self.root),
+                capture_output=True,
+                text=True,
+                check=True,
+            ).stdout,
+            "BAD_MARKER\n",
+        )
+
+        res_cpp = lr.commit_file_edit(
+            branch, "lib.cpp", "int add(int a, int b) {\n    return a + b + 10;\n}\n", repo_dir=self.root
+        )
+        self.assertTrue(res_cpp["is_cpp_edit"])
+
+        lr.record_review(branch, "approve", repo_dir=self.root)
+        res_after_approve = lr.commit_file_edit(branch, "doc.md", "fixed\n", repo_dir=self.root)
+        self.assertEqual(res_after_approve["item"]["status"], "ready")
+        self.assertTrue(res_after_approve["item"]["has_updates_since_review"])
+
+        lr.record_review(branch, "approve", repo_dir=self.root)
+        lr.integrate_branch(branch, batch_branch="batch/direct-edit", repo_dir=self.root)
+        with self.assertRaisesRegex(lr.LocalReviewError, "already integrated"):
+            lr.commit_file_edit(branch, "doc.md", "nope\n", repo_dir=self.root)
+
+        doc_branch = "issue/802-doc-direct"
+        git(self.root, "switch", "-c", doc_branch, "master")
+        (self.root / "_md" / "math").mkdir(parents=True)
+        (self.root / "_md" / "math" / "d.md").write_text("## 説明\nv1\n", encoding="utf-8")
+        (self.root / "d.cpp").write_text("int d() { return 1; }\n", encoding="utf-8")
+        git(self.root, "add", ".")
+        git(self.root, "commit", "-m", "Add d and doc")
+        lr.submit_branch(doc_branch, repo_dir=self.root)
+        lr.record_review(doc_branch, "pass_doc_review", author="agy", repo_dir=self.root)
+        doc_edit = lr.commit_file_edit(doc_branch, "_md/math/d.md", "## 説明\nv2\n", repo_dir=self.root)
+        self.assertEqual(doc_edit["item"]["status"], "ready")
+        self.assertEqual(doc_edit["item"]["doc_reviewed_sha"], doc_edit["commit_sha"])
+        (self.root / "d.cpp").write_text("int d() { return 2; }\n", encoding="utf-8")
+        git(self.root, "commit", "-am", "Update d")
+        resubmitted = lr.submit_branch(doc_branch, repo_dir=self.root)
+        self.assertEqual(resubmitted["status"], "ready")
+
+    def test_apply_suggestion_thread_and_direct_modes(self) -> None:
+        branch = "issue/803-suggest"
+        git(self.root, "switch", "-c", branch, "master")
+        (self.root / "a.txt").write_text("one\ntwo\nthree\nfour\n", encoding="utf-8")
+        (self.root / "b.txt").write_text("alpha\nbeta\n", encoding="utf-8")
+        git(self.root, "add", ".")
+        git(self.root, "commit", "-m", "Add a and b")
+        item = lr.submit_branch(branch, repo_dir=self.root)
+        head0 = item["head_sha"]
+
+        t_a = lr.add_inline_comment(
+            branch=branch,
+            path="a.txt",
+            line=2,
+            side="new",
+            body="uppercase\n```suggestion\nTWO\n```",
+            anchor_sha=head0,
+            repo_dir=self.root,
+        )
+        t_b = lr.add_inline_comment(
+            branch=branch,
+            path="b.txt",
+            line=1,
+            side="new",
+            body="uppercase b\n```suggestion\nALPHA\n```",
+            anchor_sha=head0,
+            repo_dir=self.root,
+        )
+        t_old = lr.add_inline_comment(
+            branch=branch,
+            path="a.txt",
+            line=1,
+            side="old",
+            body="old\n```suggestion\nONE\n```",
+            anchor_sha=head0,
+            repo_dir=self.root,
+        )
+
+        with self.assertRaisesRegex(lr.LocalReviewError, "new-side"):
+            lr.apply_suggestion(branch=branch, thread_id=t_old["id"], repo_dir=self.root)
+
+        show = lambda spec: subprocess.run(
+            ["git", "show", spec], cwd=str(self.root), capture_output=True, text=True, check=True
+        ).stdout
+
+        res_a = lr.apply_suggestion(branch=branch, thread_id=t_a["id"], expected_head=head0, repo_dir=self.root)
+        self.assertTrue(res_a["thread"]["is_resolved"])
+        self.assertEqual(res_a["thread"]["comments"][-1]["commit"], res_a["short_sha"])
+        self.assertEqual(show(f"{branch}:a.txt"), "one\nTWO\nthree\nfour\n")
+
+        res_b = lr.apply_suggestion(
+            branch=branch, thread_id=t_b["id"], expected_head=res_a["commit_sha"], repo_dir=self.root
+        )
+        self.assertEqual(show(f"{branch}:b.txt"), "ALPHA\nbeta\n")
+
+        t_stale = lr.add_inline_comment(
+            branch=branch,
+            path="a.txt",
+            line=3,
+            side="new",
+            body="```suggestion\nTHREE\n```",
+            anchor_sha=res_b["commit_sha"],
+            repo_dir=self.root,
+        )
+        res_direct_edit = lr.commit_file_edit(
+            branch, "a.txt", "one\nTWO\nthree-changed\nfour\n", repo_dir=self.root
+        )
+        with self.assertRaisesRegex(lr.LocalReviewError, "file changed"):
+            lr.apply_suggestion(
+                branch=branch,
+                thread_id=t_stale["id"],
+                expected_head=res_direct_edit["commit_sha"],
+                repo_dir=self.root,
+            )
+
+        res_multi = lr.apply_suggestion(
+            branch=branch,
+            path="a.txt",
+            start_line=2,
+            line=3,
+            replacement="22\n33\n34\n",
+            expected_head=res_direct_edit["commit_sha"],
+            repo_dir=self.root,
+        )
+        self.assertEqual(show(f"{branch}:a.txt"), "one\n22\n33\n34\nfour\n")
+
+        lr.apply_suggestion(
+            branch=branch,
+            path="a.txt",
+            start_line=5,
+            line=5,
+            replacement="",
+            expected_head=res_multi["commit_sha"],
+            repo_dir=self.root,
+        )
+        self.assertEqual(show(f"{branch}:a.txt"), "one\n22\n33\n34\n")
 
     def test_doc_review_stage_auto_detection_and_pass(self) -> None:
         branch = "issue/601-doc"

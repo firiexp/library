@@ -134,6 +134,8 @@
           </div>
         </section>
 
+        <div id="edit-check-banner" class="edit-check-banner hidden"></div>
+
         <section class="diff-toolbar card">
           <div class="diff-toolbar-left">
             <label class="select-group">
@@ -221,6 +223,36 @@
       </section>
     </div>
   </main>
+
+  <div id="file-editor-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="editor-file-path">
+    <div class="modal-dialog card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="meta-label">Edit file</span>
+          <code id="editor-file-path" class="diff-file-path"></code>
+          <span id="editor-head-sha" class="sha-chip"></span>
+        </div>
+        <div class="modal-header-actions">
+          <div class="segmented" id="editor-mode-toggle">
+            <button id="editor-tab-edit" class="seg-btn active" type="button" data-editor-mode="edit">Edit</button>
+            <button id="editor-tab-preview" class="seg-btn" type="button" data-editor-mode="preview">Preview diff</button>
+          </div>
+          <button id="editor-close-btn" class="btn btn-ghost btn-sm" type="button">✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <textarea id="editor-textarea" class="editor-textarea" spellcheck="false"></textarea>
+        <div id="editor-preview-pane" class="editor-preview-pane hidden"></div>
+      </div>
+      <div class="modal-footer">
+        <input id="editor-commit-msg" class="editor-commit-input" type="text" placeholder="Commit message">
+        <div class="form-actions-right">
+          <button id="editor-cancel-btn" class="btn btn-ghost" type="button">Cancel</button>
+          <button id="editor-commit-btn" class="btn btn-primary" type="button">Commit changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="/app.js"></script>
 </body>
