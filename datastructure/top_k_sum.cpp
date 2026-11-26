@@ -61,12 +61,33 @@ private:
     }
 
 public:
-    explicit TopKSum(int K = 0) : K_(K) {
+    explicit TopKSum() = default;
+
+    explicit TopKSum(int K) : K_(K) {
         assert(K >= 0);
     }
 
-    TopKSum(const TopKSum&) = delete;
-    TopKSum& operator=(const TopKSum&) = delete;
+    TopKSum(const TopKSum&) = default;
+
+    friend void swap(TopKSum& a, TopKSum& b) noexcept(std::is_nothrow_swappable_v<multiset<T>> &&
+                                                     std::is_nothrow_swappable_v<SumT>) {
+        using std::swap;
+        swap(a.selected_, b.selected_);
+        swap(a.other_, b.other_);
+        swap(a.K_, b.K_);
+        swap(a.total_size_, b.total_size_);
+        swap(a.total_sum_, b.total_sum_);
+        swap(a.selected_sum_, b.selected_sum_);
+    }
+
+    TopKSum(TopKSum&& other) noexcept(noexcept(TopKSum()) && noexcept(swap(*this, other))) {
+        swap(*this, other);
+    }
+
+    TopKSum& operator=(TopKSum other) noexcept(noexcept(swap(*this, other))) {
+        swap(*this, other);
+        return *this;
+    }
 
     int k() const {
         return K_;

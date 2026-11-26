@@ -157,8 +157,25 @@ public:
         if (rng_ == 0) rng_ = 2463534242u;
     }
 
-    TopKTreap(const TopKTreap&) = delete;
-    TopKTreap& operator=(const TopKTreap&) = delete;
+    TopKTreap(const TopKTreap&) = default;
+
+    friend void swap(TopKTreap& a, TopKTreap& b) noexcept {
+        using std::swap;
+        swap(a.root_, b.root_);
+        swap(a.K_, b.K_);
+        swap(a.rng_, b.rng_);
+        swap(a.nodes_, b.nodes_);
+        swap(a.free_nodes_, b.free_nodes_);
+    }
+
+    TopKTreap(TopKTreap&& other) noexcept {
+        swap(*this, other);
+    }
+
+    TopKTreap& operator=(TopKTreap other) noexcept {
+        swap(*this, other);
+        return *this;
+    }
 
     void reserve(int capacity) {
         assert(capacity >= 0);

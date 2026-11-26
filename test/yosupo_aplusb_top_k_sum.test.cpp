@@ -107,7 +107,10 @@ void sliding_window_check() {
     }
 }
 
+#include "top_k_value_self_check.cpp"
+
 int main() {
+    check_top_k_value_semantics<TopKSum<ll>>();
     random_check();
     sliding_window_check();
 

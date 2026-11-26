@@ -12,6 +12,12 @@ documentation_of: //datastructure/top_k_sum.cpp
 
 - `TopKSum<T, SumT, Largest> ds(K = 0)`
   順序付き先頭 `K` 個を基準にする空 multiset を作る。`K >= 0` とする。$O(1)$
+- `TopKSum b = a`
+  `a` を `b` へ複製する。$O(N)$
+- `TopKSum b = std::move(a)`
+  `a` を `b` に移す。 `a` は `K = 0` の空集合になる。$O(1)$
+- `std::swap(a, b)`
+  `a` と `b` を交換する。$O(1)$
 - `int k() const`
   現在の基準 `K` を返す。$O(1)$
 - `void set_k(int new_k)`
