@@ -15,6 +15,20 @@ struct Binarytrie {
         for (const T &x : v) add(x);
     }
 
+    static Binarytrie from_sorted(const vector<T> &v) {
+        Binarytrie trie;
+        int distinct = !v.empty();
+        for (size_t i = 1; i < v.size(); ++i) distinct += v[i] != v[i - 1];
+        trie.reserve(distinct);
+        for (size_t i = 0; i < v.size();) {
+            size_t j = i + 1;
+            while (j < v.size() && v[j] == v[i]) ++j;
+            trie.add(v[i], int(j - i));
+            i = j;
+        }
+        return trie;
+    }
+
     void reserve(int n) {
         if (n <= 0) return;
         nodes.reserve(nodes.size() + (size_t)n * X);
