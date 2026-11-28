@@ -13,6 +13,14 @@ $N$ は配列長、$M$ は初期値を含む候補の登録数、$\sigma$ は候
 
 - `DynamicWeightedWaveletMatrix<T, U> wm(n)`
   長さ `n` の構築前オブジェクトを作る。$O(1)$
+- `DynamicWeightedWaveletMatrix<T, U> wm(v, w)`
+  値を `v` に固定し、`w` を初期重みとして構築する。$O(N \log N)$
+- `DynamicWeightedWaveletMatrix<T, U> wm(v, w, vector<pair<int, T>> candidates)`
+  `candidates` に `(位置, 値)` の組を渡し、↑に加え位置に指定した値を更新候補として構築する。$O(M \log M)$
+- `void init(int size)`
+  値・重み・登録候補を消去し、長さ `size` の構築前の状態に戻す。初回は $O(1)$、再初期化時は既存要素の破棄に線形
+- `void reserve_candidates(int capacity)`
+  初期化後、`build` の前に追加候補 `capacity` 件分の領域を予約する。再確保時は登録済みの追加候補数に対して線形、それ以外は $O(1)$
 - `add_value_candidate(k, x)`
   位置 `k` に代入する可能性がある値 `x` を登録する。構築後には呼べない。償却 $O(1)$
 - `build(v, w)`
@@ -45,6 +53,8 @@ $N$ は配列長、$M$ は初期値を含む候補の登録数、$\sigma$ は候
   要素数と重み和を `CountSum` として返す。$O(1)$
 - `Cursor::value()`
   空でない葉が表す値を返す。葉でない場合や空の場合は呼べない。$O(1)$
+- `CountSum count_sum_less_index(int l, int r, int xi) const`
+  区間 $[l, r)$ で値の圧縮添字が `xi` 未満の要素数と重み和を返す。 $O(\log \sigma \log M)$
 - `count_sum_less(l, r, x)`
   区間 $[l, r)$ のうち `x` 未満の要素数と重み和を返す。$O(\log \sigma \log M)$
 - `count_sum_less_equal(l, r, x)`
