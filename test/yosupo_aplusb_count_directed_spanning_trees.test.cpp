@@ -55,6 +55,9 @@ int main() {
     check(2, {{0, 1, 3}, {0, 1, -3}, {1, 0, 7}});
     check(3, {{0, 1, 2}, {0, 2, 3}, {1, 2, 5}, {2, 2, 8}});
     check(3, {{0, 1, 0}, {1, 2, 3}, {2, 0, -4}});
+    check(3, {{0, 1, 1}, {2, 1, -1}, {1, 2, 1}});
+    check(5, {{3, 1, 2}, {1, 3, 4}, {3, 2, 5}, {1, 0, 7}, {1, 2, -2},
+              {2, 0, 3}, {0, 2, -3}, {2, 4, 6}, {0, 4, -6}, {4, 1, 0}});
     vector<DirectedSpanningTreeEdge> star{{0, 1, 2}, {0, 2, 3}, {0, 3, 5}};
     assert(count_directed_spanning_trees(4, 0, star) == mint(30));
     check(4, star);
@@ -86,4 +89,13 @@ int main() {
         for (int root = 0; root < n; ++root)
             assert(count_directed_spanning_trees(n, root, edges) == mint(n).pow(n - 2));
     }
+    int n = 100001;
+    vector<DirectedSpanningTreeEdge> chain;
+    for (int v = n - 1; v > 0; --v) chain.push_back({v - 1, v});
+    chain.push_back({n - 1, 0});
+    assert(count_directed_spanning_trees(n, 0, chain) == mint(1));
+    for (int v = 2; v < n; v += 2) chain.push_back({v, v - 1});
+    assert(count_directed_spanning_trees(n, 0, chain) == mint(1));
+    chain[n - 2].weight = 0;
+    assert(count_directed_spanning_trees(n, 0, chain) == mint(0));
 }
