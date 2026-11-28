@@ -4,6 +4,24 @@ extern "C" int fileno(FILE *);
 extern "C" int isatty(int);
 
 template<class T, class = void>
+struct FastIoUnsigned {};
+
+template<class T>
+struct FastIoUnsigned<T, enable_if_t<is_integral_v<T>>>
+    : make_unsigned<conditional_t<is_same_v<T, bool>, unsigned, T>> {};
+
+#ifdef __SIZEOF_INT128__
+template<>
+struct FastIoUnsigned<__int128> { using type = unsigned __int128; };
+
+template<>
+struct FastIoUnsigned<unsigned __int128> : FastIoUnsigned<__int128> {};
+#endif
+
+template<class T>
+constexpr bool is_fastio_signed_v = T(-1) < T(0);
+
+template<class T, class = void>
 struct is_fastio_range : false_type {};
 
 template<class T>
@@ -145,15 +163,13 @@ struct Scanner {
         return buf[idx++];
     }
 
-    template<class T, typename enable_if<is_integral<T>::value, int>::type = 0>
+    template<class T, class U = typename FastIoUnsigned<remove_cv_t<T>>::type>
     void read(T &x) {
-        using Base = typename conditional<is_same<T, bool>::value, unsigned, T>::type;
-        using U = typename make_unsigned<Base>::type;
         // The unsigned magnitude and -(y - 1) - 1 below also cover min(T).
         if (interactive) {
             char c = skip();
             bool neg = false;
-            if constexpr (is_signed<T>::value) {
+            if constexpr (is_fastio_signed_v<T>) {
                 if (c == '-') {
                     neg = true;
                     ensure_interactive();
@@ -166,7 +182,7 @@ struct Scanner {
                 ensure_interactive();
                 c = buf[idx++];
             }
-            if constexpr (is_signed<T>::value) {
+            if constexpr (is_fastio_signed_v<T>) {
                 if (neg && y) {
                     x = -static_cast<T>(y - 1);
                     --x;
@@ -178,7 +194,7 @@ struct Scanner {
         }
         char c = skip();
         bool neg = false;
-        if constexpr (is_signed<T>::value) {
+        if constexpr (is_fastio_signed_v<T>) {
             if (c == '-') {
                 neg = true;
                 c = buf[idx++];
@@ -194,7 +210,7 @@ struct Scanner {
                 c = buf[idx++];
             }
         }
-        if constexpr (is_signed<T>::value) {
+        if constexpr (is_fastio_signed_v<T>) {
             if (neg && y) {
                 x = -static_cast<T>(y - 1);
                 --x;
@@ -406,12 +422,11 @@ struct Printer {
         return out + 16;
     }
 
-    template<class T, typename enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>
+    template<class T, class U = typename FastIoUnsigned<T>::type>
     void print(T x) {
         if (idx > BUFSIZE - 100) flush();
-        using U = typename make_unsigned<T>::type;
         U y;
-        if constexpr (is_signed<T>::value) {
+        if constexpr (is_fastio_signed_v<T>) {
             if (x < 0) {
                 buf[idx++] = '-';
                 y = U(0) - static_cast<U>(x);

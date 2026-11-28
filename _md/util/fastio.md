@@ -8,6 +8,7 @@ documentation_of: //util/fastio.cpp
 interactive 問題のプログラムを端末で直接起動し、手入力で試す場合は、行単位でやり取りする挙動に自動で切り替わる。
 
 ## できること
+整数には標準の整数型のほか、`__int128`・`unsigned __int128` も使える
 
 ### Scanner
 
@@ -58,7 +59,6 @@ interactive 問題のプログラムを端末で直接起動し、手入力で�
   `out.print(x)` の別名
 
 ## 使い方
-
 ```cpp
 Scanner in;
 Printer out;
