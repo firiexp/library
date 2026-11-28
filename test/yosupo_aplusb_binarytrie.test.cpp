@@ -148,12 +148,18 @@ void order_check() {
         auto values = expand(freq);
         for (unsigned mask : {0u, MASK, unsigned(rng()) & MASK}) verify_order(trie, values, mask, bounds);
     }
+}
+
+void wide_order_check(bool sorted_build) {
     using U = uint64_t;
+    using WideTrie = Binarytrie<U, 64>;
     U high = U(1) << 63;
     vector<U> values = {0, 0, 1, high - 1, high, high, high + 1, ~U(0)};
     vector<U> wide_bounds = values;
     wide_bounds.push_back(2);
-    Binarytrie<U, 64> wide(values);
+    const auto input = values;
+    auto wide = sorted_build ? WideTrie::from_sorted(input) : WideTrie(input);
+    assert(input == values);
     for (U update : {U(0), high, ~U(0), ~U(0), high}) {
         wide.xor_all(update);
         for (U &x : values) x ^= update;
@@ -166,10 +172,21 @@ void order_check() {
         }
     }
     assert(wide.count_less(~U(0)) == (int)values.size() - 1);
-    Binarytrie<int, 31> signed_trie({0, 1, INT_MAX, INT_MAX});
-    verify_order(signed_trie, vector<int>{0, 1, INT_MAX, INT_MAX}, INT_MAX, vector<int>{0, 1, INT_MAX});
+    using SignedTrie = Binarytrie<int, 31>;
+    vector<int> signed_values = {0, 1, INT_MAX, INT_MAX};
+    auto signed_trie = sorted_build ? SignedTrie::from_sorted(signed_values) : SignedTrie(signed_values);
+    verify_order(signed_trie, signed_values, INT_MAX, vector<int>{0, 1, INT_MAX});
     signed_trie.xor_all(INT_MAX);
     verify_order(signed_trie, vector<int>{INT_MAX, INT_MAX - 1, 0, 0}, INT_MAX, vector<int>{0, 1, INT_MAX});
+}
+
+void count_limit_check() {
+    auto trie = Binarytrie<unsigned, 30>::from_sorted({0, 0, 1});
+    trie.add(0, INT_MAX - 3);
+    assert(trie.size() == INT_MAX && trie.count_less(1) == INT_MAX - 1);
+    assert(trie.kth_element(INT_MAX - 2) == 0 && trie.kth_element(INT_MAX - 1) == 1);
+    bool erased = trie.erase(0, INT_MAX - 1);
+    assert(erased && trie.size() == 1 && trie.count(1) == 1);
 }
 
 void xor_all_check() {
@@ -285,8 +302,8 @@ void self_check() {
                 if (can) freq[x] -= k;
             } else if (op == 3) {
                 auto cur = expand(freq);
-                Binarytrie<unsigned, B> rebuilt(cur);
-                verify_state(rebuilt, freq, rng);
+                trie = Binarytrie<unsigned, B>::from_sorted(cur);
+                verify_order(trie, cur, unsigned(step) & MASK, {0, x, MASK});
             } else if (op == 4) {
                 trie.xor_all(x);
                 xor_freq(freq, x);
@@ -301,8 +318,11 @@ void self_check() {
 }
 
 int main() {
+    count_limit_check();
     xor_all_check();
     order_check();
+    wide_order_check(false);
+    wide_order_check(true);
     self_check();
 
 }

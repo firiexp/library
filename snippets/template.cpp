@@ -19,6 +19,16 @@ template<class T> bool chmax(T&a,T b){return a<b?(a=b,1):0;}
 template<class T> bool chmin(T&a,T b){return a>b?(a=b,1):0;}
 
 extern "C" int fileno(FILE *); extern "C" int isatty(int);
+template<class T, class = void> struct FastIoUnsigned {};
+template<class T> struct FastIoUnsigned<T, enable_if_t<is_integral_v<T>>>
+    : make_unsigned<conditional_t<is_same_v<T, bool>, unsigned, T>> {};
+#ifdef __SIZEOF_INT128__
+template<> struct FastIoUnsigned<__int128> { using type = unsigned __int128; };
+template<> struct FastIoUnsigned<unsigned __int128> : FastIoUnsigned<__int128> {};
+#endif
+
+template<class T>
+constexpr bool is_fastio_signed_v = T(-1) < T(0);
 template<class T,class=void> struct has_fio_r:false_type{};
 template<class T> struct has_fio_r<T,void_t<decltype(declval<T&>().begin()),decltype(declval<T&>().end())>>:true_type{};
 template<class T,class=void> struct has_fio_v:false_type{};
@@ -46,10 +56,10 @@ struct Scanner{
     inline void ld(){int l=S-I;memmove(b,b+I,l);if(M==2)S=l+(fgets(b+l,B+1-l,stdin)?(int)strlen(b+l):0);else{S=l+(int)fread(b+l,1,B-l,stdin);int n=min(S,Q),s=0,m=0;
         for(int i=0;i<n;++i){s+=b[i]<=' ';m+=b[i]=='-';}M=s*D<n-m;}I=0;b[S]=0;}
     inline void nd(){if(I+(M==2?1:O)>S) ld();} inline void bk(){nd();while(b[I]&&b[I]<=' '){++I;nd();}} inline char skip(){bk(); return b[I++];}
-    template<class T,en_if_t<is_integral_v<T>,int> = 0> void read(T&x){using V=conditional_t<is_same_v<T,bool>,uint,T>;using U=make_unsigned_t<V>;
-        char c=skip();bool g=0;if constexpr(is_signed_v<T>)if(c=='-'){g=1;if(M==2)nd();c=b[I++];}U y=0;
+    template<class T,class U=typename FastIoUnsigned<remove_cv_t<T>>::type> void read(T&x){
+        char c=skip();bool g=0;if constexpr(is_fastio_signed_v<T>)if(c=='-'){g=1;if(M==2)nd();c=b[I++];}U y=0;
         if(__builtin_expect(M,0)){if(M==1)y=lng<U>(c);else while(c>='0')y=U(y*10+(c&15)),nd(),c=b[I++];}else while(c>='0')y=U(y*10+(c&15)),c=b[I++];
-        if constexpr(is_signed_v<T>){if(g&&y){x=-static_cast<T>(y-1);--x;return;}}x=static_cast<T>(y);}
+        if constexpr(is_fastio_signed_v<T>){if(g&&y){x=-static_cast<T>(y-1);--x;return;}}x=static_cast<T>(y);}
     void read(double&x){read(nt);const char*f=nt.data(),*l=f+nt.size();auto r=from_chars(f,l,x);if(r.ec!=errc{}||r.ptr!=l)__builtin_trap();}
     template<class T,en_if_t<has_val_v<T>,int> = 0> void read(T&x){ll v; read(v); x=T(v);}
     template<class T,en_if_t<has_asn_v<T>,int> = 0> void read(T&x){string s;read(s);if(!x.assign(s))__builtin_trap();}
@@ -70,8 +80,8 @@ struct Printer{
         if(x>=10000){uint y=x/10000,z=x-y*10000;q=wt(q,y);w4(q,z);return q+4;}return wt(q,x);}
     __attribute__((noinline)) inline char* w64(char*q,ull x){if(x<=0xffffffffULL)return w32(q,(uint)x);ull y=x/100000000;uint z=(uint)(x-y*100000000);
         if(y<=0xffffffffULL){q=w32(q,(uint)y);w8(q,z);return q+8;}uint t=(uint)(y/100000000),m=(uint)(y-(ull)t*100000000);q=w32(q,t);w8(q,m);w8(q+8,z);return q+16;}
-    template<class T,en_if_t<is_integral_v<T>&& !is_same_v<T,bool>,int> = 0> void print(T x){ if(I>B-100) flush(); using U=make_unsigned_t<T>; U y;
-        if constexpr(is_signed_v<T>){ if(x<0) b[I++]='-',y=U(0)-(U)x; else y=(U)x; } else y=x;
+    template<class T,class U=typename FastIoUnsigned<T>::type> void print(T x){ if(I>B-100) flush(); U y;
+        if constexpr(is_fastio_signed_v<T>){ if(x<0) b[I++]='-',y=U(0)-(U)x; else y=(U)x; } else y=x;
         if(!y){b[I++]='0';return;}char*q;
         if constexpr(sizeof(U)<=4)q=w32(b+I,(uint)y);else if constexpr(sizeof(U)<=8)q=w64(b+I,(ull)y);
         else{char W[3*sizeof(U)];int p=sizeof(W);while(y>=10000)p-=4,memcpy(W+p,Tb.n+(y%10000)*4,4),y/=10000;q=wt(b+I,(uint)y);memcpy(q,W+p,sizeof(W)-p);q+=sizeof(W)-p;}I=(int)(q-b);

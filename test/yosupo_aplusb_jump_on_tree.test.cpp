@@ -21,6 +21,7 @@ void check(JumpOnTree &jt, int root) {
     }
     assert(jt.depth == depth);
     for (int v = 0; v < n; ++v) {
+        assert(jt.ancestor(v, -1) == -1);
         int u = v;
         for (int k = 0; k <= depth[v]; ++k) {
             assert(jt.ancestor(v, k) == u);
@@ -46,6 +47,7 @@ void check(JumpOnTree &jt, int root) {
             left.push_back(u);
             left.insert(left.end(), right.rbegin(), right.rend());
             assert(jt.dist(s, t) == int(left.size()) - 1);
+            assert(jt.jump(s, t, -1) == -1);
             for (int k = 0; k < int(left.size()); ++k) assert(jt.jump(s, t, k) == left[k]);
             assert(jt.jump(s, t, left.size()) == -1);
             assert(jt.jump(s, t, INT_MAX) == -1);

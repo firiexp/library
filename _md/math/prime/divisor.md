@@ -8,20 +8,17 @@ $N$ の正の約数を列挙する。
 
 ## できること
 - `vector<T> divisor(T n)`
-  `n` の正の約数を昇順で返す。$O(\sqrt n)$
+  正の整数 `n` を受け取り、正の約数を昇順で返す。$O(\sqrt n)$
 - `vector<T> divisor_from_factors(const vector<T>& factors)`
-  ソート済みの素因数列から正の約数を昇順・重複なしで返す。空の列には `{1}` を返す。
-  素因数列の長さを $F$、約数の個数を $D$ として、時間 $O(F+D\log D)$、返り値を含む領域 $O(D)$。
-
+  重複を含む昇順の素因数列から、その積の正の約数を昇順で重複なく返す。
+  約数の個数を $D$、素因数分解に現れる最大の指数を $E$ とすると、列挙にかかる時間は $O(D\log E)$、補助領域は $O(D)$。
 ## 使い方
-正の整数 `n` を渡す。
-
-`divisor_from_factors` には重複を含む昇順の素因数列を渡す。各要素は素数で、その積が `T` に収まることを前提とする。
-素因数分解を実行し直さないため、`prime_factor` の結果をそのまま利用できる。素因数分解の時間・領域は上記の計算量に含まない。
+`primefactor_ll.cpp` の `prime_factor` で素因数分解した結果をそのまま渡せる。
 
 ```cpp
 auto factors = prime_factor(1000000000000LL);
 auto divisors = divisor_from_factors(factors);
 ```
 
-この例では `primefactor_ll.cpp` も読み込む。
+## 実装上の補足
+最初の素数の冪を昇順に生成する。以降は素数 $p$ の指数を $e$ として、それまでの約数列の $1,p,\ldots,p^e$ 倍を作り、隣り合う列を2本ずつマージする。

@@ -120,6 +120,33 @@ vector<T> k_shortest_walk(int s, int t, int k, const vector<vector<edge<T>>> &g)
     return result;
 }
 
+template <class T>
+vector<T> k_shortest_walk_reachable(int s, int t, int k, const vector<vector<edge<T>>> &g) {
+    int n = (int)g.size();
+    assert(0 <= s && s < n && 0 <= t && t < n && k >= 0);
+    if (k == 0) return {};
+    vector<int> id(n, -1), vertices{s};
+    id[s] = 0;
+    for (int i = 0; i < (int)vertices.size() && (int)vertices.size() < n; ++i) {
+        for (const auto &e : g[vertices[i]]) {
+            assert(0 <= e.to && e.to < n && e.cost >= 0);
+            if (id[e.to] != -1) continue;
+            id[e.to] = vertices.size();
+            vertices.push_back(e.to);
+        }
+    }
+    if (id[t] == -1) return {};
+    if ((int)vertices.size() == n) return k_shortest_walk(s, t, k, g);
+
+    vector<vector<edge<T>>> subgraph(vertices.size());
+    for (int i = 0; i < (int)vertices.size(); ++i) {
+        const auto &edges = g[vertices[i]];
+        subgraph[i].reserve(edges.size());
+        for (const auto &e : edges) subgraph[i].emplace_back(id[e.to], e.cost);
+    }
+    return k_shortest_walk(0, id[t], k, subgraph);
+}
+
 #endif
 
 /**

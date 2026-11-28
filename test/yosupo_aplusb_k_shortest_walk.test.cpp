@@ -27,7 +27,9 @@ vector<ll> naive(int s, int t, int k, const vector<vector<edge<ll>>> &g) {
 
 void check(const vector<vector<edge<ll>>> &g, int s, int t, int k) {
     auto copy = g;
-    assert(k_shortest_walk(s, t, k, g) == naive(s, t, k, g));
+    auto expected = naive(s, t, k, g);
+    assert(k_shortest_walk(s, t, k, g) == expected);
+    assert(k_shortest_walk_reachable(s, t, k, g) == expected);
     for (int v = 0; v < (int)g.size(); ++v) {
         assert(copy[v].size() == g[v].size());
         for (int i = 0; i < (int)g[v].size(); ++i) {
@@ -72,6 +74,7 @@ void self_check() {
     g[1].emplace_back(2, 5);
     g[2].emplace_back(1, 0);
     g[3].emplace_back(3, 0);
+    g[3].emplace_back(1, 4);
     for (int s = 0; s < 4; ++s) for (int t = 0; t < 4; ++t) {
         check(g, s, t, 0);
         check(g, s, t, 1);

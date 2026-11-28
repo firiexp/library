@@ -23,11 +23,11 @@ documentation_of: //tree/hld.cpp
 - `int parent(int v) const`
   親を返す。根なら `-1`。$O(1)$
 - `int ancestor(int v, int k) const`
-  `k` 個上の祖先を返す。存在しなければ `-1`。$O(\log N)$
+  `v` から根へ `k` 辺進んだ頂点を返す。存在しない場合は `-1`。$O(\log N)$
 - `int distance(int u, int v) const`
   木上距離を返す。$O(\log N)$
 - `int jump(int u, int v, int k) const`
-  `u` から `v` へ `k` 辺進んだ頂点を返す。`u` と `v` が別の木に属する場合、または `k` が負かパスの辺数を超える場合は `-1`。$O(\log N)$
+  `u` から `v` へ `k` 辺進んだ頂点を返す。存在しない場合は `-1`。$O(\log N)$
 - `pair<int, int> path_intersection(int a, int b, int c, int d) const`
   頂点パス `a -> b` と `c -> d` の共通部分を、`a -> b` の順に端点の組で返す。空、または4頂点が同じ木に属さなければ `{-1, -1}`。1頂点だけなら両端点が同じになる。$O(\log N)$
 - `pair<int, int> subtree(int v, bool edge = false) const`

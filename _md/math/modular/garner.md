@@ -4,18 +4,17 @@ documentation_of: //math/modular/garner.cpp
 ---
 
 ## 説明
-
-$$
-x \equiv a_i \pmod{M_i} \quad (1 \le i \le N)
-$$
-
-という情報から、$0 \le x < \operatorname{lcm}(M_1, M_2, \dots, M_N)$ を満たす $x$ の $M$ での剰余を復元する。
+複数 mod での余りから連立合同式を解く。
 
 ## できること
-- `Garner(a, M)` : 合同式の列 `a` から、解の `M` での剰余を返す。空列には `0` を返す。合同式の数を $N$、入力と出力の法の最大値を $B$ として $O(N^2+N\log B)$
+合同式の数を $N$、入力の法の最大値を $B$ とする。
+
+- `ll Garner(vector<pair<ll, ll>> equations, ll mod)`
+  `equations` の各要素 $(r_i, m_i)$ について $x \equiv r_i \pmod{m_i}$ を満たす最小の非負整数 $x$ を求め、$x \bmod \mathrm{mod}$ を返す。$r_i$ は負でも $m_i$ 以上でもよい。
+  各 $m_i$ は正でどの2つも互いに素とし、出力の法 `mod` は任意の正の `long long`（$m_i$ と共通の素因数があってもよい）とする。$O(N^2 + N \log B)$
 
 ## 使い方
-`a[i] = (a_i, M_i)` を渡す。
-各 $M_i$ は正かつ互いに素、出力の法 $M$ は正とする。
-余り $a_i$ が負数や $M_i$ 以上の場合には内部で正規化する。
-各 $M_i$ と $M$ が $2^{31}-1$ 以下なら、内部の演算は `long long` に収まる。
+```cpp
+vector<pair<ll, ll>> equations = { {-3, 5}, {3, 7} };
+ll r = Garner(equations, 10);  // 最小非負解は 17、返り値は 7
+```

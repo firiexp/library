@@ -22,7 +22,7 @@ documentation_of: //string/suffix_array.cpp
 - `vector<int> lcp() const`
   長さ $\max(0, N - 1)$ の LCP 配列を返す。要素 `i` は `sa[i]` と `sa[i + 1]` から始まる suffix の最長共通接頭辞長。時間・領域は $O(N)$
 - `pair<int, int> equal_range(pattern) const`
-  `pattern` を接頭辞に持つ suffix の SA 上の半開区間 `[l, r)` を返す。出現個数は `r - l`、開始位置は `sa[l], ..., sa[r - 1]`。一致がなければ `l == r`、空パターンなら `[0, N)`。時間 $O(M \log N)$、追加領域 $O(1)$
+  `pattern` を接頭辞に持つ suffix の SA 上の半開区間 `[l, r)` を返す。出現個数は `r - l`、開始位置は `sa[l], ..., sa[r - 1]`。一致がなければ `l == r`、空パターンなら `[0, N)`。最悪時間 $O(\min(M, N) \log N)$、追加領域 $O(1)$
 - `pair<int, int> kth_substring(long long k) const`
   異なる非空の連続部分列のうち、辞書順で `k` 番目（0 始まり）のものが現れる元の列上の半開区間 `[l, r)` を1つ返す。`k` が負または総数以上なら `{-1, -1}`。初回のみ $O(N)$ 時間・追加領域で前処理し、以後は $O(\log N)$
 
@@ -65,7 +65,7 @@ auto [sub_l, sub_r] = sa.kth_substring(2);  // "ana" の出現区間 [3, 6)
 - 整数列の値域が分かっていて配列だけ必要なら、`suffix_array(v, upper)` を使うと座標圧縮を省ける。
 
 ## 実装上の補足
-- `SuffixArray` は元の列と suffix array を保持する。LCP 配列は `lcp()` の呼び出しごとに構築し、`kth_substring` 用の累積和は初回呼び出し時に構築して保持する。
+- `SuffixArray` は元の列と suffix array を保持する。LCP 配列は `lcp()` の呼び出しごとに構築し、`kth_substring` 用の累積和は初回呼び出し時に構築して保持する
 - suffix array は SA-IS、LCP 配列は Kasai 法で構築する。LCP の構築に必要な要素の比較は等値比較のみ。
 - SA-IS の縮約列で文字がすべて異なるときは、先頭文字だけで suffix の順序が決まるため、逆順列を作って再帰構築を省く。
 - 開始位置 $p$ の suffix と辞書順で直前の suffix との LCP 長を $h$ とする（先頭の suffix では $h = 0$）。この suffix で初めて現れる部分列は長さ $h + 1$ から $N - p$ までの接頭辞であり、個数は $N - p - h$ 個となる。`kth_substring` はこの個数を suffix ごとに `long long` で累積し、累積和が `k` を超える最初の suffix を二分探索する。

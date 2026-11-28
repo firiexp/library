@@ -5,6 +5,10 @@ using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
 #include "../math/modular/crt.cpp"
+#include "../math/extgcd.cpp"
+#include "../math/modular/modinv.cpp"
+#include "../math/modular/pow.cpp"
+#include "../math/modular/garner.cpp"
 
 void self_check() {
     auto check = [](vector<pair<ll, ll>> equations) {

@@ -39,34 +39,46 @@ public:
         vs.clear();
         vs.reserve(n);
         fill(used.begin(), used.end(), 0);
-        auto dfs = [&](auto &&self, int v) -> void {
-            used[v] = 1;
-            for (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {
-                int u = G.elist[ei];
-                if(!used[u]) self(self, u);
+        vector<int> stack, cursor = G.start;
+        for (int start = 0; start < n; ++start) {
+            if (used[start]) continue;
+            used[start] = 1;
+            stack.push_back(start);
+            while (!stack.empty()) {
+                int v = stack.back();
+                if (cursor[v] == G.start[v + 1]) {
+                    vs.push_back(v);
+                    stack.pop_back();
+                    continue;
+                }
+                int u = G.elist[cursor[v]++];
+                if (used[u]) continue;
+                used[u] = 1;
+                stack.push_back(u);
             }
-            vs.emplace_back(v);
-        };
-        for (int i = 0; i < n; ++i) {
-            if(!used[i]) dfs(dfs, i);
         }
         fill(used.begin(), used.end(), 0);
         sz.resize(n);
         fill(sz.begin(), sz.end(), 0);
         int k = 0;
-        auto dfs_r = [&](auto &&self, int v, int c) -> void {
-            used[v] = 1;
-            cmp[v] = c;
-            sz[c]++;
-            for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {
-                int u = G_r.elist[ei];
-                if(!used[u]) self(self, u, c);
-            }
-        };
         for (int i = n - 1; i >= 0; --i) {
-            if(!used[vs[i]]){
-                dfs_r(dfs_r, vs[i], k++);
+            int start = vs[i];
+            if (used[start]) continue;
+            used[start] = 1;
+            stack.push_back(start);
+            while (!stack.empty()) {
+                int v = stack.back();
+                stack.pop_back();
+                cmp[v] = k;
+                ++sz[k];
+                for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {
+                    int u = G_r.elist[ei];
+                    if (used[u]) continue;
+                    used[u] = 1;
+                    stack.push_back(u);
+                }
             }
+            ++k;
         }
         G_out.assign(build_dag ? k : 0, {});
         sz.resize(k);

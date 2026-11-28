@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_FPS_SAMPLE_POINT_SHIFT_CPP
+#define FIRIEXP_LIBRARY_FPS_SAMPLE_POINT_SHIFT_CPP
+
 #include "ntt.cpp"
 
 vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
@@ -63,6 +66,8 @@ vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
     }
     return std::move(values.v);
 }
+
+#endif
 
 /**
  * @brief 標本点シフト(Sample Point Shift)

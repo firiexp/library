@@ -55,7 +55,7 @@ public:
     }
 
     int ancestor(int v, int k) const {
-        if (k > depth[v]) return -1;
+        if (k < 0 || k > depth[v]) return -1;
         const int *row = up.data();
         while (k) {
             if (k & 1) v = row[v];
@@ -84,6 +84,7 @@ public:
     }
 
     int jump(int s, int t, int k) const {
+        if (k < 0) return -1;
         int w = lca(s, t);
         int a = depth[s] - depth[w];
         int b = depth[t] - depth[w];

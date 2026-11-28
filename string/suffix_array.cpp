@@ -176,25 +176,65 @@ public:
             if constexpr (is_same_v<Sequence, string>) return (unsigned char)a < (unsigned char)b;
             else return a < b;
         };
-        auto compare = [&](int pos) {
-            for (size_t j = 0; j < pattern.size(); ++j, ++pos) {
-                if (pos == n || less(text[pos], pattern[j])) return -1;
-                if (less(pattern[j], text[pos])) return 1;
+        if (pattern.size() == 1) {
+            auto l = lower_bound(sa.begin(), sa.end(), pattern[0], [&](int pos, const auto& c) {
+                return less(text[pos], c);
+            });
+            auto r = upper_bound(l, sa.end(), pattern[0], [&](const auto& c, int pos) {
+                return less(c, text[pos]);
+            });
+            return {int(l - sa.begin()), int(r - sa.begin())};
+        }
+        auto match = [&](int pos, int common) {
+            int limit = min<size_t>(n - pos, pattern.size());
+            for (; common < limit; ++common) {
+                const auto& a = text[pos + common];
+                const auto& b = pattern[common];
+                if (less(a, b) || less(b, a)) break;
             }
-            return 0;
+            return common;
         };
-        auto bound = [&](int l, bool upper) {
-            int r = n;
+        auto compare = [&](int pos, int& common) {
+            common = match(pos, common);
+            if (size_t(common) == pattern.size()) return 0;
+            if (pos + common == n || less(text[pos + common], pattern[common])) return -1;
+            return 1;
+        };
+        auto bound = [&](int l, int r, int common, bool upper) {
             while (l < r) {
                 int m = l + (r - l) / 2;
-                int order = compare(sa[m]);
-                if (order < 0 || (upper && order == 0)) l = m + 1;
+                int matched = match(sa[m], common);
+                bool full = size_t(matched) == pattern.size();
+                if (!full) common = matched;
+                if (full == upper) l = m + 1;
                 else r = m;
             }
             return l;
         };
-        int l = bound(0, false);
-        return {l, bound(l, true)};
+        int left_lcp = 0, right_lcp = 0;
+        int first = compare(sa.front(), left_lcp);
+        if (first > 0) return {0, 0};
+        int last = compare(sa.back(), right_lcp);
+        if (last < 0) return {n, n};
+        if (first == 0) return {0, last == 0 ? n : bound(1, n - 1, right_lcp, true)};
+        if (last == 0) return {bound(1, n - 1, left_lcp, false), n};
+
+        int l = 1, r = n - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            int common = min(left_lcp, right_lcp);
+            int order = compare(sa[m], common);
+            if (order < 0) {
+                l = m + 1;
+                left_lcp = common;
+            } else if (order > 0) {
+                r = m;
+                right_lcp = common;
+            } else {
+                return {bound(l, m, left_lcp, false), bound(m + 1, r, right_lcp, true)};
+            }
+        }
+        return {l, l};
     }
 };
 

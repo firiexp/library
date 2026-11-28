@@ -14,6 +14,8 @@ $X$ は値のビット数、$N$ は構築時の要素数とする。
   `X` bit の整数を扱う trie を作る。$O(1)$
 - `Binarytrie<T, X> trie(v)`
   `vector<T> v` の要素を入れた trie を作る。重複はそのまま個数として入る。$O(NX)$
+- `Binarytrie<T, X>::from_sorted(v)`
+  昇順の `v` から trie を作る。値が $D$ 種類のとき $O(N + DX)$
 - `void reserve(int n)`
   今後 `n` 個挿入する想定でノード領域を先に確保する。確保済みノード数に比例する時間
 - `void add(T x, int k = 1)`

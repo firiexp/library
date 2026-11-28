@@ -1,114 +1,64 @@
-#include "../../fps/ntt.cpp"
+#include "../../fps/sample_point_shift.cpp"
+#include "../modular/batch_inverse.cpp"
 
 namespace {
 
-vector<mint> convolve(const vector<mint> &a, const vector<mint> &b) {
-    if (a.empty() || b.empty()) return {};
-    return (poly(a) * poly(b)).v;
-}
-
-struct ManyFactorialsFactorial {
-    static inline vector<mint> fact = {mint(1)};
-    static inline vector<mint> ifact = {mint(1)};
-
-    static void ensure(int size) {
-        if ((int)fact.size() >= size) return;
-        int cur = fact.size();
-        int next = max(cur * 2, size);
-        fact.resize(next);
-        ifact.resize(next);
-        for (int i = cur; i < next; ++i) fact[i] = fact[i - 1] * mint::raw(i);
-        ifact.back() = fact.back().inv();
-        for (int i = next - 1; i > cur; --i) ifact[i - 1] = ifact[i] * mint::raw(i);
-    }
-};
-
-vector<mint> shift_of_sampling_points(const vector<mint> &ys, mint t, int m) {
-    int n = ys.size();
-    ManyFactorialsFactorial::ensure(max(n, m));
-
-    vector<mint> b(n);
-    {
-        vector<mint> f(n), g(n);
-        for (int i = 0; i < n; ++i) {
-            f[i] = ys[i] * ManyFactorialsFactorial::ifact[i];
-            g[i] = ((i & 1) ? -mint(1) : mint(1)) * ManyFactorialsFactorial::ifact[i];
-        }
-        b = convolve(f, g);
-        b.resize(n);
-    }
-
-    vector<mint> e(n);
-    {
-        vector<mint> c(n);
-        mint prod = mint(1);
-        reverse(b.begin(), b.end());
-        for (int i = 0; i < n; ++i) {
-            b[i] *= ManyFactorialsFactorial::fact[n - i - 1];
-            c[i] = prod * ManyFactorialsFactorial::ifact[i];
-            prod *= t - mint(i);
-        }
-        e = convolve(b, c);
-        e.resize(n);
-    }
-
-    reverse(e.begin(), e.end());
-    for (int i = 0; i < n; ++i) e[i] *= ManyFactorialsFactorial::ifact[i];
-
-    vector<mint> f(m);
-    for (int i = 0; i < m; ++i) f[i] = ManyFactorialsFactorial::ifact[i];
-    vector<mint> res = convolve(e, f);
-    res.resize(m);
-    for (int i = 0; i < m; ++i) res[i] *= ManyFactorialsFactorial::fact[i];
-    return res;
-}
+constexpr int factorial_block_size = 512;
+constexpr int factorial_block_count = ntt_mod / factorial_block_size;
 
 vector<mint> many_factorials_short_block(const vector<int> &uniq_ns) {
-    constexpr int log_block_size = 9;
-    constexpr int block_size = 1 << log_block_size;
-    constexpr int block_num = ntt_mod >> log_block_size;
-
-    static vector<mint> block_fact = []() {
+    constexpr int block_size = factorial_block_size;
+    static const vector<mint> block_fact = []() {
         vector<mint> f{mint(1)};
         f.reserve(block_size);
-        for (int i = 0; i < log_block_size; ++i) {
-            vector<mint> g = shift_of_sampling_points(f, mint(1 << i), 3 << i);
+        for (int width = 1; width < block_size; width *= 2) {
+            vector<mint> g = sample_point_shift(f, mint(width), 3 * width);
             auto get = [&](int j) -> mint {
-                return j < (1 << i) ? f[j] : g[j - (1 << i)];
+                return j < width ? f[j] : g[j - width];
             };
-            f.resize(2 << i);
-            for (int j = 0; j < (2 << i); ++j) {
-                f[j] = get(2 * j) * get(2 * j + 1) * mint::raw((2 * j + 1) << i);
+            f.resize(2 * width);
+            for (int j = 0; j < 2 * width; ++j) {
+                f[j] = get(2 * j) * get(2 * j + 1) * mint::raw((2 * j + 1) * width);
             }
         }
-        if (block_num > block_size) {
-            vector<mint> g = shift_of_sampling_points(f, mint(block_size), block_num - block_size);
-            f.insert(f.end(), g.begin(), g.end());
-        } else {
-            f.resize(block_num);
+        vector<mint> table{mint(1)};
+        table.reserve(factorial_block_count + 1);
+        auto append = [&](const vector<mint> &samples) {
+            for (mint x : samples) {
+                int end = (int)table.size() * block_size;
+                table.push_back(table.back() * (x * mint::raw(end)));
+            }
+        };
+        append(f);
+        constexpr int shift_count = 7 * block_size;
+        for (int start = block_size; start < factorial_block_count; start += shift_count) {
+            int count = min(shift_count, factorial_block_count - start);
+            append(sample_point_shift(f, mint(start), count));
         }
-        for (int i = 0; i < block_num; ++i) f[i] *= mint::raw(i + 1) * mint::raw(block_size);
-        f.insert(f.begin(), mint(1));
-        for (int i = 1; i <= block_num; ++i) f[i] *= f[i - 1];
-        return f;
+        return table;
     }();
 
     int m = uniq_ns.size();
     vector<mint> uniq_ans(m);
+    vector<int> upper;
+    vector<mint> denominators;
     for (int i = 0; i < m; ++i) {
         int n = uniq_ns[i];
-        int quo = n >> log_block_size;
-        int rem = n & (block_size - 1);
-        if ((rem << 1) <= block_size) {
+        int quo = n / block_size;
+        int rem = n % block_size;
+        if (rem <= block_size / 2) {
             uniq_ans[i] = block_fact[quo];
             for (int x = n - rem + 1; x <= n; ++x) uniq_ans[i] *= mint::raw(x);
         } else {
             uniq_ans[i] = block_fact[quo + 1];
             mint den = mint(1);
             for (int x = n + 1; x <= (quo + 1) * block_size; ++x) den *= mint::raw(x);
-            uniq_ans[i] /= den;
+            upper.push_back(i);
+            denominators.push_back(den);
         }
     }
+    auto inverses = batch_inverse(denominators);
+    for (int j = 0; j < (int)upper.size(); ++j) uniq_ans[upper[j]] *= inverses[j];
     return uniq_ans;
 }
 
@@ -125,10 +75,15 @@ vector<mint> many_factorials(const vector<long long> &ns) {
         if (n < ntt_mod) maximum = max(maximum, (int)n);
     }
     if (maximum == -1) return ans;
-    if (maximum <= 1000000 || maximum < (int)ManyFactorialsFactorial::fact.size()) {
-        ManyFactorialsFactorial::ensure(maximum + 1);
+    static vector<mint> fact{mint(1)};
+    if (maximum <= 2 * factorial_block_count) {
+        if (maximum >= (int)fact.size()) {
+            int old = fact.size();
+            fact.resize(maximum + 1);
+            for (int i = old; i <= maximum; ++i) fact[i] = fact[i - 1] * mint::raw(i);
+        }
         for (int i = 0; i < q; ++i) {
-            if (ns[i] < ntt_mod) ans[i] = ManyFactorialsFactorial::fact[ns[i]];
+            if (ns[i] < ntt_mod) ans[i] = fact[ns[i]];
         }
         return ans;
     }

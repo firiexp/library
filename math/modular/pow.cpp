@@ -1,7 +1,10 @@
+#ifndef FIRIEXP_LIBRARY_MATH_MODULAR_POW_CPP
+#define FIRIEXP_LIBRARY_MATH_MODULAR_POW_CPP
+
 template <class T>
 T pow_ (T x, T n, T M){
     unsigned __int128 u = 1 % M, xx = x;
-    if constexpr (is_signed_v<T>) {
+    if constexpr (std::is_signed_v<T>) {
         if (x < 0) {
             T r = x % M;
             xx = r < 0 ? r + M : r;
@@ -18,3 +21,5 @@ T pow_ (T x, T n, T M){
 /**
  * @brief 繰り返し二乗法
  */
+
+#endif

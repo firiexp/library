@@ -128,6 +128,7 @@ graph/shortest_path/floyd_warshall.cpp: "全頂点対最短距離(Floyd–Warsha
 graph/shortest_path/generated_shortest_path.cpp: "陽に辺を持たないグラフの最短路"
 graph/shortest_path/grid_bfs.cpp: "グリッドの4近傍最短路"
 graph/connectivity/biconnected_components.cpp: "二重連結成分分解(Biconnected Components)"
+graph/connectivity/st_numbering.cpp: "無向グラフの st-numbering"
 graph/matching/bipartite_matching.cpp: "二部グラフ最大マッチング(Bipartite Matching)"
 graph/matching/bipartite_matching_lexmin.cpp: "辞書順最小二部マッチング(Lexicographically Minimum Bipartite Matching)"
 graph/connectivity/complement_components.cpp: "補グラフの連結成分"
