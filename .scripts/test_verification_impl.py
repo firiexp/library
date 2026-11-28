@@ -8,7 +8,11 @@ import shutil
 import subprocess
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
+
+from requests.exceptions import HTTPError, ReadTimeout
+
+import download_testdata_impl as downloader
 
 import verification_impl as verifier
 from run_verify_impl import shard_paths
@@ -115,8 +119,8 @@ class VerifierIntegrationTest(unittest.TestCase):
         downloaded = []
 
         def download(args):
-            self.assertEqual(args[:3], ['competitive-verifier', 'download', '--verify-json'])
-            downloaded.extend(verifier.test_paths(verifier.read_json(args[3])))
+            self.assertEqual(args[:2], [sys.executable, '.scripts/download_testdata_impl.py'])
+            downloaded.extend(verifier.test_paths(verifier.read_json(args[2])))
             return subprocess.CompletedProcess(args, 0)
 
         with patch.object(verifier, 'command', side_effect=download):
@@ -134,7 +138,7 @@ class VerifierIntegrationTest(unittest.TestCase):
         downloaded = []
 
         def download(args):
-            downloaded.append(verifier.test_paths(verifier.read_json(args[3])))
+            downloaded.append(verifier.test_paths(verifier.read_json(args[2])))
             return subprocess.CompletedProcess(args, 17)
 
         for name in (*verifier.VERIFY_INPUTS, '.competitive-verifier/runtime.json'):
@@ -266,6 +270,34 @@ class DashboardResultTest(unittest.TestCase):
         self.assertEqual(parsed['slowestCase'], 'large')
         self.assertEqual(parsed['maxMemoryMb'], 8)
         self.assertEqual(parsed['averageSec'], .3)
+
+
+class DownloadTest(unittest.TestCase):
+    def test_retry_only_the_problem_that_timed_out(self):
+        problems = {'a': Mock(), 'b': Mock()}
+        problems['b'].download_system_cases.side_effect = [ReadTimeout(), True]
+        with (
+            patch.object(downloader, 'problem_from_url', side_effect=problems.__getitem__),
+            patch.object(downloader.time, 'sleep') as sleep,
+        ):
+            self.assertTrue(downloader.download_testdata(['a', 'b', 'b']))
+        problems['a'].download_system_cases.assert_called_once_with()
+        self.assertEqual(problems['b'].download_system_cases.call_count, 2)
+        sleep.assert_called_once_with(2)
+
+    def test_download_failure_stops_after_retry_limit_or_permanent_error(self):
+        for error, attempts in [(ReadTimeout(), 3), (HTTPError('404 Not Found'), 1)]:
+            with (
+                self.subTest(error=type(error)),
+                patch.object(downloader, 'problem_from_url') as provider,
+                patch.object(downloader.time, 'sleep') as sleep,
+                self.assertLogs(level='ERROR'),
+            ):
+                download = provider.return_value.download_system_cases
+                download.side_effect = error
+                self.assertFalse(downloader.download_testdata(['a']))
+                self.assertEqual(download.call_count, attempts)
+                self.assertEqual(sleep.call_count, attempts - 1)
 
 
 class ShardTest(unittest.TestCase):

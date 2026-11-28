@@ -20,7 +20,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 STATE = ROOT / '.competitive-verifier'
 CONFIG = STATE / 'config.toml'
 SOURCE_DIRS = ('datastructure', 'flow', 'fps', 'geometry', 'graph', 'math', 'string', 'tree', 'util', 'snippets', 'test')
-VERIFY_INPUTS = ('.competitive-verifier/config.toml', 'requirements-dev.txt', '.scripts/verification_impl.py', '.scripts/verify_command_impl.py')
+VERIFY_INPUTS = ('.competitive-verifier/config.toml', 'requirements-dev.txt', '.scripts/verification_impl.py',
+                 '.scripts/download_testdata_impl.py', '.scripts/verify_command_impl.py')
 
 
 def write_json(path, value):
@@ -143,7 +144,7 @@ def verify(resolved, *, output, jobs=8, previous=None, no_download=False, force=
         input_path = directory / 'input.json'
         write_json(input_path, select(resolved, pending))
         if pending and not no_download:
-            downloaded = command(['competitive-verifier', 'download', '--verify-json', str(input_path)])
+            downloaded = command([sys.executable, '.scripts/download_testdata_impl.py', str(input_path)])
             if downloaded.returncode:
                 return downloaded.returncode
         count = min(jobs, len(pending))
