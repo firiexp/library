@@ -10,19 +10,17 @@ void check(const SuffixArray<Sequence>& index, const Pattern& pattern,
            const vector<int>& values, const vector<int>& target) {
     const auto& sa = index.array();
     int l = 0, r = 0;
-    for (int pos : sa) {
+    vector<int> expected;
+    for (int pos = 0; pos < (int)values.size(); ++pos) {
         vector<int> prefix(values.begin() + pos,
                            values.begin() + pos + min(values.size() - pos, target.size()));
         l += prefix < target;
         r += prefix <= target;
+        if (prefix == target) expected.push_back(pos);
     }
     auto result = index.equal_range(pattern);
     assert(result == make_pair(l, r));
-    vector<int> expected, actual(sa.begin() + l, sa.begin() + r);
-    for (int pos = 0; pos < (int)values.size(); ++pos) {
-        if (values.size() - pos >= target.size()
-            && equal(target.begin(), target.end(), values.begin() + pos)) expected.push_back(pos);
-    }
+    vector<int> actual(sa.begin() + result.first, sa.begin() + result.second);
     sort(actual.begin(), actual.end());
     assert(actual == expected);
 }
@@ -90,6 +88,19 @@ int main() {
     assert(numbers.equal_range(vector<int>{-1}) == make_pair(0, 2));
     auto patterns = words(4);
     for (const auto& text : words(5)) check_patterns(text, patterns);
+    vector<int> runs(192, 128);
+    runs[48] = 255;
+    runs[96] = 0;
+    runs[144] = 255;
+    vector<vector<int>> long_patterns;
+    for (int length : {1, 47, 48, 49, 96, 193}) {
+        for (int last : {0, 127, 128, 129, 255}) {
+            vector<int> pattern(length, 128);
+            pattern.back() = last;
+            long_patterns.push_back(move(pattern));
+        }
+    }
+    check_patterns(runs, long_patterns);
     check_patterns({INT_MIN, -1, INT_MAX, INT_MIN, 0},
                    {{}, {INT_MIN}, {-1, INT_MAX}, {INT_MAX, INT_MIN, 0}, {INT_MAX, INT_MAX}});
     mt19937 rng(304);
