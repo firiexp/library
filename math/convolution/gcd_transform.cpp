@@ -1,22 +1,30 @@
 #include "../prime/get_prime.cpp"
 
-template<class T>
-void gcd_transform(vector<T> &v){
-    if (v.size() <= 2) return;
+namespace gcd_transform_detail {
+template<bool Inverse, class T>
+void transform(vector<T>& v, const vector<int>& primes) {
     int r = (int)v.size() - 1;
-    for (int p : get_prime(r)) {
-        for (int j = r / p; j != 0; --j) v[j] += v[j * p];
+    for (int p : primes) {
+        int limit = r / p;
+        if constexpr (Inverse) {
+            for (int j = 1; j <= limit; ++j) v[j] -= v[j * p];
+        } else {
+            for (int j = limit; j != 0; --j) v[j] += v[j * p];
+        }
     }
+}
 }
 
 template<class T>
-void gcd_itransform(vector<T> &v){
+void gcd_transform(vector<T>& v) {
     if (v.size() <= 2) return;
-    int r = (int)v.size() - 1;
-    for (int p : get_prime(r)) {
-        int limit = r / p;
-        for (int j = 1; j <= limit; ++j) v[j] -= v[j * p];
-    }
+    gcd_transform_detail::transform<false>(v, get_prime((int)v.size() - 1));
+}
+
+template<class T>
+void gcd_itransform(vector<T>& v) {
+    if (v.size() <= 2) return;
+    gcd_transform_detail::transform<true>(v, get_prime((int)v.size() - 1));
 }
 
 template<class T>
@@ -26,10 +34,11 @@ vector<T> gcd_convolution(vector<T> a, vector<T> b) {
     a.resize(n);
     b.resize(n);
     a[0] = b[0] = T(0);
-    gcd_transform(a);
-    gcd_transform(b);
+    auto primes = get_prime(n - 1);
+    gcd_transform_detail::transform<false>(a, primes);
+    gcd_transform_detail::transform<false>(b, primes);
     for (int i = 1; i < n; ++i) a[i] *= b[i];
-    gcd_itransform(a);
+    gcd_transform_detail::transform<true>(a, primes);
     return a;
 }
 
