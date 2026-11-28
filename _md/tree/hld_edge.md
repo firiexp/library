@@ -24,7 +24,7 @@ documentation_of: //tree/hld_edge.cpp
 - `int parent(int v) const`
   `v` の親を返す。根なら `-1`。$O(1)$
 - `int ancestor(int v, int k) const`
-  `v` から根方向へ `k` 回遡った頂点を返す。存在しなければ `-1`。$O(\log N)$
+  `v` から根へ `k` 辺進んだ頂点を返す。存在しない場合は `-1`。$O(\log N)$
 - `int distance(int u, int v) const`
   `u` と `v` の間の辺数を返す。$O(\log N)$
 - `int jump(int u, int v, int k) const`

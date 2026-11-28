@@ -50,6 +50,12 @@ void check_tree(const vector<vector<int>> &g, vector<int> roots) {
             while (path.back() != u) path.push_back(p[path.back()]);
             reverse(path.begin(), path.end());
             int length = (int)path.size() - 1;
+            if (parent[v] == v) {
+                for (auto [k, expected] : {pair{-1, -1}, {0, u}, {length, v}, {length + 1, -1}}) {
+                    assert(ordered.ancestor(u, k) == expected);
+                    assert(ordered_edges.ancestor(u, k) == expected);
+                }
+            }
             for (int k = 0; k <= length; ++k) check_jump(k, path[k]);
             check_jump(length + 1, -1);
             int up = 0;

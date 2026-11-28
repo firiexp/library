@@ -87,7 +87,7 @@ public:
     }
 
     int ancestor(int v, int k) const {
-        if(dep[v] < k) return -1;
+        if (k < 0 || k > dep[v]) return -1;
         while(true) {
             int u = head[v];
             if(id[v] - k >= id[u]) return id_inv[id[v] - k];
