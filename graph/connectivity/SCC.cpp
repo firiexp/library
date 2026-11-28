@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GRAPH_SCC_CPP
+#define FIRIEXP_LIBRARY_GRAPH_SCC_CPP
+
 class SCC {
     struct CSR {
         vector<int> start, elist;
@@ -95,6 +98,8 @@ public:
         return result;
     }
 };
+
+#endif
 
 /**
  * @brief 強連結成分分解(SCC)

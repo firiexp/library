@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_PRIME_PRIMEFACTOR_LL_CPP
+#define FIRIEXP_LIBRARY_MATH_PRIME_PRIMEFACTOR_LL_CPP
+
 #include "miller_rabin.cpp"
 
 namespace primefactor_ll_detail {
@@ -217,6 +220,8 @@ vector<T> prime_factor(T n){
     sort(res.begin(),res.end());
     return res;
 }
+
+#endif
 
 /**
  * @brief 素因数分解(Pollard Rho)

@@ -3,8 +3,7 @@ title: 辞書順最小二部マッチング(Lexicographically Minimum Bipartite 
 documentation_of: //graph/matching/bipartite_matching_lexmin.cpp
 ---
 ## 説明
-二部グラフの最大マッチングのうち、左側頂点の対応先列を辞書順最小にしたものを求める。
-先に通常の最大マッチングを作り、その後に左側を小さい順に確定していく。
+二部グラフの最大マッチングのうち、左頂点の番号順に並べた対応先の列が辞書順最小になるものを求める。
 未マッチを `-1` とし、右頂点番号 `0, 1, ...` より小さいものとして比較する。
 
 ## できること
@@ -17,20 +16,19 @@ documentation_of: //graph/matching/bipartite_matching_lexmin.cpp
 - `int solve_LexMin()`
   辞書順最小の最大マッチングを構成して、そのサイズを返す。時間 $O(L(M+L+R))$、領域 $O(M+L+R)$
 - `vector<int> match`
-  `match[v]` に対応先頂点番号が入る。未マッチは `-1`
+  長さ `l + r` の配列。左頂点 `u` と右頂点 `v` がマッチすると、`match[u] == l + v`、`match[l + v] == u` となる。未マッチの頂点の値は `-1`。
+- `vector<pair<int, int>> get_pairs() const`
+  マッチした辺を `(左頂点番号, 右頂点番号)` の組として左頂点番号の昇順に返す。頂点番号は左右とも 0 始まり。$O(L)$
 
 ## 使い方
-辺を `add_edge` してから `solve_LexMin()` を呼ぶ。辺の追加順は任意でよい。
-完全マッチングがなくても、最大サイズを保って左側の対応先列を最小にする。
+辺を `add_edge` で追加してから `solve_LexMin()` を呼び、`get_pairs()` や `match` で結果を取り出す。
 
 ```cpp
-Bipartite_Matching_LexMin bm(l, r);
-for (int u = 0; u < l; ++u) {
-    for (int v : candidates[u]) bm.add_edge(u, v);
-}
-int sz = bm.solve_LexMin();
-```
+Bipartite_Matching_LexMin bm(3, 2);
+bm.add_edge(0, 1);
+bm.add_edge(1, 1);
+bm.add_edge(2, 0);
 
-## 実装上の補足
-内部の右側頂点は `l` 個ぶんオフセットされた番号で管理する。
-`match[u]` が右側頂点を指すとき、元の右頂点番号は `match[u] - l` で取り出せる。
+int sz = bm.solve_LexMin();  // 2
+auto pairs = bm.get_pairs();  // [(1, 1), (2, 0)]
+```

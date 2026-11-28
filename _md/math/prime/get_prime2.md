@@ -10,8 +10,10 @@ documentation_of: //math/prime/get_prime2.cpp
 ## できること
 - `vector<ExactDiv<uint>> get_prime_exact_div(int n)`
   `n` 以下の素数を返す。`n <= 1` なら空。$O(n)$
+- `ExactDiv<T> d(n)`
+  `n` に 2 または奇数を指定し divide を可能にする。`T` には符号なし整数型を使う。$O(1)$
 - `bool ExactDiv<T>::divide(T x) const`
-  `x` がこの素数で割り切れるかを返す
+  `d.divide(x)` は `x % n == 0` を返す。$O(1)$
 
 ## 使い方
 `LinearSieve` の素数列挙を `ExactDiv<uint>` に詰め直した wrapper である。

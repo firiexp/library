@@ -20,10 +20,9 @@ documentation_of: //math/prime/linear_sieve.cpp
 - `bool is_prime(int x)`
   `x` が素数なら `true`、範囲外または合成数なら `false`。$O(1)$
 - `vector<int> prime_factor(int x) const`
-  `x` の素因数を昇順・重複ありで返す。`x = 1` なら空。 `need_min_factor = true` のときのみ。
+  `$1 \le x \le n$ の整数 `x` を素因数分解し、素因数を重複も含めて昇順で返す。`x = 1` なら空。$O(\log x)$
 
 ## 使い方
-
 ```cpp
 LinearSieve sieve(n);
 auto primes = sieve.primes;

@@ -14,6 +14,8 @@ $N$ は bitset の長さとする。
   長さ `N` の bitset を作る。`x = true` なら全 bit を 1 で初期化する。$O(\lceil N/64 \rceil)$
 - `int size() const`
   長さを返す。$O(1)$
+- `bool empty() const`
+  長さが 0 のときだけ `true` を返す。$O(1)$
 - `bool test(int k) const`
   `k` bit 目を返す。$O(1)$
 - `void set(int k)`, `void reset(int k)`, `void flip(int k)`, `void assign(int k, bool x)`
@@ -37,9 +39,9 @@ $N$ は bitset の長さとする。
 - `int find_last() const`
   最後に立っている bit の位置を返す。なければ `-1`。$O(\lceil N/64 \rceil)$
 - `int find_next(int k) const`
-  `k` より右で最初に立っている bit の位置を返す。なければ `-1`。$O(\lceil N/64 \rceil)$
+  $-1 \le k < N$。位置 $k+1$（$k=-1$ なら先頭）から昇順に探し、最初に立っている bit の位置を返す。なければ `-1`。$O(\lceil N/64 \rceil)$
 - `int find_prev(int k) const`
-  `k` より左で最初に立っている bit の位置を返す。なければ `-1`。$O(\lceil N/64 \rceil)$
+  $0 \le k \le N$。位置 $k-1$（$k=N$ なら末尾）から降順に探し、最初に立っている bit の位置を返す。なければ `-1`。$O(\lceil N/64 \rceil)$
 - `bs &= other`, `bs |= other`, `bs ^= other`
   bitset 同士の演算をその場で行う。$O(\lceil N/64 \rceil)$
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`

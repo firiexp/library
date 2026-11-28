@@ -166,8 +166,11 @@ bool isparallel(Segment s, Segment t) {
 Point crossPoint(Segment s, Segment t) {
     geometry_real d1 = cross(s.b - s.a, t.b - t.a);
     geometry_real d2 = cross(s.b - s.a, s.b - t.a);
-    if (fabs(d1) < EPS && fabs(d2) < EPS)
-        return t.a;
+    if (fabs(d1) < EPS && fabs(d2) < EPS) {
+        Point p = clamp(t.a, min(s.a, s.b), max(s.a, s.b));
+        if (d1 == 0 || (distance(s, p) < EPS && distance(t, p) < EPS))
+            return p;
+    }
     return t.a + (t.b - t.a) * d2 / d1;
 }
 
@@ -280,6 +283,11 @@ Polygon convex_hull(Polygon v) {
     int n = v.size();
     if (n <= 1) return v;
     sort(v.begin(), v.end(), sorty);
+    int first_turn = 2;
+    while (first_turn < n && cross(v[first_turn - 1] - v[first_turn - 2],
+                                   v[first_turn] - v[first_turn - 1]) == 0)
+        ++first_turn;
+    if (first_turn == n) return v;
     int k = 0;
     Polygon ret(n * 2);
     for (int i = 0; i < n; ++i) {

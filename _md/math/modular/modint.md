@@ -8,6 +8,8 @@ documentation_of: //math/modular/modint.cpp
 `+ - * /`、累乗、逆元、インクリメントを持ち、合成数の MOD にも対応する。
 
 ## できること
+ $1 \le \mathrm{MOD} \le 2^{31}$ について次の演算が可能
+
 - `modint<MOD> x`, `mint x`
   `MOD` 上の値を作る。負数もそのまま渡せる。$O(1)$
 - `modint<MOD>::raw(v)`
@@ -28,5 +30,7 @@ documentation_of: //math/modular/modint.cpp
   値を比較する。$O(1)$
 
 ## 使い方
-事前に `MOD` を定義した上で、`mint` か `modint<MOD>` を使う（テンプレートの `snippets/template.cpp` では `MOD = 998244353` が定義済み）。
-加減算を含む各演算は $1 \le \mathrm{MOD} \le 2^{31}$ で使う。
+`math/modular/modint.cpp` を読み込む前に `MOD` を定義すると、`mint` を `modint<MOD>` の別名として使える。
+`snippets/template.cpp` の `MOD` は `int` 型で、既定値は `998244353`。
+
+`util/fastio.cpp` の `Scanner in` と `Printer out` では `in >> x` と `out << x` で `mint` を読み書きできる。

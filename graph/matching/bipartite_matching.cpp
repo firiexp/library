@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GRAPH_BIPARTITE_MATCHING_CPP
+#define FIRIEXP_LIBRARY_GRAPH_BIPARTITE_MATCHING_CPP
+
 class Bipartite_Matching {
 protected:
     vector<vector<int>> G;
@@ -48,6 +51,8 @@ public:
         return res;
     }
 };
+
+#endif
 
 /**
  * @brief 二部グラフ最大マッチング(Bipartite Matching)

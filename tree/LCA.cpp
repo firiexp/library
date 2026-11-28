@@ -1,13 +1,12 @@
 #include "../datastructure/sparsetable.cpp"
 
-struct LCA_MinDepth {
-    using T = pair<int, int>;
-    static T f(T a, T b) { return min(a, b); }
-    static T e() { return T{INF<int>, -1}; }
-};
-
 class LCA {
-    SparseTable<LCA_MinDepth> table;
+    struct MinParent {
+        using T = int;
+        static int f(int a, int b) { return min(a, b); }
+    };
+    SparseTable<MinParent> table;
+    vector<int> preorder;
 
     void dfs_euler(int v, int p, int d, int &k) {
         id[v] = k;
@@ -40,11 +39,16 @@ public:
 
     void build(int root = 0) {
         eulertour(root);
-        vector<pair<int, int>> v(2 * n - 1);
-        for (int i = 0; i < 2 * n - 1; ++i) {
-            v[i] = make_pair(depth[i], i);
+        preorder.resize(n);
+        preorder[root] = 0;
+        vector<int> parent_id;
+        parent_id.reserve(n - 1);
+        for (int i = 1; i < 2 * n - 1; ++i) {
+            if (depth[i] < depth[i - 1]) continue;
+            parent_id.push_back(id[vs[i - 1]]);
+            preorder[vs[i]] = parent_id.size();
         }
-        table.build(v);
+        table.build(parent_id);
     }
 
     void buildLCA(int root = 0) {
@@ -52,8 +56,10 @@ public:
     }
 
     int lca(int u, int v) {
-        if (id[u] > id[v]) swap(u, v);
-        return vs[table.query(id[u], id[v] + 1).second];
+        if (u == v) return u;
+        int a = preorder[u], b = preorder[v];
+        if (a > b) swap(a, b);
+        return vs[table.query(a, b)];
     }
 };
 
