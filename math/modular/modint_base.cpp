@@ -9,6 +9,7 @@ struct modint {
 public:
     static modint raw(int v) { modint x; x.val = v; return x; }
     static constexpr uint get_mod() { return Mod; }
+    friend constexpr uint firiexp_canonical_modulus(const modint *) { return Mod; }
     static constexpr uint M() { return Mod; }
     modint() : val(0) {}
     template <class T>

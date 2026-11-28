@@ -3,8 +3,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
+using uint = unsigned;
+using ull = unsigned long long;
 #include "../util/fastio.cpp"
 #include "../math/convolution/subset_convolution.cpp"
+#include "../math/modular/modint_arbitrary.cpp"
+
+namespace fixed_modint {
+#include "../math/modular/modint_base.cpp"
+}
 
 struct Matrix {
     array<int, 4> a{};
@@ -50,8 +57,42 @@ void check(const vector<T> &a, const vector<T> &b) {
     assert(a == original_a && b == original_b);
 }
 
+void check_rank_products(int bits, int constant) {
+    using M = fixed_modint::modint<998244353>;
+    int size = 1 << bits;
+    vector<M> a(size), b(size), expected(size);
+    for (int rank = 0; rank <= bits; ++rank) {
+        int prefix = (1 << rank) - 1;
+        a[prefix] = rank == 0 ? constant : -1;
+        b[prefix << (bits - rank)] = -1;
+    }
+    for (int i = 0; i <= bits; ++i) {
+        int left = (1 << i) - 1;
+        for (int j = 0; j + i <= bits; ++j) {
+            int right = ((1 << j) - 1) << (bits - j);
+            expected[left | right] += a[left] * b[right];
+        }
+    }
+    assert(subset_convolution(a, b) == expected);
+}
+
 void self_check() {
     mt19937 rng(73);
+    for (int bits = 0; bits <= 8; ++bits) {
+        vector<int> a(1 << bits), b(1 << bits);
+        for (int &x : a) x = -int(rng() % 256);
+        for (int &x : b) x = -int(rng() % 256);
+        using M = fixed_modint::modint<998244353>;
+        using Other = fixed_modint::modint<1000000007>;
+        check(vector<M>(a.begin(), a.end()), vector<M>(b.begin(), b.end()));
+        check(vector<Other>(a.begin(), a.end()), vector<Other>(b.begin(), b.end()));
+        for (unsigned mod : {6U, 998244353U}) {
+            modint::set_mod(mod);
+            check(vector<modint>(a.begin(), a.end()), vector<modint>(b.begin(), b.end()));
+        }
+    }
+    for (int bits = 16; bits <= 18; ++bits) check_rank_products(bits, -1);
+    check_rank_products(18, 18);
     for (int n = 0; n <= 20; ++n) {
         for (int m = 0; m <= 20; ++m) {
             check(vector<ll>(n), vector<ll>(m, 1));
