@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_MODULAR_MODINV_CPP
+#define FIRIEXP_LIBRARY_MATH_MODULAR_MODINV_CPP
+
 template <class T>
 T mod_inv(T x, T M) {
     assert(M >= 1);
@@ -18,6 +21,8 @@ T mod_inv(T x, T M) {
     assert(m == 1);
     return negative ? M - coeff : coeff;
 }
+
+#endif
 
 /**
  * @brief MOD逆元(拡張ユークリッド互除法)

@@ -1,40 +1,27 @@
-#include "../extgcd.cpp"
+#ifndef FIRIEXP_LIBRARY_MATH_MODULAR_GARNER_CPP
+#define FIRIEXP_LIBRARY_MATH_MODULAR_GARNER_CPP
 
-template <class T>
-T pow_ (T x, T n, T M){
-    uint64_t u = 1, xx = x;
-    while (n > 0){
-        if (n&1) u = u * xx % M;
-        xx = xx * xx % M;
-        n >>= 1;
-    }
-    return static_cast<T>(u);
-};
+#include "modinv.cpp"
 
-
-template<typename T>
-T mod_inv(T x, T m){
-    T s, t;
-    extgcd(x, m, s, t);
-    return (m+s)% m;
-}
-
-ll Garner(vector<pair<ll, ll>> a, ll mod){
-    for (auto &[r, m] : a) {
-        r %= m;
-        if (r < 0) r += m;
-    }
-    a.emplace_back(0, mod);
-    vector<ll> A(a.size(), 1), B(a.size(), 0);
-    for (int i = 0; i < a.size(); ++i) {
-        ll t = (a[i].first+a[i].second-B[i])* mod_inv(A[i], a[i].second) % a[i].second;
-        for (int j = i+1; j < a.size() ; ++j) {
-            (B[j] += t * A[j]) %= a[j].second;
-            (A[j] *= a[i].second) %= a[j].second;
+ll Garner(vector<pair<ll, ll>> equations, ll mod) {
+    size_t n = equations.size();
+    equations.emplace_back(0, mod);
+    vector<ll> coeff(n + 1, 1), residue(n + 1, 0);
+    for (size_t i = 0; i < n; ++i) {
+        auto [r, m] = equations[i];
+        ll inverse = mod_inv(coeff[i], m);
+        ll digit = (__int128(r) - residue[i]) * inverse % m;
+        if (digit < 0) digit += m;
+        for (size_t j = i + 1; j <= n; ++j) {
+            ll next_mod = equations[j].second;
+            residue[j] = (__uint128_t(digit) * coeff[j] + residue[j]) % next_mod;
+            coeff[j] = __uint128_t(coeff[j]) * m % next_mod;
         }
     }
-    return B.back();
+    return residue.back();
 }
+
+#endif
 
 /**
  * @brief Garnerのアルゴリズム

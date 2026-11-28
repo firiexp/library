@@ -5,6 +5,12 @@ using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
 #include "../math/modular/garner.cpp"
+#include "../math/modular/garner.cpp"
+#include "../math/modular/pow.cpp"
+#include "../math/modular/modinv.cpp"
+#include "../math/extgcd.cpp"
+#include "../math/modular/crt.cpp"
+#include "../util/biginteger.cpp"
 
 void self_check() {
     auto check = [](vector<pair<ll, ll>> equations, ll mod) {
@@ -40,6 +46,24 @@ void self_check() {
     }
 }
 
+void check_large() {
+    vector<ll> moduli{LLONG_MAX, LLONG_MAX - 1, LLONG_MAX - 2};
+    BigInteger product = BigInteger(moduli[0]) * moduli[1] * moduli[2];
+    for (const BigInteger &x : {product - 1, product / 3, (BigInteger(1) << 150) + 42}) {
+        vector<pair<ll, ll>> equations;
+        for (ll m : moduli) {
+            ll r = (x % m).to_integral<ll>().value();
+            equations.emplace_back(r - m, m);
+        }
+        vector<pair<ll, ll>> reversed(equations.rbegin(), equations.rend());
+        for (ll mod : {1LL, 14LL, LLONG_MAX - 3, LLONG_MAX}) {
+            assert(Garner(equations, mod) == x % mod);
+            assert(Garner(reversed, mod) == x % mod);
+        }
+    }
+}
+
 int main() {
     self_check();
+    check_large();
 }
