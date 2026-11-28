@@ -15,7 +15,7 @@ private:
         T forward, backward;
     };
     int n, free_head = 0;
-    uint32_t upper;
+    uint64_t upper;
     vector<Node> nodes;
     vector<int> roots;
     vector<bool> descending;
@@ -51,10 +51,10 @@ private:
         nodes[id].backward = M::f(nodes[r].backward, nodes[l].backward);
     }
 
-    int singleton(uint32_t key, const T &value, uint32_t l, uint32_t r) {
+    int singleton(uint64_t key, const T &value, uint64_t l, uint64_t r) {
         int id = allocate({0, 0, 1, value, value});
         if (r - l == 1) return id;
-        uint32_t mid = l + (r - l) / 2;
+        uint64_t mid = l + (r - l) / 2;
         if (key < mid) {
             int child = singleton(key, value, l, mid);
             nodes[id].left = child;
@@ -152,8 +152,9 @@ public:
                         uint64_t key_upper = uint64_t(1) << 31)
         : n(keys.size()), upper(key_upper), roots(n), descending(n),
           starts(vector<bool>(n + 1, true)), outer(n) {
+        assert(upper > 0);
         int height = 0;
-        for (uint64_t width = 1; width < key_upper; width <<= 1) ++height;
+        for (uint64_t bits = upper - 1; bits; bits >>= 1) ++height;
         nodes.reserve(size_t(n) * (height + 1) + 1);
         nodes.push_back({0, 0, 0, M::e(), M::e()});
         for (int i = 0; i < n; ++i) {
@@ -171,10 +172,10 @@ public:
         int start = starts.prev(position);
         int id = roots[start], rank = position - start;
         if (descending[start]) rank = nodes[id].count - 1 - rank;
-        uint32_t l = 0, r = upper;
+        uint64_t l = 0, r = upper;
         while (r - l > 1) {
             int child = nodes[id].left;
-            uint32_t mid = l + (r - l) / 2;
+            uint64_t mid = l + (r - l) / 2;
             if (rank < nodes[child].count) {
                 id = child;
                 r = mid;
@@ -188,6 +189,7 @@ public:
     }
 
     void set(int position, int key, const T &value) {
+        assert(key >= 0 && uint64_t(key) < upper);
         cut(position);
         cut(position + 1);
         int id = roots[position];

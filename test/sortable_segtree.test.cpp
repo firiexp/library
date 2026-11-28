@@ -42,6 +42,7 @@ typename M::T read_fold(SortableSegmentTree<M> &seg, int l, int r) {
 template<class M>
 void check(uint64_t upper, mt19937_64 &rng, int n = -1) {
     using T = typename M::T;
+    uint64_t key_count = min(upper, uint64_t(INT_MAX) + 1);
     if (n == -1) n = rng() % (min<uint64_t>(upper, 35) + 1);
     auto value = [&]() {
         T result;
@@ -53,7 +54,7 @@ void check(uint64_t upper, mt19937_64 &rng, int n = -1) {
     std::set<int> present;
     vector<pair<int, T>> expected;
     while ((int)keys.size() < n) {
-        int key = rng() % upper;
+        int key = rng() % key_count;
         if (!present.insert(key).second) continue;
         keys.push_back(key);
         values.push_back(value());
@@ -62,7 +63,7 @@ void check(uint64_t upper, mt19937_64 &rng, int n = -1) {
     SortableSegmentTree<M> seg(keys, values, upper);
     assert(seg.size() == n);
     int height = 0;
-    for (uint64_t width = 1; width < upper; width <<= 1) ++height;
+    for (uint64_t width = upper; width > 1; width = width / 2 + width % 2) ++height;
     for (int step = 0; step < 700; ++step) {
         int l = rng() % (n + 1), r = rng() % (n + 1);
         if (l > r) swap(l, r);
@@ -78,8 +79,8 @@ void check(uint64_t upper, mt19937_64 &rng, int n = -1) {
             int i = rng() % n;
             int old_key = expected[i].first;
             present.erase(old_key);
-            int key = step % 3 == 0 ? old_key : int(rng() % upper);
-            while (present.count(key)) key = rng() % upper;
+            int key = step % 3 == 0 ? old_key : int(rng() % key_count);
+            while (present.count(key)) key = rng() % key_count;
             present.insert(key);
             T v = value();
             expected[i] = {key, v};
@@ -108,6 +109,7 @@ void check(uint64_t upper, mt19937_64 &rng, int n = -1) {
 
 int main() {
     mt19937_64 rng(82);
+    check<Affine>(1, rng, 1);
     for (uint64_t upper : {1ULL, 2ULL, 3ULL, 7ULL, 16ULL, 99ULL, 1ULL << 31}) {
         for (int tc = 0; tc < 12; ++tc) {
             check<Affine>(upper, rng);
@@ -115,6 +117,16 @@ int main() {
         }
     }
     for (int n : {0, 1, 63, 64, 65, 127, 128, 129}) check<Affine>(1ULL << 31, rng, n);
+    for (uint64_t upper : {uint64_t(1) << 32, UINT64_MAX}) {
+        check<Affine>(upper, rng, 8);
+        SortableSegmentTree<Affine> wide({INT_MAX, 0}, {{2, 3}, {5, 7}}, upper);
+        wide.sort_ascending(0, 2);
+        assert(wide.get(0).first == 0 && wide.get(1).first == INT_MAX);
+        wide.set(1, INT_MAX - 1, {11, 13});
+        wide.sort_descending(0, 2);
+        assert(wide.get(0).first == INT_MAX - 1);
+        assert(wide.fold(0, 2) == Affine::f({11, 13}, {5, 7}));
+    }
     SortableSegmentTree<Affine> seg({0, INT_MAX, 1}, {{2, 3}, {5, 7}, {11, 13}});
     seg.sort_descending(0, 3);
     assert(seg.get(0).first == INT_MAX);
