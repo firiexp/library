@@ -12,18 +12,17 @@ vector<Run> enumerate_runs(const string& s) {
     if (n <= 1) return {};
     SuffixArrayQuery forward(s), backward(string(s.rbegin(), s.rend()));
     vector<Run> result;
-    vector<int> values = convert(s), rank(n), stack;
+    vector<int> stack;
     stack.reserve(n);
     for (int order = 0; order < 2; ++order) {
-        if (order == 0) {
-            for (int i = 0; i < n; ++i) rank[i] = forward.suffix_rank(i);
-        } else {
-            auto sa = suffix_array(values, 255);
-            for (int i = 0; i < n; ++i) rank[sa[i]] = i;
-        }
+        auto less = [&](int i, int k) {
+            if (order == 0) return forward.suffix_rank(i) < forward.suffix_rank(k);
+            int common = s[i] == s[k] ? forward.lce(i, k) : 0;
+            return k + common < n && (unsigned char)s[i + common] > (unsigned char)s[k + common];
+        };
         stack.clear();
         for (int i = n - 1; i >= 0; --i) {
-            while (!stack.empty() && rank[i] < rank[stack.back()]) stack.pop_back();
+            while (!stack.empty() && less(i, stack.back())) stack.pop_back();
             int j = stack.empty() ? n : stack.back();
             int period = j - i;
             int left = backward.lce(n - i, n - j);
@@ -31,7 +30,6 @@ vector<Run> enumerate_runs(const string& s) {
             if (left + right >= period) result.push_back({period, i - left, j + right});
             stack.push_back(i);
         }
-        for (int& c : values) c = 255 - c;
     }
     sort(result.begin(), result.end(), [](const Run& a, const Run& b) {
         return tie(a.period, a.l, a.r) < tie(b.period, b.l, b.r);
